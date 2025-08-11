@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Customizing the Tailwind theme to match the UI's color palette
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#191A23',
+                        'dark-card': '#252733',
+                        'dark-border': '#3D3D4E',
+                        'dark-text': '#A8A8B3',
+                        'dark-text-bold': '#E5E5E5',
+                        'brand-purple': '#5A63F8',
+                        'brand-blue': '#407BFF',
+                        'brand-teal': '#28B7A5',
+                        'brand-orange': '#FF7C40',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for body and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #191A23;
+            color: #E5E5E5;
+        }
+        /* Style for the mobile menu button */
+        .mobile-menu-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
+
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="lg:hidden mobile-menu-button p-2 text-dark-text-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+    
+    <!-- Main content container using flexbox for desktop layout -->
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-dark-card w-64 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 fixed lg:relative lg:flex-shrink-0 inset-y-0 left-0 z-40 border-r border-dark-border">
+            <!-- Logo and Navigation -->
+            <div>
+                <!-- Logo -->
+                <div class="mb-4 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                    <h1 class="text-xl font-bold text-dark-text-bold">EduDash</h1>
+                </div>
+                
+                <!-- Navigation Links -->
+                <nav>
+                    <ul>
+                        <!-- Dashboard -->
+                        <li>
+                            <a href="dashbord.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- Students -->
+                        <li>
+                            <a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span>Students</span>
+                            </a>
+                        </li>
+                        <!-- Classes -->
+                        <li>
+                            <a href="classes.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>Classes</span>
+                            </a>
+                        </li>
+                        <!-- Attendance -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="8.5" cy="7" r="4"></circle>
+                                    <polyline points="17 11 19 13 23 9"></polyline>
+                                </svg>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+                        <!-- Report -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="8" x2="8" y2="16"></line>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                <span>Report</span>
+                            </a>
+                        </li>
+                        <!-- Settings -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.64 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-1.66a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0L3.02 19.4a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82v-1.66a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.64-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h1.66a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v1.66z"></path>
+                                </svg>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- User Profile/Logout -->
+            <div class="pt-4 border-t border-dark-border">
+                <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                        <polyline points="17 16 21 12 17 8"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area: Responsive and scrollable -->
+        <main class="flex-1 p-4 overflow-y-auto transition-all duration-300 ease-in-out">
+            
+            <!-- Class List View -->
+            <div id="classListContainer" class="block">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Classes</h2>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="mb-4">
+                    <input type="text" id="classSearch" placeholder="Search classes..." class="w-full p-2 rounded-lg bg-dark-card border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                </div>
+
+                <!-- Classes Table -->
+                <div class="bg-dark-card rounded-xl border border-dark-border overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-dark-text">
+                                <th class="py-3 px-4">Class Name</th>
+                                <th class="py-3 px-4">Teacher</th>
+                                <th class="py-3 px-4">Number of Students</th>
+                                <th class="py-3 px-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classTableBody">
+                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer class-row" data-class-id="1">
+                                <td class="py-3 px-4 font-medium">Grade 5 - A</td>
+                                <td class="py-3 px-4 text-dark-text">Ms. Smith</td>
+                                <td class="py-3 px-4 text-dark-text">28</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Details</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer class-row" data-class-id="2">
+                                <td class="py-3 px-4 font-medium">Grade 6 - B</td>
+                                <td class="py-3 px-4 text-dark-text">Mr. Johnson</td>
+                                <td class="py-3 px-4 text-dark-text">25</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Details</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-dark-border/50 cursor-pointer class-row" data-class-id="3">
+                                <td class="py-3 px-4 font-medium">Grade 7 - C</td>
+                                <td class="py-3 px-4 text-dark-text">Mrs. Williams</td>
+                                <td class="py-3 px-4 text-dark-text">30</td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Class Details View -->
+            <div id="classDetailsContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="classDetailTitle" class="text-2xl font-bold">Class Details</h2>
+                    <div class="flex space-x-2">
+                        <button id="backToClassesButton" class="p-2 bg-dark-border rounded-lg text-dark-text-bold hover:bg-dark-border/80 transition-colors duration-200">
+                            Back to Classes
+                        </button>
+                        <button id="manageClassButton" class="p-2 bg-brand-teal rounded-lg text-white font-semibold hover:bg-brand-teal/80 transition-colors duration-200">
+                            Manage Class
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-dark-card p-6 rounded-xl border border-dark-border space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-dark-text-bold">Assigned Teacher</h3>
+                            <p id="classTeacher" class="text-dark-text">Ms. Smith</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-dark-text-bold">Number of Students</h3>
+                            <p id="classStudentCount" class="text-dark-text">28</p>
+                        </div>
+                    </div>
+                    
+                    <!-- New Section: Class Stats -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Overall Top Student Card -->
+                        <div class="p-4 bg-dark-bg rounded-xl border border-dark-border">
+                            <h3 class="text-lg font-bold mb-2">Overall Top Student</h3>
+                            <div class="text-brand-teal text-3xl font-bold" id="overallTopStudentName">Emily White</div>
+                            <p class="text-dark-text text-sm">Average Grade: <span id="overallTopStudentGrade" class="text-brand-teal">95%</span></p>
+                        </div>
+                        <!-- Top Students by Homework Card -->
+                        <div class="p-4 bg-dark-bg rounded-xl border border-dark-border">
+                            <h3 class="text-lg font-bold mb-2">Top in Homework</h3>
+                            <div class="text-brand-blue text-3xl font-bold" id="topHomeworkStudentName">Michael Brown</div>
+                            <p class="text-dark-text text-sm">Average Score: <span id="topHomeworkStudentScore" class="text-brand-blue">98%</span></p>
+                        </div>
+                        <!-- Top Students by Attendance Card -->
+                        <div class="p-4 bg-dark-bg rounded-xl border border-dark-border">
+                            <h3 class="text-lg font-bold mb-2">Best Attendance</h3>
+                            <div class="text-brand-purple text-3xl font-bold" id="topAttendanceStudentName">Sophia Davis</div>
+                            <p class="text-dark-text text-sm">Attendance Rate: <span id="topAttendanceStudentRate" class="text-brand-purple">99%</span></p>
+                        </div>
+                    </div>
+
+                    <!-- New Section: Top Students by Subject and other metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <!-- Top Students by Subject Table -->
+                        <div class="bg-dark-bg rounded-xl border border-dark-border p-4">
+                            <h3 class="text-lg font-bold mb-4">Top Students by Subject</h3>
+                            <ul id="topStudentsBySubjectList" class="space-y-2 text-dark-text">
+                                <!-- Data will be populated dynamically -->
+                            </ul>
+                        </div>
+                        <!-- Other Metrics Table -->
+                        <div class="bg-dark-bg rounded-xl border border-dark-border p-4">
+                            <h3 class="text-lg font-bold mb-4">Performance Breakdown</h3>
+                            <ul id="performanceBreakdownList" class="space-y-2 text-dark-text">
+                                <!-- Data will be populated dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mt-6 mb-4">Students in Class</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-dark-text">
+                                    <th class="py-3 px-4">Student Name</th>
+                                    <th class="py-3 px-4">ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="classStudentList">
+                                <!-- Student list will be dynamically populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manage Class Form -->
+            <div id="manageClassContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="manageClassTitle" class="text-2xl font-bold">Manage Class: Grade 5 - A</h2>
+                    <button id="backToClassDetailsButton" class="p-2 bg-dark-border rounded-lg text-dark-text-bold hover:bg-dark-border/80 transition-colors duration-200">
+                        Back to Details
+                    </button>
+                </div>
+                <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
+                    <div class="space-y-6">
+                        <!-- Manage Students Section -->
+                        <div>
+                            <h3 class="text-lg font-bold mb-2">Add/Remove Students</h3>
+                            <form class="space-y-4">
+                                <div class="space-y-2">
+                                    <label for="addStudentSelect" class="block text-sm font-medium text-dark-text">Add Student</label>
+                                    <select id="addStudentSelect" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                        <option value="">Select a student...</option>
+                                        <!-- Options will be populated here -->
+                                        <option value="S-004">John Doe</option>
+                                        <option value="S-005">Jane Smith</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200">Add Student to Class</button>
+                            </form>
+                            <h4 class="text-lg font-bold mt-4 mb-2">Students in Class</h4>
+                            <ul class="space-y-2 text-dark-text">
+                                <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                    <span>Emily White</span>
+                                    <button class="text-brand-orange hover:text-red-500">Remove</button>
+                                </li>
+                                <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                    <span>Michael Brown</span>
+                                    <button class="text-brand-orange hover:text-red-500">Remove</button>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Change Teacher Section -->
+                        <div>
+                            <h3 class="text-lg font-bold mb-2">Change Teacher</h3>
+                            <form>
+                                <div class="space-y-2">
+                                    <label for="teacherSelect" class="block text-sm font-medium text-dark-text">Assign New Teacher</label>
+                                    <select id="teacherSelect" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                        <option value="">Select a teacher...</option>
+                                        <!-- Options will be populated here -->
+                                        <option value="T-001">Mr. Davis</option>
+                                        <option value="T-002">Mrs. Roberts</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="mt-4 p-3 bg-brand-blue rounded-lg text-white font-semibold hover:bg-brand-blue/80 transition-colors duration-200">Update Teacher</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    
+    <script>
+        // Get sidebar and button elements
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        
+        // Get container elements for different views
+        const classListContainer = document.getElementById('classListContainer');
+        const classDetailsContainer = document.getElementById('classDetailsContainer');
+        const manageClassContainer = document.getElementById('manageClassContainer');
+
+        // Get buttons for view switching
+        const classTableBody = document.getElementById('classTableBody');
+        const backToClassesButton = document.getElementById('backToClassesButton');
+        const manageClassButton = document.getElementById('manageClassButton');
+        const backToClassDetailsButton = document.getElementById('backToClassDetailsButton');
+
+        // Sample data for demonstration, including new metrics
+        const classData = {
+            '1': {
+                name: 'Grade 5 - A',
+                teacher: 'Ms. Smith',
+                students: [
+                    { id: 'S-001', name: 'Emily White' },
+                    { id: 'S-002', name: 'Michael Brown' },
+                    { id: 'S-003', name: 'Sophia Davis' }
+                ],
+                stats: {
+                    overallTopStudent: { name: 'Emily White', grade: '95%' },
+                    topStudentsBySubject: [
+                        { subject: 'Math', name: 'Michael Brown', grade: '98%' },
+                        { subject: 'Science', name: 'Emily White', grade: '96%' },
+                        { subject: 'English', name: 'Sophia Davis', grade: '94%' }
+                    ],
+                    performanceBreakdown: {
+                        homework: { name: 'Michael Brown', score: '98%' },
+                        classwork: { name: 'Emily White', score: '95%' },
+                        testExams: { name: 'Sophia Davis', score: '93%' },
+                        attendance: { name: 'Michael Brown', rate: '99%' }
+                    }
+                }
+            },
+            '2': {
+                name: 'Grade 6 - B',
+                teacher: 'Mr. Johnson',
+                students: [
+                    { id: 'S-004', name: 'Liam Wilson' },
+                    { id: 'S-005', name: 'Olivia Taylor' }
+                ],
+                stats: {
+                    overallTopStudent: { name: 'Olivia Taylor', grade: '92%' },
+                    topStudentsBySubject: [
+                        { subject: 'Math', name: 'Olivia Taylor', grade: '95%' },
+                        { subject: 'Science', name: 'Liam Wilson', grade: '93%' },
+                        { subject: 'English', name: 'Olivia Taylor', grade: '91%' }
+                    ],
+                    performanceBreakdown: {
+                        homework: { name: 'Olivia Taylor', score: '96%' },
+                        classwork: { name: 'Liam Wilson', score: '90%' },
+                        testExams: { name: 'Olivia Taylor', score: '94%' },
+                        attendance: { name: 'Liam Wilson', rate: '97%' }
+                    }
+                }
+            },
+            '3': {
+                name: 'Grade 7 - C',
+                teacher: 'Mrs. Williams',
+                students: [
+                    { id: 'S-006', name: 'Noah Miller' },
+                    { id: 'S-007', name: 'Emma Jones' },
+                    { id: 'S-008', name: 'Jackson Lee' }
+                ],
+                stats: {
+                    overallTopStudent: { name: 'Emma Jones', grade: '97%' },
+                    topStudentsBySubject: [
+                        { subject: 'Math', name: 'Noah Miller', grade: '94%' },
+                        { subject: 'Science', name: 'Emma Jones', grade: '98%' },
+                        { subject: 'English', name: 'Jackson Lee', grade: '96%' }
+                    ],
+                    performanceBreakdown: {
+                        homework: { name: 'Emma Jones', score: '99%' },
+                        classwork: { name: 'Noah Miller', score: '95%' },
+                        testExams: { name: 'Emma Jones', score: '96%' },
+                        attendance: { name: 'Jackson Lee', rate: '98%' }
+                    }
+                }
+            }
+        };
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnButton = mobileMenuButton.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+            }
+        });
+
+        // Function to switch views
+        function showView(viewToShow) {
+            classListContainer.classList.add('hidden');
+            classDetailsContainer.classList.add('hidden');
+            manageClassContainer.classList.add('hidden');
+            viewToShow.classList.remove('hidden');
+        }
+
+        // Show Class Details view when a class is clicked
+        classTableBody.addEventListener('click', (event) => {
+            const row = event.target.closest('.class-row');
+            if (row) {
+                const classId = row.dataset.classId;
+                const selectedClass = classData[classId];
+
+                if (selectedClass) {
+                    document.getElementById('classDetailTitle').textContent = selectedClass.name + ' Details';
+                    document.getElementById('classTeacher').textContent = selectedClass.teacher;
+                    document.getElementById('classStudentCount').textContent = selectedClass.students.length;
+                    
+                    // Populate new stats
+                    document.getElementById('overallTopStudentName').textContent = selectedClass.stats.overallTopStudent.name;
+                    document.getElementById('overallTopStudentGrade').textContent = selectedClass.stats.overallTopStudent.grade;
+                    document.getElementById('topHomeworkStudentName').textContent = selectedClass.stats.performanceBreakdown.homework.name;
+                    document.getElementById('topHomeworkStudentScore').textContent = selectedClass.stats.performanceBreakdown.homework.score;
+                    document.getElementById('topAttendanceStudentName').textContent = selectedClass.stats.performanceBreakdown.attendance.name;
+                    document.getElementById('topAttendanceStudentRate').textContent = selectedClass.stats.performanceBreakdown.attendance.rate;
+
+                    const topStudentsBySubjectList = document.getElementById('topStudentsBySubjectList');
+                    topStudentsBySubjectList.innerHTML = '';
+                    selectedClass.stats.topStudentsBySubject.forEach(item => {
+                        const li = document.createElement('li');
+                        li.classList.add('flex', 'justify-between', 'items-center', 'bg-dark-card', 'p-3', 'rounded-lg', 'border', 'border-dark-border');
+                        li.innerHTML = `
+                            <span>${item.subject}: ${item.name}</span>
+                            <span class="text-brand-teal">${item.grade}</span>
+                        `;
+                        topStudentsBySubjectList.appendChild(li);
+                    });
+
+                    const performanceBreakdownList = document.getElementById('performanceBreakdownList');
+                    performanceBreakdownList.innerHTML = '';
+                    const performanceBreakdown = selectedClass.stats.performanceBreakdown;
+                    for (const key in performanceBreakdown) {
+                        const li = document.createElement('li');
+                        li.classList.add('flex', 'justify-between', 'items-center', 'bg-dark-card', 'p-3', 'rounded-lg', 'border', 'border-dark-border');
+                        let label = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim();
+                        li.innerHTML = `
+                            <span>${label}: ${performanceBreakdown[key].name}</span>
+                            <span class="text-brand-teal">${performanceBreakdown[key].score || performanceBreakdown[key].rate}</span>
+                        `;
+                        performanceBreakdownList.appendChild(li);
+                    }
+
+                    // Populate student list
+                    const studentListBody = document.getElementById('classStudentList');
+                    studentListBody.innerHTML = '';
+                    selectedClass.students.forEach(student => {
+                        const tr = document.createElement('tr');
+                        tr.classList.add('border-b', 'border-dark-border');
+                        tr.innerHTML = `
+                            <td class="py-3 px-4">${student.name}</td>
+                            <td class="py-3 px-4 text-dark-text">${student.id}</td>
+                        `;
+                        studentListBody.appendChild(tr);
+                    });
+                    
+                    manageClassButton.dataset.classId = classId;
+                }
+                
+                showView(classDetailsContainer);
+            }
+        });
+
+        // Back to class list
+        backToClassesButton.addEventListener('click', () => {
+            showView(classListContainer);
+        });
+
+        // Show Manage Class form
+        manageClassButton.addEventListener('click', () => {
+            const classId = manageClassButton.dataset.classId;
+            const selectedClass = classData[classId];
+
+            if (selectedClass) {
+                document.getElementById('manageClassTitle').textContent = `Manage Class: ${selectedClass.name}`;
+            }
+
+            showView(manageClassContainer);
+        });
+        
+        // Back to Class Details from Manage Class form
+        backToClassDetailsButton.addEventListener('click', () => {
+            showView(classDetailsContainer);
+        });
+
+    </script>
+</body>
+</html>

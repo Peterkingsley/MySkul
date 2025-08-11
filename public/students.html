@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Customizing the Tailwind theme to match the UI's color palette
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#191A23',
+                        'dark-card': '#252733',
+                        'dark-border': '#3D3D4E',
+                        'dark-text': '#A8A8B3',
+                        'dark-text-bold': '#E5E5E5',
+                        'brand-purple': '#5A63F8',
+                        'brand-blue': '#407BFF',
+                        'brand-teal': '#28B7A5',
+                        'brand-orange': '#FF7C40',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for body and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #191A23;
+            color: #E5E5E5;
+        }
+        /* Style for the mobile menu button */
+        .mobile-menu-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+        }
+        /* Style for the active tab */
+        .tab-active {
+            border-bottom: 2px solid #5A63F8;
+            color: #E5E5E5;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
+
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="lg:hidden mobile-menu-button p-2 text-dark-text-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+    
+    <!-- Main content container using flexbox for desktop layout -->
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-dark-card w-64 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 fixed lg:relative lg:flex-shrink-0 inset-y-0 left-0 z-40 border-r border-dark-border">
+            <!-- Logo and Navigation -->
+            <div>
+                <!-- Logo -->
+                <div class="mb-4 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                    <h1 class="text-xl font-bold text-dark-text-bold">EduDash</h1>
+                </div>
+                
+                <!-- Navigation Links -->
+                <nav>
+                    <ul>
+                        <!-- Dashboard -->
+                        <li>
+                            <a href="dashbord.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- Students -->
+                        <li>
+                            <a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span>Students</span>
+                            </a>
+                        </li>
+                        <!-- Classes -->
+                        <li>
+                            <a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>Classes</span>
+                            </a>
+                        </li>
+                        <!-- Attendance -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="8.5" cy="7" r="4"></circle>
+                                    <polyline points="17 11 19 13 23 9"></polyline>
+                                </svg>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+                        <!-- Report -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="8" x2="8" y2="16"></line>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                <span>Report</span>
+                            </a>
+                        </li>
+                        <!-- Settings -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.64 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-1.66a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0L3.02 19.4a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82v-1.66a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.64-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h1.66a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v1.66z"></path>
+                                </svg>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- User Profile/Logout -->
+            <div class="pt-4 border-t border-dark-border">
+                <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                        <polyline points="17 16 21 12 17 8"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area: Responsive and scrollable -->
+        <main class="flex-1 p-4 overflow-y-auto transition-all duration-300 ease-in-out">
+            
+            <!-- Student List View -->
+            <div id="studentListContainer" class="block">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Students</h2>
+                    <button id="addStudentButton" class="p-2 bg-brand-purple rounded-lg text-white font-semibold flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span>Add New Student</span>
+                    </button>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="mb-4">
+                    <input type="text" id="studentSearch" placeholder="Search students..." class="w-full p-2 rounded-lg bg-dark-card border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                </div>
+
+                <!-- Student Table -->
+                <div class="bg-dark-card rounded-xl border border-dark-border overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-dark-text">
+                                <th class="py-3 px-4">Name</th>
+                                <th class="py-3 px-4">ID</th>
+                                <th class="py-3 px-4">Class</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="1">
+                                <td class="py-3 px-4 font-medium">Emily White</td>
+                                <td class="py-3 px-4 text-dark-text">S-001</td>
+                                <td class="py-3 px-4 text-dark-text">Grade 10</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Profile</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="2">
+                                <td class="py-3 px-4 font-medium">Michael Brown</td>
+                                <td class="py-3 px-4 text-dark-text">S-002</td>
+                                <td class="py-3 px-4 text-dark-text">Grade 11</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Profile</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="3">
+                                <td class="py-3 px-4 font-medium">Sophia Davis</td>
+                                <td class="py-3 px-4 text-dark-text">S-003</td>
+                                <td class="py-3 px-4 text-dark-text">Grade 9</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button class="text-brand-purple hover:underline">View Profile</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add New Student Form -->
+            <div id="addStudentContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Add New Student</h2>
+                    <button id="backToStudentsButton" class="p-2 bg-dark-border rounded-lg text-dark-text-bold hover:bg-dark-border/80 transition-colors duration-200">
+                        Back to Students
+                    </button>
+                </div>
+                <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label for="firstName" class="block text-sm font-medium text-dark-text">First Name</label>
+                                <input type="text" id="firstName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="lastName" class="block text-sm font-medium text-dark-text">Last Name</label>
+                                <input type="text" id="lastName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="dateOfBirth" class="block text-sm font-medium text-dark-text">Date of Birth</label>
+                                <input type="date" id="dateOfBirth" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="previousSchool" class="block text-sm font-medium text-dark-text">Previous School</label>
+                                <input type="text" id="previousSchool" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="classGrade" class="block text-sm font-medium text-dark-text">Class/Grade</label>
+                                <input type="text" id="classGrade" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="enrollmentDate" class="block text-sm font-medium text-dark-text">Enrollment Date</label>
+                                <input type="date" id="enrollmentDate" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center space-x-2">
+                            <input type="checkbox" id="firstTimeEnrollment" class="rounded text-brand-purple focus:ring-brand-purple">
+                            <label for="firstTimeEnrollment" class="text-sm font-medium text-dark-text">First time enrolling in this school?</label>
+                        </div>
+                        <div class="mt-6 text-right">
+                            <button type="submit" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200">
+                                Save Student
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Student Profile View -->
+            <div id="studentProfileContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Student Profile</h2>
+                    <button id="backToStudentsFromProfileButton" class="p-2 bg-dark-border rounded-lg text-dark-text-bold hover:bg-dark-border/80 transition-colors duration-200">
+                        Back to Students
+                    </button>
+                </div>
+                <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
+                    <!-- Profile content will be dynamically loaded here -->
+                    <div id="studentProfileContent" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Full Name</h3>
+                                <p id="profileName" class="text-dark-text">John Doe</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Student ID</h3>
+                                <p id="profileId" class="text-dark-text">S-004</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Class/Grade</h3>
+                                <p id="profileClass" class="text-dark-text">Grade 12</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Date of Birth</h3>
+                                <p id="profileDob" class="text-dark-text">19/05/2007</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Previous School</h3>
+                                <p id="profilePreviousSchool" class="text-dark-text">Springfield Elementary</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-dark-text-bold">Enrollment Status</h3>
+                                <p id="profileEnrollmentStatus" class="text-dark-text">Active</p>
+                            </div>
+                        </div>
+
+                        <!-- Student Activities Section -->
+                        <div class="mt-6">
+                            <h3 class="text-xl font-bold mb-4">Student Activities</h3>
+                            
+                            <!-- Tabs for different activity categories -->
+                            <div class="flex space-x-4 border-b border-dark-border mb-4">
+                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200 tab-active" data-tab-content="homework">Homework & Performance</button>
+                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="classwork">Classwork</button>
+                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="exams">Test Exams</button>
+                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="attendance">Attendance & Time</button>
+                            </div>
+
+                            <!-- Tab content sections -->
+                            <div id="homeworkContent" class="tab-content">
+                                <h4 class="text-lg font-bold mb-2">Recent Homework Assignments</h4>
+                                <ul class="space-y-2 text-dark-text">
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Math - Algebra II Chapter 3</span>
+                                        <span class="text-brand-teal">Grade: A (92%)</span>
+                                    </li>
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Science - Biology Lab Report</span>
+                                        <span class="text-brand-teal">Grade: B+ (88%)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="classworkContent" class="tab-content hidden">
+                                <h4 class="text-lg font-bold mb-2">Recent Classwork</h4>
+                                <ul class="space-y-2 text-dark-text">
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>English - In-class Essay</span>
+                                        <span class="text-brand-teal">Completed: 11/08/2025</span>
+                                    </li>
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>History - Group Project Outline</span>
+                                        <span class="text-brand-teal">Completed: 08/08/2025</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="examsContent" class="tab-content hidden">
+                                <h4 class="text-lg font-bold mb-2">Recent Test Exams</h4>
+                                <ul class="space-y-2 text-dark-text">
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Chemistry - Midterm Exam</span>
+                                        <span class="text-brand-teal">Score: 85%</span>
+                                    </li>
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Physics - Chapter 4 Quiz</span>
+                                        <span class="text-brand-teal">Score: 95%</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="attendanceContent" class="tab-content hidden">
+                                <h4 class="text-lg font-bold mb-2">Attendance Summary</h4>
+                                <ul class="space-y-2 text-dark-text">
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Total Days Present</span>
+                                        <span class="text-brand-teal">45/50</span>
+                                    </li>
+                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                                        <span>Last Absence</span>
+                                        <span class="text-brand-orange">05/08/2025</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Get sidebar and button elements
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+
+        // Get container elements for different views
+        const studentListContainer = document.getElementById('studentListContainer');
+        const addStudentContainer = document.getElementById('addStudentContainer');
+        const studentProfileContainer = document.getElementById('studentProfileContainer');
+        
+        // Get buttons for view switching
+        const addStudentButton = document.getElementById('addStudentButton');
+        const backToStudentsButton = document.getElementById('backToStudentsButton');
+        const backToStudentsFromProfileButton = document.getElementById('backToStudentsFromProfileButton');
+        const studentTableBody = document.getElementById('studentTableBody');
+        
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnButton = mobileMenuButton.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+            }
+        });
+
+        // Function to switch views
+        function showView(viewToShow) {
+            studentListContainer.classList.add('hidden');
+            addStudentContainer.classList.add('hidden');
+            studentProfileContainer.classList.add('hidden');
+            viewToShow.classList.remove('hidden');
+        }
+
+        // Show "Add New Student" form
+        addStudentButton.addEventListener('click', () => {
+            showView(addStudentContainer);
+        });
+
+        // Back to student list from "Add New Student" form
+        backToStudentsButton.addEventListener('click', () => {
+            showView(studentListContainer);
+        });
+
+        // Back to student list from "Student Profile" view
+        backToStudentsFromProfileButton.addEventListener('click', () => {
+            showView(studentListContainer);
+        });
+
+        // Show "Student Profile" view when a student is clicked
+        studentTableBody.addEventListener('click', (event) => {
+            const row = event.target.closest('.student-row');
+            if (row) {
+                // In a real application, you would fetch student data based on the row's data-student-id
+                // and populate the profile view dynamically.
+                const studentId = row.dataset.studentId;
+                
+                // Placeholder data for demonstration
+                const studentData = {
+                    '1': { name: 'Emily White', id: 'S-001', class: 'Grade 10', dob: '15/03/2006', previousSchool: 'Northwood High', status: 'Active'},
+                    '2': { name: 'Michael Brown', id: 'S-002', class: 'Grade 11', dob: '20/07/2005', previousSchool: 'Southside Academy', status: 'Active'},
+                    '3': { name: 'Sophia Davis', id: 'S-003', class: 'Grade 9', dob: '01/11/2008', previousSchool: 'Eastwood Middle School', status: 'Active'}
+                };
+                
+                const selectedStudent = studentData[studentId];
+                if (selectedStudent) {
+                    document.getElementById('profileName').textContent = selectedStudent.name;
+                    document.getElementById('profileId').textContent = selectedStudent.id;
+                    document.getElementById('profileClass').textContent = selectedStudent.class;
+                    document.getElementById('profileDob').textContent = selectedStudent.dob;
+                    document.getElementById('profilePreviousSchool').textContent = selectedStudent.previousSchool;
+                    document.getElementById('profileEnrollmentStatus').textContent = selectedStudent.status;
+                }
+                
+                showView(studentProfileContainer);
+            }
+        });
+
+        // Tab functionality for Student Activities
+        const tabButtons = document.querySelectorAll('#studentProfileContainer button[data-tab-content]');
+        const tabContents = document.querySelectorAll('#studentProfileContainer .tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and hide all content
+                tabButtons.forEach(btn => btn.classList.remove('tab-active'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                // Add active class to the clicked button
+                button.classList.add('tab-active');
+
+                // Show the corresponding content
+                const contentId = button.dataset.tab-content;
+                document.getElementById(contentId + 'Content').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
