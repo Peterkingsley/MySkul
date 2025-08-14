@@ -45,6 +45,29 @@
             border-bottom: 2px solid #5A63F8;
             color: #E5E5E5;
         }
+        /* Custom modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: #252733;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #3D3D4E;
+        }
     </style>
 </head>
 <body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
@@ -109,7 +132,7 @@
                         </li>
                         <!-- Attendance -->
                         <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                            <a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="8.5" cy="7" r="4"></circle>
@@ -145,7 +168,7 @@
             
             <!-- User Profile/Logout -->
             <div class="pt-4 border-t border-dark-border">
-                <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                <a href="#" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
                         <polyline points="17 16 21 12 17 8"></polyline>
@@ -153,6 +176,7 @@
                     </svg>
                     <span>Logout</span>
                 </a>
+                 <p id="userIdDisplay" class="text-xs text-dark-text mt-2 px-3">UID: </p>
             </div>
         </aside>
 
@@ -163,7 +187,7 @@
             <div id="studentListContainer" class="block">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-bold">Students</h2>
-                    <button id="addStudentButton" class="p-2 bg-brand-purple rounded-lg text-white font-semibold flex items-center space-x-2">
+                    <button id="addStudentButton" class="p-2 bg-brand-purple rounded-lg text-white font-semibold flex items-center space-x-2 hover:bg-brand-purple/80 transition-colors duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                         </svg>
@@ -189,38 +213,9 @@
                             </tr>
                         </thead>
                         <tbody id="studentTableBody">
-                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="1">
-                                <td class="py-3 px-4 font-medium">Emily White</td>
-                                <td class="py-3 px-4 text-dark-text">S-001</td>
-                                <td class="py-3 px-4 text-dark-text">Grade 10</td>
-                                <td class="py-3 px-4">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button class="text-brand-purple hover:underline">View Profile</button>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="2">
-                                <td class="py-3 px-4 font-medium">Michael Brown</td>
-                                <td class="py-3 px-4 text-dark-text">S-002</td>
-                                <td class="py-3 px-4 text-dark-text">Grade 11</td>
-                                <td class="py-3 px-4">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button class="text-brand-purple hover:underline">View Profile</button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-dark-border/50 cursor-pointer student-row" data-student-id="3">
-                                <td class="py-3 px-4 font-medium">Sophia Davis</td>
-                                <td class="py-3 px-4 text-dark-text">S-003</td>
-                                <td class="py-3 px-4 text-dark-text">Grade 9</td>
-                                <td class="py-3 px-4">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button class="text-brand-purple hover:underline">View Profile</button>
-                                </td>
+                            <!-- Student data will be dynamically loaded here -->
+                             <tr class="border-b border-dark-border">
+                                <td colspan="5" class="text-center py-4">Loading students...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -236,19 +231,19 @@
                     </button>
                 </div>
                 <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
-                    <form>
+                    <form id="add-student-form">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label for="firstName" class="block text-sm font-medium text-dark-text">First Name</label>
-                                <input type="text" id="firstName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                <input type="text" id="firstName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                             <div class="space-y-2">
                                 <label for="lastName" class="block text-sm font-medium text-dark-text">Last Name</label>
-                                <input type="text" id="lastName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                <input type="text" id="lastName" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                             <div class="space-y-2">
                                 <label for="dateOfBirth" class="block text-sm font-medium text-dark-text">Date of Birth</label>
-                                <input type="date" id="dateOfBirth" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                <input type="date" id="dateOfBirth" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                             <div class="space-y-2">
                                 <label for="previousSchool" class="block text-sm font-medium text-dark-text">Previous School</label>
@@ -256,11 +251,11 @@
                             </div>
                             <div class="space-y-2">
                                 <label for="classGrade" class="block text-sm font-medium text-dark-text">Class/Grade</label>
-                                <input type="text" id="classGrade" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                <input type="text" id="classGrade" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                             <div class="space-y-2">
                                 <label for="enrollmentDate" class="block text-sm font-medium text-dark-text">Enrollment Date</label>
-                                <input type="date" id="enrollmentDate" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                                <input type="date" id="enrollmentDate" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                         </div>
                         <div class="mt-4 flex items-center space-x-2">
@@ -290,27 +285,27 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Full Name</h3>
-                                <p id="profileName" class="text-dark-text">John Doe</p>
+                                <p id="profileName" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Student ID</h3>
-                                <p id="profileId" class="text-dark-text">S-004</p>
+                                <p id="profileId" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Class/Grade</h3>
-                                <p id="profileClass" class="text-dark-text">Grade 12</p>
+                                <p id="profileClass" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Date of Birth</h3>
-                                <p id="profileDob" class="text-dark-text">19/05/2007</p>
+                                <p id="profileDob" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Previous School</h3>
-                                <p id="profilePreviousSchool" class="text-dark-text">Springfield Elementary</p>
+                                <p id="profilePreviousSchool" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Enrollment Status</h3>
-                                <p id="profileEnrollmentStatus" class="text-dark-text">Active</p>
+                                <p id="profileEnrollmentStatus" class="text-dark-text"></p>
                             </div>
                         </div>
 
@@ -347,10 +342,6 @@
                                         <span>English - In-class Essay</span>
                                         <span class="text-brand-teal">Completed: 11/08/2025</span>
                                     </li>
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>History - Group Project Outline</span>
-                                        <span class="text-brand-teal">Completed: 08/08/2025</span>
-                                    </li>
                                 </ul>
                             </div>
                             <div id="examsContent" class="tab-content hidden">
@@ -359,10 +350,6 @@
                                     <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
                                         <span>Chemistry - Midterm Exam</span>
                                         <span class="text-brand-teal">Score: 85%</span>
-                                    </li>
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Physics - Chapter 4 Quiz</span>
-                                        <span class="text-brand-teal">Score: 95%</span>
                                     </li>
                                 </ul>
                             </div>
@@ -373,10 +360,6 @@
                                         <span>Total Days Present</span>
                                         <span class="text-brand-teal">45/50</span>
                                     </li>
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Last Absence</span>
-                                        <span class="text-brand-orange">05/08/2025</span>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -385,43 +368,94 @@
             </div>
         </main>
     </div>
+
+    <!-- Custom Modal for Messages -->
+    <div id="messageModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+            <p id="modal-message" class="text-dark-text mb-6"></p>
+            <button id="modal-close-btn" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200 w-full">
+                OK
+            </button>
+        </div>
+    </div>
     
-    <script>
-        // Get sidebar and button elements
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Initialization ---
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- UI Element References ---
         const sidebar = document.getElementById('sidebar');
         const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const userIdDisplay = document.getElementById('userIdDisplay');
 
-        // Get container elements for different views
         const studentListContainer = document.getElementById('studentListContainer');
         const addStudentContainer = document.getElementById('addStudentContainer');
         const studentProfileContainer = document.getElementById('studentProfileContainer');
         
-        // Get buttons for view switching
         const addStudentButton = document.getElementById('addStudentButton');
         const backToStudentsButton = document.getElementById('backToStudentsButton');
         const backToStudentsFromProfileButton = document.getElementById('backToStudentsFromProfileButton');
+        
         const studentTableBody = document.getElementById('studentTableBody');
-        
-        // Mobile menu toggle
-        mobileMenuButton.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-        
-        document.addEventListener('click', (event) => {
-            const isClickInsideSidebar = sidebar.contains(event.target);
-            const isClickOnButton = mobileMenuButton.contains(event.target);
-            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
-                sidebar.classList.add('-translate-x-full');
+        const addStudentForm = document.getElementById('add-student-form');
+        const studentSearch = document.getElementById('studentSearch');
+
+        const messageModal = document.getElementById('messageModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        let allStudents = []; // To store all students for searching
+
+        // --- Authentication ---
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                console.log("User is signed in:", user.uid);
+                userIdDisplay.textContent = `UID: ${user.uid}`;
+                loadStudents(); // Load students once the user is authenticated
+            } else {
+                console.log("User is signed out.");
+                window.location.href = 'index.html';
             }
         });
 
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('-translate-x-full');
+        async function authenticate() {
+            if (!auth.currentUser) {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Authentication failed:", error);
+                    showMessage("Auth Error", "Could not authenticate user.");
+                }
+            }
+        }
+        authenticate();
+
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Logout failed:", error);
             }
         });
 
-        // Function to switch views
+        // --- UI Navigation & Interaction ---
         function showView(viewToShow) {
             studentListContainer.classList.add('hidden');
             addStudentContainer.classList.add('hidden');
@@ -429,47 +463,150 @@
             viewToShow.classList.remove('hidden');
         }
 
-        // Show "Add New Student" form
-        addStudentButton.addEventListener('click', () => {
-            showView(addStudentContainer);
+        addStudentButton.addEventListener('click', () => showView(addStudentContainer));
+        backToStudentsButton.addEventListener('click', () => showView(studentListContainer));
+        backToStudentsFromProfileButton.addEventListener('click', () => showView(studentListContainer));
+        
+        mobileMenuButton.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnButton = mobileMenuButton.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+            }
         });
 
-        // Back to student list from "Add New Student" form
-        backToStudentsButton.addEventListener('click', () => {
-            showView(studentListContainer);
-        });
+        // --- Modal Functions ---
+        function showMessage(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            messageModal.classList.remove('hidden');
+        }
+        modalCloseBtn.addEventListener('click', () => messageModal.classList.add('hidden'));
 
-        // Back to student list from "Student Profile" view
-        backToStudentsFromProfileButton.addEventListener('click', () => {
-            showView(studentListContainer);
-        });
+        // --- Firestore Data Handling ---
 
-        // Show "Student Profile" view when a student is clicked
-        studentTableBody.addEventListener('click', (event) => {
-            const row = event.target.closest('.student-row');
-            if (row) {
-                // In a real application, you would fetch student data based on the row's data-student-id
-                // and populate the profile view dynamically.
-                const studentId = row.dataset.studentId;
-                
-                // Placeholder data for demonstration
-                const studentData = {
-                    '1': { name: 'Emily White', id: 'S-001', class: 'Grade 10', dob: '15/03/2006', previousSchool: 'Northwood High', status: 'Active'},
-                    '2': { name: 'Michael Brown', id: 'S-002', class: 'Grade 11', dob: '20/07/2005', previousSchool: 'Southside Academy', status: 'Active'},
-                    '3': { name: 'Sophia Davis', id: 'S-003', class: 'Grade 9', dob: '01/11/2008', previousSchool: 'Eastwood Middle School', status: 'Active'}
-                };
-                
-                const selectedStudent = studentData[studentId];
-                if (selectedStudent) {
-                    document.getElementById('profileName').textContent = selectedStudent.name;
-                    document.getElementById('profileId').textContent = selectedStudent.id;
-                    document.getElementById('profileClass').textContent = selectedStudent.class;
-                    document.getElementById('profileDob').textContent = selectedStudent.dob;
-                    document.getElementById('profilePreviousSchool').textContent = selectedStudent.previousSchool;
-                    document.getElementById('profileEnrollmentStatus').textContent = selectedStudent.status;
+        // Load students from Firestore and display them
+        function loadStudents() {
+            const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+            const q = query(studentsRef); // Add orderBy here if needed, e.g., orderBy("lastName")
+
+            onSnapshot(q, (querySnapshot) => {
+                allStudents = [];
+                studentTableBody.innerHTML = ''; // Clear existing table data
+                if (querySnapshot.empty) {
+                    studentTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No students found. Add one to get started!</td></tr>';
+                    return;
                 }
+                querySnapshot.forEach((doc) => {
+                    const student = { id: doc.id, ...doc.data() };
+                    allStudents.push(student);
+                    displayStudentInTable(student);
+                });
+                filterStudents(); // Apply current search filter
+            }, (error) => {
+                console.error("Error loading students:", error);
+                showMessage("Error", "Could not load student data.");
+            });
+        }
+        
+        // Display a single student in the table
+        function displayStudentInTable(student) {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row';
+            tr.dataset.studentId = student.id;
+
+            tr.innerHTML = `
+                <td class="py-3 px-4 font-medium">${student.firstName} ${student.lastName}</td>
+                <td class="py-3 px-4 text-dark-text">${student.id.substring(0, 6)}...</td>
+                <td class="py-3 px-4 text-dark-text">${student.classGrade}</td>
+                <td class="py-3 px-4">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
+                </td>
+                <td class="py-3 px-4">
+                    <button class="text-brand-purple hover:underline view-profile-btn">View Profile</button>
+                </td>
+            `;
+            studentTableBody.appendChild(tr);
+        }
+
+        // Handle search input
+        studentSearch.addEventListener('input', filterStudents);
+
+        function filterStudents() {
+            const searchTerm = studentSearch.value.toLowerCase();
+            studentTableBody.innerHTML = '';
+            const filtered = allStudents.filter(student => 
+                `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm) ||
+                student.classGrade.toLowerCase().includes(searchTerm)
+            );
+
+            if (filtered.length === 0) {
+                 studentTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No matching students found.</td></tr>';
+            } else {
+                filtered.forEach(displayStudentInTable);
+            }
+        }
+
+
+        // Handle form submission to add a new student
+        addStudentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newStudent = {
+                firstName: addStudentForm.firstName.value,
+                lastName: addStudentForm.lastName.value,
+                dob: addStudentForm.dateOfBirth.value,
+                previousSchool: addStudentForm.previousSchool.value,
+                classGrade: addStudentForm.classGrade.value,
+                enrollmentDate: addStudentForm.enrollmentDate.value,
+                isFirstTime: addStudentForm.firstTimeEnrollment.checked,
+                status: 'Active',
+                createdAt: new Date()
+            };
+
+            try {
+                const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+                await addDoc(studentsRef, newStudent);
+                showMessage("Success", "New student has been added successfully!");
+                addStudentForm.reset();
+                showView(studentListContainer);
+            } catch (error) {
+                console.error("Error adding student: ", error);
+                showMessage("Error", "Could not add the student. Please try again.");
+            }
+        });
+
+        // Handle clicking on a student row to view profile
+        studentTableBody.addEventListener('click', async (event) => {
+            if (event.target.classList.contains('view-profile-btn')) {
+                const studentId = event.target.closest('.student-row').dataset.studentId;
                 
-                showView(studentProfileContainer);
+                try {
+                    const studentRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', studentId);
+                    const docSnap = await getDoc(studentRef);
+
+                    if (docSnap.exists()) {
+                        const student = docSnap.data();
+                        document.getElementById('profileName').textContent = `${student.firstName} ${student.lastName}`;
+                        document.getElementById('profileId').textContent = docSnap.id;
+                        document.getElementById('profileClass').textContent = student.classGrade;
+                        document.getElementById('profileDob').textContent = student.dob;
+                        document.getElementById('profilePreviousSchool').textContent = student.previousSchool || 'N/A';
+                        document.getElementById('profileEnrollmentStatus').textContent = student.status;
+                        showView(studentProfileContainer);
+                    } else {
+                        showMessage("Error", "Student not found.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching student profile:", error);
+                    showMessage("Error", "Could not fetch student profile.");
+                }
             }
         });
 
@@ -479,18 +616,14 @@
 
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Remove active class from all buttons and hide all content
                 tabButtons.forEach(btn => btn.classList.remove('tab-active'));
                 tabContents.forEach(content => content.classList.add('hidden'));
-
-                // Add active class to the clicked button
                 button.classList.add('tab-active');
-
-                // Show the corresponding content
-                const contentId = button.dataset.tab-content;
+                const contentId = button.dataset.tabContent;
                 document.getElementById(contentId + 'Content').classList.remove('hidden');
             });
         });
+
     </script>
 </body>
 </html>
