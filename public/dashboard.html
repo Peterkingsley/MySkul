@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Local Data</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Customizing the Tailwind theme to match the UI's color palette
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#191A23',
+                        'dark-card': '#252733',
+                        'dark-border': '#3D3D4E',
+                        'dark-text': '#A8A8B3',
+                        'dark-text-bold': '#E5E5E5',
+                        'brand-purple': '#5A63F8',
+                        'brand-blue': '#407BFF',
+                        'brand-teal': '#28B7A5',
+                        'brand-orange': '#FF7C40',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for body and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #191A23;
+            color: #E5E5E5;
+        }
+        /* Chart path animation for a drawing effect */
+        .chart-path {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: dash 2s ease-in-out forwards;
+        }
+        .chart-path-2 {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: dash 2s ease-in-out forwards 0.5s;
+        }
+        /* Circular progress bar animation */
+        .circular-progress {
+            stroke-dasharray: 283; /* 2 * PI * 45 (radius) */
+            stroke-dashoffset: 283;
+            animation: progress-animation 2s forwards ease-out;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        @keyframes progress-animation {
+            to {
+                /* Calculates the offset for 80% progress (283 * (1-0.8) = 56.6) */
+                stroke-dashoffset: 56.6;
+            }
+        }
+        /* Style for the mobile menu button */
+        .mobile-menu-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="lg:hidden mobile-menu-button p-2 text-dark-text-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+    
+    <!-- Main content container using flexbox for desktop layout -->
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        
+        <!-- Sidebar for Desktop View (hidden on mobile) -->
+        <aside id="sidebar" class="bg-dark-card w-64 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 fixed lg:relative lg:flex-shrink-0 inset-y-0 left-0 z-40 border-r border-dark-border">
+            <!-- Logo and Navigation -->
+            <div>
+                <!-- Logo -->
+                <div class="mb-4 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                    <h1 class="text-xl font-bold text-dark-text-bold">EduDash</h1>
+                </div>
+                
+                <!-- Navigation Links -->
+                <nav>
+                    <ul>
+                        <li><a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2"><span>Dashboard</span></a></li>
+                        <li><a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Students</span></a></li>
+                        <li><a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Classes</span></a></li>
+                        <li><a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Attendance</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- User Profile/Logout -->
+            <div class="pt-4 border-t border-dark-border">
+                <a href="index.html" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                        <polyline points="17 16 21 12 17 8"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area: Responsive and scrollable -->
+        <main class="flex-1 p-4 overflow-y-auto transition-all duration-300 ease-in-out pb-16 lg:pb-4">
+            
+            <!-- User Greeting -->
+            <h1 class="text-3xl font-bold mb-6">Welcome, <span id="userName">Admin</span>!</h1>
+
+            <!-- Quick Actions Section -->
+            <div class="mb-4">
+                <h2 class="text-lg font-bold mb-2">Quick Actions</h2>
+                <div class="flex flex-wrap gap-2">
+                    <a href="students.html" class="flex-1 min-w-[150px] p-3 bg-brand-purple text-white font-semibold rounded-lg hover:bg-brand-purple/80 transition-colors duration-200 text-center">
+                        Add New Student
+                    </a>
+                    <button class="flex-1 min-w-[150px] p-3 bg-brand-blue text-white font-semibold rounded-lg hover:bg-brand-blue/80 transition-colors duration-200">
+                        Manage Teachers
+                    </button>
+                    <button class="flex-1 min-w-[150px] p-3 bg-brand-teal text-white font-semibold rounded-lg hover:bg-brand-teal/80 transition-colors duration-200">
+                        Customize Reports
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 text-dark-text-bold">
+
+                <!-- Quick Metrics Section -->
+                <div class="col-span-full">
+                    <h2 class="text-lg font-bold mb-4">Quick Metrics</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <!-- Total Students Card -->
+                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
+                            <div class="p-3 bg-brand-purple rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6M23 11h-6"></path></svg>
+                            </div>
+                            <div>
+                                <span id="totalStudents" class="block text-xl font-bold">0</span>
+                                <span class="block text-dark-text text-sm">Total Students</span>
+                            </div>
+                        </div>
+                        <!-- Students Present Today Card -->
+                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
+                            <div class="p-3 bg-brand-teal rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                            </div>
+                            <div>
+                                <span id="presentStudents" class="block text-xl font-bold">0</span>
+                                <span class="block text-dark-text text-sm">Students Present Today</span>
+                            </div>
+                        </div>
+                        <!-- New Students This Month Card -->
+                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
+                            <div class="p-3 bg-brand-blue rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                            <div>
+                                <span id="newStudents" class="block text-xl font-bold">0</span>
+                                <span class="block text-dark-text text-sm">New Students (This Month)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Column Content -->
+                <div class="lg:col-span-2 space-y-3">
+                    <!-- Top Students Table -->
+                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
+                        <h2 class="text-lg font-bold mb-4">Top Students</h2>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-dark-text">
+                                    <th class="py-2">#</th>
+                                    <th class="py-2">Name</th>
+                                    <th class="py-2">Performance</th>
+                                    <th class="py-2">Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topStudentsTable">
+                                <!-- Data will be populated by script -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Total School Payment and Circular Progress -->
+                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border flex items-center space-x-6">
+                        <div>
+                            <h2 class="text-lg font-bold mb-1">Total School Payment</h2>
+                            <span class="block text-dark-text text-sm mb-4">Collected this month</span>
+                            <div id="totalPayment" class="text-3xl font-bold mb-2">$0.00</div>
+                            <span id="paymentTarget" class="text-xs text-brand-teal font-medium">0% of monthly target</span>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <svg class="h-28 w-28 -rotate-90" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle class="stroke-dark-border" cx="50" cy="50" r="45" stroke-width="10" fill="none"></circle>
+                                <circle id="progressCircle" class="circular-progress stroke-brand-teal" cx="50" cy="50" r="45" stroke-width="10" fill="none" stroke-linecap="round" style="stroke-dashoffset: 283;"></circle>
+                                <text id="progressText" x="50" y="50" font-size="18" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#E5E5E5" transform="rotate(90 50 50)">0%</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Activity Feed Section -->
+                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
+                        <h2 class="text-lg font-bold mb-4">Activity Feed</h2>
+                        <ul id="activityFeed" class="space-y-2 text-sm text-dark-text">
+                           <!-- Activity will be populated by script -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column Content (Charts are static for this example) -->
+                <div class="lg:col-span-2 space-y-3">
+                    <!-- Grade Growth Chart -->
+                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
+                        <h2 class="text-lg font-bold mb-4">Grade Growth</h2>
+                        <div class="h-40 flex items-end justify-around pb-4 space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 rounded-t-lg bg-brand-purple h-[85%] animate-pulse"></div>
+                                <span class="text-dark-text text-xs mt-2">Math</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 rounded-t-lg bg-brand-blue h-[92%] animate-pulse" style="animation-delay: 0.1s;"></div>
+                                <span class="text-dark-text text-xs mt-2">Science</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 rounded-t-lg bg-brand-teal h-[78%] animate-pulse" style="animation-delay: 0.2s;"></div>
+                                <span class="text-dark-text text-xs mt-2">English</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 rounded-t-lg bg-brand-orange h-[88%] animate-pulse" style="animation-delay: 0.3s;"></div>
+                                <span class="text-dark-text text-xs mt-2">History</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Analytics Area Chart -->
+                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
+                        <h2 class="text-lg font-bold mb-4">Attendance Analytics</h2>
+                        <div class="h-40 relative">
+                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path class="fill-brand-purple/20 stroke-brand-purple chart-path" stroke-width="2" d="M0,80 C20,60 30,40 50,50 C70,60 80,30 100,50 L100,100 L0,100 Z"></path>
+                                <path class="fill-brand-teal/20 stroke-brand-teal chart-path-2" stroke-width="2" d="M0,50 C20,70 30,90 50,80 C70,70 80,100 100,80 L100,100 L0,100 Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex items-center justify-between mt-4 text-xs">
+                            <div class="flex items-center space-x-2">
+                                <div class="h-2 w-2 bg-brand-purple rounded-full"></div>
+                                <span class="text-dark-text font-medium">Previous Period Average</span>
+                                <span class="text-brand-purple font-medium">92%</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="h-2 w-2 bg-brand-teal rounded-full"></div>
+                                <span class="text-dark-text font-medium">Current Period</span>
+                                <span class="text-brand-teal font-medium">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Local Data Source (JSON Object) ---
+            const dashboardData = {
+                userName: "Admin",
+                metrics: {
+                    totalStudents: 1250,
+                    presentStudents: 1180,
+                    newStudentsThisMonth: 45
+                },
+                topStudents: [
+                    { rank: 1, name: 'Emily White', performance: 95, attendance: '95%' },
+                    { rank: 2, name: 'Michael Brown', performance: 92, attendance: '92%' },
+                    { rank: 3, name: 'Sophia Davis', performance: 89, attendance: '89%' },
+                    { rank: 4, name: 'James Wilson', performance: 85, attendance: '85%' }
+                ],
+                payment: {
+                    collected: 10500.00,
+                    targetPercentage: 95
+                },
+                activityFeed: [
+                    { time: '2m ago', message: 'A new student profile for John Doe was created.', color: 'brand-purple' },
+                    { time: '5m ago', message: 'Report cards for Grade 5 were generated.', color: 'brand-blue' },
+                    { time: '10m ago', message: 'Ms. Smith updated grades for Algebra I.', color: 'brand-teal' },
+                    { time: '15m ago', message: 'New teacher Mr. Jones was added to the system.', color: 'brand-orange' }
+                ]
+            };
+
+            // --- UI Element References ---
+            const userNameElement = document.getElementById('userName');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const sidebar = document.getElementById('sidebar');
+
+            // Metrics
+            const totalStudentsEl = document.getElementById('totalStudents');
+            const presentStudentsEl = document.getElementById('presentStudents');
+            const newStudentsEl = document.getElementById('newStudents');
+            
+            // Top Students
+            const topStudentsTable = document.getElementById('topStudentsTable');
+
+            // Payment
+            const totalPaymentEl = document.getElementById('totalPayment');
+            const paymentTargetEl = document.getElementById('paymentTarget');
+            const progressCircle = document.getElementById('progressCircle');
+            const progressText = document.getElementById('progressText');
+
+            // Activity
+            const activityFeedEl = document.getElementById('activityFeed');
+
+            // --- Functions to Populate UI ---
+
+            function populateDashboard() {
+                // Set User Name
+                userNameElement.textContent = dashboardData.userName;
+
+                // Set Metrics
+                totalStudentsEl.textContent = dashboardData.metrics.totalStudents.toLocaleString();
+                presentStudentsEl.textContent = dashboardData.metrics.presentStudents.toLocaleString();
+                newStudentsEl.textContent = dashboardData.metrics.newStudentsThisMonth.toLocaleString();
+
+                // Populate Top Students Table
+                topStudentsTable.innerHTML = '';
+                const performanceColors = ['brand-purple', 'brand-blue', 'brand-teal', 'brand-orange'];
+                dashboardData.topStudents.forEach((student, index) => {
+                    const colorClass = performanceColors[index % performanceColors.length];
+                    const row = `
+                        <tr class="border-b border-dark-border">
+                            <td class="py-2">0${student.rank}</td>
+                            <td class="py-2 font-medium">${student.name}</td>
+                            <td class="py-2">
+                                <div class="w-full bg-dark-border rounded-full h-1">
+                                    <div class="bg-${colorClass} h-full rounded-full" style="width: ${student.performance}%;"></div>
+                                </div>
+                            </td>
+                            <td class="py-2 text-dark-text">${student.attendance}</td>
+                        </tr>
+                    `;
+                    topStudentsTable.innerHTML += row;
+                });
+
+                // Populate Payment Info
+                totalPaymentEl.textContent = `$${dashboardData.payment.collected.toFixed(2)}`;
+                paymentTargetEl.textContent = `${dashboardData.payment.targetPercentage}% of monthly target`;
+                
+                // Update Circular Progress Bar
+                const circumference = 2 * Math.PI * 45; // 2 * PI * radius
+                const offset = circumference - (dashboardData.payment.targetPercentage / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+                progressText.textContent = `${dashboardData.payment.targetPercentage}%`;
+
+
+                // Populate Activity Feed
+                activityFeedEl.innerHTML = '';
+                dashboardData.activityFeed.forEach(activity => {
+                    const item = `
+                        <li class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-${activity.color} rounded-full"></div>
+                            <span>[${activity.time}] ${activity.message}</span>
+                        </li>
+                    `;
+                    activityFeedEl.innerHTML += item;
+                });
+            }
+
+            // --- Initial Setup ---
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            // Populate the dashboard on page load
+            populateDashboard();
+        });
+    </script>
+</body>
+</html>

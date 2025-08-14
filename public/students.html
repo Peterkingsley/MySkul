@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students</title>
+    <title>Students - Local JSON</title>
     <!-- Use Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -45,7 +45,7 @@
             border-bottom: 2px solid #5A63F8;
             color: #E5E5E5;
         }
-        /* Custom modal styles */
+         /* Custom modal styles for displaying messages */
         .modal {
             position: fixed;
             top: 0;
@@ -57,6 +57,7 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
+            transition: opacity 0.3s ease;
         }
         .modal-content {
             background-color: #252733;
@@ -67,6 +68,11 @@
             width: 90%;
             text-align: center;
             border: 1px solid #3D3D4E;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal:not(.hidden) .modal-content {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -98,85 +104,12 @@
                 <!-- Navigation Links -->
                 <nav>
                     <ul>
-                        <!-- Dashboard -->
-                        <li>
-                            <a href="dashbord.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                </svg>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <!-- Students -->
-                        <li>
-                            <a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg>
-                                <span>Students</span>
-                            </a>
-                        </li>
-                        <!-- Classes -->
-                        <li>
-                            <a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                </svg>
-                                <span>Classes</span>
-                            </a>
-                        </li>
-                        <!-- Attendance -->
-                        <li>
-                            <a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                    <polyline points="17 11 19 13 23 9"></polyline>
-                                </svg>
-                                <span>Attendance</span>
-                            </a>
-                        </li>
-                        <!-- Report -->
-                        <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                    <line x1="16" y1="8" x2="8" y2="16"></line>
-                                    <line x1="8" y1="8" x2="16" y2="16"></line>
-                                </svg>
-                                <span>Report</span>
-                            </a>
-                        </li>
-                        <!-- Settings -->
-                        <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.64 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-1.66a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0L3.02 19.4a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82v-1.66a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.64-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h1.66a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v1.66z"></path>
-                                </svg>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Dashboard</span></a></li>
+                        <li><a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2"><span>Students</span></a></li>
+                        <li><a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Classes</span></a></li>
+                        <li><a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Attendance</span></a></li>
                     </ul>
                 </nav>
-            </div>
-            
-            <!-- User Profile/Logout -->
-            <div class="pt-4 border-t border-dark-border">
-                <a href="#" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
-                        <polyline points="17 16 21 12 17 8"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    <span>Logout</span>
-                </a>
-                 <p id="userIdDisplay" class="text-xs text-dark-text mt-2 px-3">UID: </p>
             </div>
         </aside>
 
@@ -197,7 +130,7 @@
 
                 <!-- Search and Filter -->
                 <div class="mb-4">
-                    <input type="text" id="studentSearch" placeholder="Search students..." class="w-full p-2 rounded-lg bg-dark-card border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
+                    <input type="text" id="studentSearch" placeholder="Search students by name..." class="w-full p-2 rounded-lg bg-dark-card border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
                 </div>
 
                 <!-- Student Table -->
@@ -213,10 +146,8 @@
                             </tr>
                         </thead>
                         <tbody id="studentTableBody">
-                            <!-- Student data will be dynamically loaded here -->
-                             <tr class="border-b border-dark-border">
-                                <td colspan="5" class="text-center py-4">Loading students...</td>
-                            </tr>
+                            <!-- Student rows will be dynamically populated here -->
+                             <tr><td colspan="5" class="text-center py-4">Loading students...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -231,7 +162,7 @@
                     </button>
                 </div>
                 <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
-                    <form id="add-student-form">
+                    <form id="addStudentForm">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label for="firstName" class="block text-sm font-medium text-dark-text">First Name</label>
@@ -246,21 +177,9 @@
                                 <input type="date" id="dateOfBirth" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
                             <div class="space-y-2">
-                                <label for="previousSchool" class="block text-sm font-medium text-dark-text">Previous School</label>
-                                <input type="text" id="previousSchool" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple">
-                            </div>
-                            <div class="space-y-2">
                                 <label for="classGrade" class="block text-sm font-medium text-dark-text">Class/Grade</label>
-                                <input type="text" id="classGrade" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
+                                <input type="text" id="classGrade" placeholder="e.g., Grade 10" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
                             </div>
-                            <div class="space-y-2">
-                                <label for="enrollmentDate" class="block text-sm font-medium text-dark-text">Enrollment Date</label>
-                                <input type="date" id="enrollmentDate" class="w-full p-2 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple" required>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex items-center space-x-2">
-                            <input type="checkbox" id="firstTimeEnrollment" class="rounded text-brand-purple focus:ring-brand-purple">
-                            <label for="firstTimeEnrollment" class="text-sm font-medium text-dark-text">First time enrolling in this school?</label>
                         </div>
                         <div class="mt-6 text-right">
                             <button type="submit" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200">
@@ -282,85 +201,25 @@
                 <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
                     <!-- Profile content will be dynamically loaded here -->
                     <div id="studentProfileContent" class="space-y-6">
+                        <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                             <img id="profilePicture" src="https://placehold.co/128x128/3D3D4E/A8A8B3?text=S" alt="Student Profile Picture" class="w-32 h-32 rounded-full border-2 border-brand-purple">
+                             <div class="text-center md:text-left">
+                                <h3 id="profileName" class="text-2xl font-bold"></h3>
+                                <p id="profileClass" class="text-dark-text"></p>
+                             </div>
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <h3 class="font-bold text-dark-text-bold">Full Name</h3>
-                                <p id="profileName" class="text-dark-text"></p>
-                            </div>
                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Student ID</h3>
                                 <p id="profileId" class="text-dark-text"></p>
                             </div>
                             <div class="space-y-2">
-                                <h3 class="font-bold text-dark-text-bold">Class/Grade</h3>
-                                <p id="profileClass" class="text-dark-text"></p>
-                            </div>
-                            <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Date of Birth</h3>
                                 <p id="profileDob" class="text-dark-text"></p>
                             </div>
-                            <div class="space-y-2">
-                                <h3 class="font-bold text-dark-text-bold">Previous School</h3>
-                                <p id="profilePreviousSchool" class="text-dark-text"></p>
-                            </div>
-                            <div class="space-y-2">
+                             <div class="space-y-2">
                                 <h3 class="font-bold text-dark-text-bold">Enrollment Status</h3>
                                 <p id="profileEnrollmentStatus" class="text-dark-text"></p>
-                            </div>
-                        </div>
-
-                        <!-- Student Activities Section -->
-                        <div class="mt-6">
-                            <h3 class="text-xl font-bold mb-4">Student Activities</h3>
-                            
-                            <!-- Tabs for different activity categories -->
-                            <div class="flex space-x-4 border-b border-dark-border mb-4">
-                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200 tab-active" data-tab-content="homework">Homework & Performance</button>
-                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="classwork">Classwork</button>
-                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="exams">Test Exams</button>
-                                <button class="py-2 px-4 text-dark-text hover:text-dark-text-bold transition-colors duration-200" data-tab-content="attendance">Attendance & Time</button>
-                            </div>
-
-                            <!-- Tab content sections -->
-                            <div id="homeworkContent" class="tab-content">
-                                <h4 class="text-lg font-bold mb-2">Recent Homework Assignments</h4>
-                                <ul class="space-y-2 text-dark-text">
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Math - Algebra II Chapter 3</span>
-                                        <span class="text-brand-teal">Grade: A (92%)</span>
-                                    </li>
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Science - Biology Lab Report</span>
-                                        <span class="text-brand-teal">Grade: B+ (88%)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="classworkContent" class="tab-content hidden">
-                                <h4 class="text-lg font-bold mb-2">Recent Classwork</h4>
-                                <ul class="space-y-2 text-dark-text">
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>English - In-class Essay</span>
-                                        <span class="text-brand-teal">Completed: 11/08/2025</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="examsContent" class="tab-content hidden">
-                                <h4 class="text-lg font-bold mb-2">Recent Test Exams</h4>
-                                <ul class="space-y-2 text-dark-text">
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Chemistry - Midterm Exam</span>
-                                        <span class="text-brand-teal">Score: 85%</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="attendanceContent" class="tab-content hidden">
-                                <h4 class="text-lg font-bold mb-2">Attendance Summary</h4>
-                                <ul class="space-y-2 text-dark-text">
-                                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
-                                        <span>Total Days Present</span>
-                                        <span class="text-brand-teal">45/50</span>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -380,250 +239,172 @@
         </div>
     </div>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Local Data Source (JSON Array) ---
+            let studentsData = [
+                { id: 1, firstName: 'Emily', lastName: 'White', fullName: 'Emily White', dob: '2006-03-15', class: 'Grade 10', status: 'Active' },
+                { id: 2, firstName: 'Michael', lastName: 'Brown', fullName: 'Michael Brown', dob: '2005-07-20', class: 'Grade 11', status: 'Active' },
+                { id: 3, firstName: 'Sophia', lastName: 'Davis', fullName: 'Sophia Davis', dob: '2008-11-01', class: 'Grade 9', status: 'Active' },
+                { id: 4, firstName: 'James', lastName: 'Wilson', fullName: 'James Wilson', dob: '2006-05-25', class: 'Grade 10', status: 'Inactive' },
+            ];
+            let nextStudentId = 5;
 
-        // --- Firebase Initialization ---
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+            // --- UI Element References ---
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
 
-        // --- UI Element References ---
-        const sidebar = document.getElementById('sidebar');
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const logoutButton = document.getElementById('logoutButton');
-        const userIdDisplay = document.getElementById('userIdDisplay');
+            const studentListContainer = document.getElementById('studentListContainer');
+            const addStudentContainer = document.getElementById('addStudentContainer');
+            const studentProfileContainer = document.getElementById('studentProfileContainer');
+            
+            const addStudentButton = document.getElementById('addStudentButton');
+            const backToStudentsButton = document.getElementById('backToStudentsButton');
+            const backToStudentsFromProfileButton = document.getElementById('backToStudentsFromProfileButton');
+            
+            const studentTableBody = document.getElementById('studentTableBody');
+            const addStudentForm = document.getElementById('addStudentForm');
+            const studentSearch = document.getElementById('studentSearch');
 
-        const studentListContainer = document.getElementById('studentListContainer');
-        const addStudentContainer = document.getElementById('addStudentContainer');
-        const studentProfileContainer = document.getElementById('studentProfileContainer');
-        
-        const addStudentButton = document.getElementById('addStudentButton');
-        const backToStudentsButton = document.getElementById('backToStudentsButton');
-        const backToStudentsFromProfileButton = document.getElementById('backToStudentsFromProfileButton');
-        
-        const studentTableBody = document.getElementById('studentTableBody');
-        const addStudentForm = document.getElementById('add-student-form');
-        const studentSearch = document.getElementById('studentSearch');
+            const messageModal = document.getElementById('messageModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
 
-        const messageModal = document.getElementById('messageModal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-
-        let allStudents = []; // To store all students for searching
-
-        // --- Authentication ---
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                console.log("User is signed in:", user.uid);
-                userIdDisplay.textContent = `UID: ${user.uid}`;
-                loadStudents(); // Load students once the user is authenticated
-            } else {
-                console.log("User is signed out.");
-                window.location.href = 'index.html';
+            // --- Helper Functions ---
+            
+            // Function to show a custom message modal
+            function showMessage(title, message) {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                messageModal.classList.remove('hidden');
             }
-        });
 
-        async function authenticate() {
-            if (!auth.currentUser) {
-                try {
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                } catch (error) {
-                    console.error("Authentication failed:", error);
-                    showMessage("Auth Error", "Could not authenticate user.");
-                }
+            // Close message modal on button click
+            modalCloseBtn.addEventListener('click', () => {
+                messageModal.classList.add('hidden');
+            });
+
+            // Function to switch between views
+            function showView(viewToShow) {
+                studentListContainer.classList.add('hidden');
+                addStudentContainer.classList.add('hidden');
+                studentProfileContainer.classList.add('hidden');
+                viewToShow.classList.remove('hidden');
             }
-        }
-        authenticate();
 
-        logoutButton.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Logout failed:", error);
-            }
-        });
+            // --- UI Navigation ---
 
-        // --- UI Navigation & Interaction ---
-        function showView(viewToShow) {
-            studentListContainer.classList.add('hidden');
-            addStudentContainer.classList.add('hidden');
-            studentProfileContainer.classList.add('hidden');
-            viewToShow.classList.remove('hidden');
-        }
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+            
+            // Show "Add New Student" form
+            addStudentButton.addEventListener('click', () => showView(addStudentContainer));
 
-        addStudentButton.addEventListener('click', () => showView(addStudentContainer));
-        backToStudentsButton.addEventListener('click', () => showView(studentListContainer));
-        backToStudentsFromProfileButton.addEventListener('click', () => showView(studentListContainer));
-        
-        mobileMenuButton.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
-        document.addEventListener('click', (event) => {
-            const isClickInsideSidebar = sidebar.contains(event.target);
-            const isClickOnButton = mobileMenuButton.contains(event.target);
-            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('-translate-x-full');
-            }
-        });
+            // Back to student list from "Add New Student" form
+            backToStudentsButton.addEventListener('click', () => showView(studentListContainer));
 
-        // --- Modal Functions ---
-        function showMessage(title, message) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            messageModal.classList.remove('hidden');
-        }
-        modalCloseBtn.addEventListener('click', () => messageModal.classList.add('hidden'));
+            // Back to student list from "Student Profile" view
+            backToStudentsFromProfileButton.addEventListener('click', () => showView(studentListContainer));
 
-        // --- Firestore Data Handling ---
+            // --- Local Data Handling ---
 
-        // Load students from Firestore and display them
-        function loadStudents() {
-            const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
-            const q = query(studentsRef); // Add orderBy here if needed, e.g., orderBy("lastName")
-
-            onSnapshot(q, (querySnapshot) => {
-                allStudents = [];
+            // Function to display students from the local array
+            function displayStudents(searchQuery = '') {
                 studentTableBody.innerHTML = ''; // Clear existing table data
-                if (querySnapshot.empty) {
-                    studentTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No students found. Add one to get started!</td></tr>';
+                
+                const filteredStudents = studentsData.filter(student => 
+                    student.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+
+                if (filteredStudents.length === 0) {
+                    studentTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No students found.</td></tr>';
                     return;
                 }
-                querySnapshot.forEach((doc) => {
-                    const student = { id: doc.id, ...doc.data() };
-                    allStudents.push(student);
-                    displayStudentInTable(student);
+
+                filteredStudents.forEach(student => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-dark-border hover:bg-dark-border/50';
+                    const statusColor = student.status === 'Active' ? 'bg-brand-teal' : 'bg-brand-orange';
+                    tr.innerHTML = `
+                        <td class="py-3 px-4 font-medium">${student.fullName}</td>
+                        <td class="py-3 px-4 text-dark-text">S-${String(student.id).padStart(3, '0')}</td>
+                        <td class="py-3 px-4 text-dark-text">${student.class}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full ${statusColor} text-white">${student.status}</span>
+                        </td>
+                        <td class="py-3 px-4 space-x-2">
+                            <button class="text-brand-purple hover:underline view-profile-btn" data-id="${student.id}">View</button>
+                            <button class="text-brand-orange hover:underline delete-student-btn" data-id="${student.id}">Delete</button>
+                        </td>
+                    `;
+                    studentTableBody.appendChild(tr);
                 });
-                filterStudents(); // Apply current search filter
-            }, (error) => {
-                console.error("Error loading students:", error);
-                showMessage("Error", "Could not load student data.");
-            });
-        }
-        
-        // Display a single student in the table
-        function displayStudentInTable(student) {
-            const tr = document.createElement('tr');
-            tr.className = 'border-b border-dark-border hover:bg-dark-border/50 cursor-pointer student-row';
-            tr.dataset.studentId = student.id;
-
-            tr.innerHTML = `
-                <td class="py-3 px-4 font-medium">${student.firstName} ${student.lastName}</td>
-                <td class="py-3 px-4 text-dark-text">${student.id.substring(0, 6)}...</td>
-                <td class="py-3 px-4 text-dark-text">${student.classGrade}</td>
-                <td class="py-3 px-4">
-                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-brand-teal text-white">Active</span>
-                </td>
-                <td class="py-3 px-4">
-                    <button class="text-brand-purple hover:underline view-profile-btn">View Profile</button>
-                </td>
-            `;
-            studentTableBody.appendChild(tr);
-        }
-
-        // Handle search input
-        studentSearch.addEventListener('input', filterStudents);
-
-        function filterStudents() {
-            const searchTerm = studentSearch.value.toLowerCase();
-            studentTableBody.innerHTML = '';
-            const filtered = allStudents.filter(student => 
-                `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm) ||
-                student.classGrade.toLowerCase().includes(searchTerm)
-            );
-
-            if (filtered.length === 0) {
-                 studentTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No matching students found.</td></tr>';
-            } else {
-                filtered.forEach(displayStudentInTable);
             }
-        }
-
-
-        // Handle form submission to add a new student
-        addStudentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
             
-            const newStudent = {
-                firstName: addStudentForm.firstName.value,
-                lastName: addStudentForm.lastName.value,
-                dob: addStudentForm.dateOfBirth.value,
-                previousSchool: addStudentForm.previousSchool.value,
-                classGrade: addStudentForm.classGrade.value,
-                enrollmentDate: addStudentForm.enrollmentDate.value,
-                isFirstTime: addStudentForm.firstTimeEnrollment.checked,
-                status: 'Active',
-                createdAt: new Date()
-            };
+            // Handle search input
+            studentSearch.addEventListener('keyup', (e) => {
+                displayStudents(e.target.value.trim());
+            });
 
-            try {
-                const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
-                await addDoc(studentsRef, newStudent);
-                showMessage("Success", "New student has been added successfully!");
+            // Handle "Add New Student" form submission
+            addStudentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const dob = document.getElementById('dateOfBirth').value;
+                const classGrade = document.getElementById('classGrade').value;
+
+                const newStudent = {
+                    id: nextStudentId++,
+                    firstName: firstName,
+                    lastName: lastName,
+                    fullName: `${firstName} ${lastName}`,
+                    dob: dob,
+                    class: classGrade,
+                    status: 'Active'
+                };
+
+                studentsData.push(newStudent);
+                
+                showMessage("Success", "New student has been added.");
                 addStudentForm.reset();
                 showView(studentListContainer);
-            } catch (error) {
-                console.error("Error adding student: ", error);
-                showMessage("Error", "Could not add the student. Please try again.");
-            }
-        });
-
-        // Handle clicking on a student row to view profile
-        studentTableBody.addEventListener('click', async (event) => {
-            if (event.target.classList.contains('view-profile-btn')) {
-                const studentId = event.target.closest('.student-row').dataset.studentId;
-                
-                try {
-                    const studentRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', studentId);
-                    const docSnap = await getDoc(studentRef);
-
-                    if (docSnap.exists()) {
-                        const student = docSnap.data();
-                        document.getElementById('profileName').textContent = `${student.firstName} ${student.lastName}`;
-                        document.getElementById('profileId').textContent = docSnap.id;
-                        document.getElementById('profileClass').textContent = student.classGrade;
-                        document.getElementById('profileDob').textContent = student.dob;
-                        document.getElementById('profilePreviousSchool').textContent = student.previousSchool || 'N/A';
-                        document.getElementById('profileEnrollmentStatus').textContent = student.status;
-                        showView(studentProfileContainer);
-                    } else {
-                        showMessage("Error", "Student not found.");
-                    }
-                } catch (error) {
-                    console.error("Error fetching student profile:", error);
-                    showMessage("Error", "Could not fetch student profile.");
-                }
-            }
-        });
-
-        // Tab functionality for Student Activities
-        const tabButtons = document.querySelectorAll('#studentProfileContainer button[data-tab-content]');
-        const tabContents = document.querySelectorAll('#studentProfileContainer .tab-content');
-
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('tab-active'));
-                tabContents.forEach(content => content.classList.add('hidden'));
-                button.classList.add('tab-active');
-                const contentId = button.dataset.tabContent;
-                document.getElementById(contentId + 'Content').classList.remove('hidden');
+                displayStudents(); // Refresh the table
             });
-        });
 
+            // Handle clicks on "View Profile" and "Delete" buttons using event delegation
+            studentTableBody.addEventListener('click', (e) => {
+                const target = e.target;
+                const studentId = parseInt(target.dataset.id, 10);
+
+                if (isNaN(studentId)) return;
+
+                if (target.classList.contains('view-profile-btn')) {
+                    const student = studentsData.find(s => s.id === studentId);
+                    if (student) {
+                        document.getElementById('profileName').textContent = student.fullName;
+                        document.getElementById('profileClass').textContent = `Class: ${student.class}`;
+                        document.getElementById('profileId').textContent = `S-${String(student.id).padStart(3, '0')}`;
+                        document.getElementById('profileDob').textContent = student.dob;
+                        document.getElementById('profileEnrollmentStatus').textContent = student.status;
+                        document.getElementById('profilePicture').src = `https://placehold.co/128x128/3D3D4E/A8A8B3?text=${student.firstName.charAt(0)}`;
+                        showView(studentProfileContainer);
+                    }
+                }
+
+                if (target.classList.contains('delete-student-btn')) {
+                    // In a real app, you'd show a confirmation modal here.
+                    studentsData = studentsData.filter(s => s.id !== studentId);
+                    showMessage("Success", "Student record has been deleted.");
+                    displayStudents(studentSearch.value.trim()); // Refresh the table with current search
+                }
+            });
+
+            // Initial display of students
+            displayStudents();
+        });
     </script>
 </body>
 </html>

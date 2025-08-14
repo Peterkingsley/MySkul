@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance</title>
+    <title>Attendance - Local Data</title>
     <!-- Use Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -40,6 +40,35 @@
             left: 1rem;
             z-index: 50;
         }
+        /* Custom modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            background-color: #252733;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #3D3D4E;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal:not(.hidden) .modal-content {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
@@ -70,85 +99,19 @@
                 <!-- Navigation Links -->
                 <nav>
                     <ul>
-                        <!-- Dashboard -->
-                        <li>
-                            <a href="dashbord.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                </svg>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <!-- Students -->
-                        <li>
-                            <a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg>
-                                <span>Students</span>
-                            </a>
-                        </li>
-                        <!-- Classes -->
-                        <li>
-                            <a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                </svg>
-                                <span>Classes</span>
-                            </a>
-                        </li>
-                        <!-- Attendance (active) -->
-                        <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                    <polyline points="17 11 19 13 23 9"></polyline>
-                                </svg>
-                                <span>Attendance</span>
-                            </a>
-                        </li>
-                        <!-- Report -->
-                        <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                    <line x1="16" y1="8" x2="8" y2="16"></line>
-                                    <line x1="8" y1="8" x2="16" y2="16"></line>
-                                </svg>
-                                <span>Report</span>
-                            </a>
-                        </li>
-                        <!-- Settings -->
-                        <li>
-                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.64 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-1.66a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0L3.02 19.4a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82v-1.66a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.64-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h1.66a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v1.66z"></path>
-                                </svg>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Dashboard</span></a></li>
+                        <li><a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Students</span></a></li>
+                        <li><a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Classes</span></a></li>
+                        <li><a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2"><span>Attendance</span></a></li>
                     </ul>
                 </nav>
             </div>
             
             <!-- User Profile/Logout -->
             <div class="pt-4 border-t border-dark-border">
-                <a href="#" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
-                        <polyline points="17 16 21 12 17 8"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
+                <a href="index.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
                     <span>Logout</span>
                 </a>
-                <p id="userIdDisplay" class="text-xs text-dark-text mt-2 px-3">UID: </p>
             </div>
         </aside>
 
@@ -205,9 +168,9 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-6">
-                    <h4 class="text-xl font-bold text-brand-teal mb-2">Attendance Recorded!</h4>
-                    <p class="text-dark-text">Your attendance for today has been successfully marked.</p>
+                <div id="attendance-success-message" class="text-center mt-6">
+                    <h4 class="text-xl font-bold text-brand-teal mb-2"></h4>
+                    <p class="text-dark-text"></p>
                 </div>
             </div>
             
@@ -225,198 +188,118 @@
         </main>
     </div>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, onSnapshot, query, where, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Local Data Source (JSON Objects) ---
+            const studentsData = {
+                'S-001': { name: 'Emily White', class: 'Grade 10', dob: '2006-03-15', picture: 'https://placehold.co/128x128/3D3D4E/E5E5E5?text=EW', parent: { name: 'Sarah White', number: '555-1234' }, fees: { paid: 500, outstanding: 100 } },
+                'S-002': { name: 'Michael Brown', class: 'Grade 11', dob: '2005-07-20', picture: 'https://placehold.co/128x128/3D3D4E/E5E5E5?text=MB', parent: { name: 'David Brown', number: '555-5678' }, fees: { paid: 600, outstanding: 0 } },
+                'S-003': { name: 'Sophia Davis', class: 'Grade 9', dob: '2008-11-01', picture: 'https://placehold.co/128x128/3D3D4E/E5E5E5?text=SD', parent: { name: 'Jessica Davis', number: '555-9012' }, fees: { paid: 450, outstanding: 50 } }
+            };
+            const attendanceData = {}; // Object to store attendance, e.g., { 'S-001-2025-08-14': true }
 
-        // Firebase configuration from the Canvas environment
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+            // --- UI Element References ---
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            
+            const attendanceForm = document.getElementById('attendance-form');
+            const studentNameInput = document.getElementById('student-name-input');
+            const nameInputSection = document.getElementById('nameInputSection');
+            const studentProfile = document.getElementById('studentProfile');
+            const statusMessage = document.getElementById('statusMessage');
 
-        // UI element references
-        const logoutButton = document.getElementById('logoutButton');
-        const userIdDisplay = document.getElementById('userIdDisplay');
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const sidebar = document.getElementById('sidebar');
+            // Profile display elements
+            const profilePicture = document.getElementById('profile-picture');
+            const profileName = document.getElementById('profile-name');
+            const profileClass = document.getElementById('profile-class');
+            const profileId = document.getElementById('profile-id');
+            const profileDob = document.getElementById('profile-dob');
+            const profileParentName = document.getElementById('profile-parent-name');
+            const profileParentNumber = document.getElementById('profile-parent-number');
+            const profileFeesPaid = document.getElementById('profile-fees-paid');
+            const profileFeesOutstanding = document.getElementById('profile-fees-outstanding');
+            const attendanceSuccessMessage = document.getElementById('attendance-success-message');
+            
+            // Modal elements
+            const messageModal = document.getElementById('messageModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
 
-        // Attendance UI elements
-        const attendanceForm = document.getElementById('attendance-form');
-        const studentNameInput = document.getElementById('student-name-input');
-        const nameInputSection = document.getElementById('nameInputSection');
-        const studentProfile = document.getElementById('studentProfile');
-        const statusMessage = document.getElementById('statusMessage');
+            // --- Helper Functions ---
 
-        // Profile display elements
-        const profilePicture = document.getElementById('profile-picture');
-        const profileName = document.getElementById('profile-name');
-        const profileClass = document.getElementById('profile-class');
-        const profileId = document.getElementById('profile-id');
-        const profileDob = document.getElementById('profile-dob');
-        const profileParentName = document.getElementById('profile-parent-name');
-        const profileParentNumber = document.getElementById('profile-parent-number');
-        const profileFeesPaid = document.getElementById('profile-fees-paid');
-        const profileFeesOutstanding = document.getElementById('profile-fees-outstanding');
-        
-        // Modal elements
-        const messageModal = document.getElementById('messageModal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-
-        // Function to show a custom message modal
-        function showMessage(title, message) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            messageModal.classList.remove('hidden');
-        }
-
-        // Close message modal on button click
-        modalCloseBtn.addEventListener('click', () => {
-            messageModal.classList.add('hidden');
-        });
-
-        // Mobile menu toggle
-        mobileMenuButton.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-        
-        document.addEventListener('click', (event) => {
-            const isClickInsideSidebar = sidebar.contains(event.target);
-            const isClickOnButton = mobileMenuButton.contains(event.target);
-            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
-                sidebar.classList.add('-translate-x-full');
+            function showMessage(title, message) {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                messageModal.classList.remove('hidden');
             }
-        });
 
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('-translate-x-full');
-            }
-        });
+            modalCloseBtn.addEventListener('click', () => {
+                messageModal.classList.add('hidden');
+            });
 
-        // Handle user authentication state changes
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                console.log("User is signed in with UID:", user.uid);
-                userIdDisplay.textContent = `UID: ${user.uid}`;
-            } else {
-                console.log("User is signed out. Redirecting to login page.");
-                window.location.href = "index.html";
+            function updateProfileUI(studentId, studentData) {
+                profilePicture.src = studentData.picture;
+                profileName.textContent = studentData.name;
+                profileClass.textContent = `Class: ${studentData.class}`;
+                profileId.textContent = studentId;
+                profileDob.textContent = studentData.dob;
+                profileParentName.textContent = studentData.parent.name;
+                profileParentNumber.textContent = studentData.parent.number;
+                profileFeesPaid.textContent = `$${studentData.fees.paid}`;
+                profileFeesOutstanding.textContent = `$${studentData.fees.outstanding}`;
+
+                nameInputSection.classList.add('hidden');
+                studentProfile.classList.remove('hidden');
             }
-        });
-        
-        // Sign in anonymously on load if no user is authenticated
-        async function authenticate() {
-            try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
+
+            // --- Event Listeners ---
+
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            attendanceForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const studentNameQuery = studentNameInput.value.trim().toLowerCase();
+                if (!studentNameQuery) {
+                    showMessage("Input Required", "Please enter a student's name.");
+                    return;
                 }
-            } catch (error) {
-                console.error("Firebase authentication failed:", error);
-            }
-        }
-        authenticate();
 
-        // Handle logout
-        logoutButton.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Logout failed:", error);
-            }
-        });
+                statusMessage.textContent = "Searching for student...";
+                
+                // Find student by name
+                const foundStudentId = Object.keys(studentsData).find(id => 
+                    studentsData[id].name.toLowerCase() === studentNameQuery
+                );
 
-        // Function to update the UI with student profile data
-        function updateProfileUI(studentData) {
-            profilePicture.src = studentData.picture;
-            profileName.textContent = studentData.name;
-            profileClass.textContent = `Class: ${studentData.class}`;
-            profileId.textContent = studentData.id;
-            profileDob.textContent = studentData.dob;
-            profileParentName.textContent = studentData.parent.name;
-            profileParentNumber.textContent = studentData.parent.number;
-            profileFeesPaid.textContent = `$${studentData.fees.paid}`;
-            profileFeesOutstanding.textContent = `$${studentData.fees.outstanding}`;
+                if (foundStudentId) {
+                    const studentData = studentsData[foundStudentId];
+                    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+                    const attendanceKey = `${foundStudentId}-${today}`;
 
-            nameInputSection.classList.add('hidden');
-            studentProfile.classList.remove('hidden');
-        }
+                    updateProfileUI(foundStudentId, studentData);
 
-        // Handle form submission for attendance
-        attendanceForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!auth.currentUser) {
-                showMessage("Authentication Error", "You must be logged in to take attendance.");
-                return;
-            }
-
-            const studentName = studentNameInput.value.trim();
-            if (!studentName) {
-                showMessage("Input Required", "Please enter a student's name.");
-                return;
-            }
-
-            statusMessage.textContent = "Searching for student...";
-            
-            const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
-            const q = query(studentsRef, where("name", "==", studentName));
-            
-            try {
-                const unsubscribe = onSnapshot(q, async (querySnapshot) => {
-                    unsubscribe(); // Unsubscribe after the first successful lookup
-                    if (!querySnapshot.empty) {
-                        const studentDoc = querySnapshot.docs[0];
-                        const studentData = studentDoc.data();
-                        const studentId = studentDoc.id;
-                        
-                        // Check for today's attendance
-                        const attendanceRef = collection(db, 'artifacts', appId, 'public', 'data', 'attendance');
-                        const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-                        const attendanceDocRef = doc(attendanceRef, `${studentId}-${today}`);
-                        const attendanceDoc = await getDoc(attendanceDocRef);
-
-                        if (!attendanceDoc.exists()) {
-                            // Mark attendance if not already marked
-                            await setDoc(attendanceDocRef, {
-                                studentId: studentId,
-                                name: studentData.name,
-                                date: new Date(),
-                                timestamp: new Date().getTime()
-                            });
-                            showMessage("Success!", `Attendance recorded for ${studentData.name} (${today}).`);
-                        } else {
-                            showMessage("Already Marked", `Attendance for ${studentData.name} has already been recorded today.`);
-                        }
-
-                        // Update the UI with the student's profile
-                        updateProfileUI({ ...studentData, id: studentId });
-
+                    if (attendanceData[attendanceKey]) {
+                        // Attendance already recorded
+                        attendanceSuccessMessage.querySelector('h4').textContent = 'Already Marked!';
+                        attendanceSuccessMessage.querySelector('p').textContent = `Attendance for ${studentData.name} has already been recorded today.`;
                     } else {
-                        statusMessage.textContent = "Student not found.";
-                        showMessage("Student Not Found", "No student found with that name. Please check the spelling and try again.");
-                        nameInputSection.classList.remove('hidden');
-                        studentProfile.classList.add('hidden');
+                        // Record attendance
+                        attendanceData[attendanceKey] = true;
+                        attendanceSuccessMessage.querySelector('h4').textContent = 'Attendance Recorded!';
+                        attendanceSuccessMessage.querySelector('p').textContent = `Attendance for today has been successfully marked.`;
                     }
-                    studentNameInput.value = ''; // Clear the input field
-                });
-            } catch (error) {
-                console.error("Error fetching student data:", error);
-                statusMessage.textContent = "Error during attendance check. Please try again.";
-                showMessage("Error", "An error occurred while processing the attendance. Please try again.");
-            }
+                } else {
+                    statusMessage.textContent = "Student not found.";
+                    showMessage("Student Not Found", "No student found with that name. Please check the spelling and try again.");
+                    nameInputSection.classList.remove('hidden');
+                    studentProfile.classList.add('hidden');
+                }
+                studentNameInput.value = ''; // Clear the input field
+            });
         });
-
     </script>
 </body>
 </html>
