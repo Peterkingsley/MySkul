@@ -31,6 +31,29 @@
             background-color: #191A23;
             color: #E5E5E5;
         }
+        /* Custom modal styles for displaying messages */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: #252733;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #3D3D4E;
+        }
     </style>
 </head>
 <body class="bg-dark-bg min-h-screen flex items-center justify-center p-4">
@@ -44,12 +67,12 @@
             <!-- Login Form -->
             <div id="loginForm" class="block">
                 <h2 class="text-3xl font-bold mb-2">LOGIN</h2>
-                <p class="text-dark-text mb-6">How to I get started lorem ipsum dolor at?</p>
+                <p class="text-dark-text mb-6">How do I get started lorem ipsum dolor at?</p>
                 
-                <form class="space-y-4">
-                    <!-- Username Input -->
+                <form id="login-form" class="space-y-4">
+                    <!-- Email Input -->
                     <div class="relative">
-                        <input type="text" placeholder="Username" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
+                        <input type="email" id="login-email" placeholder="Email Address" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
@@ -57,7 +80,7 @@
                     
                     <!-- Password Input -->
                     <div class="relative">
-                        <input type="password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
+                        <input type="password" id="login-password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
@@ -94,10 +117,10 @@
                 <h2 class="text-3xl font-bold mb-2">SIGN UP</h2>
                 <p class="text-dark-text mb-6">Create your account to get started!</p>
                 
-                <form class="space-y-4">
+                <form id="signup-form" class="space-y-4">
                     <!-- Email Input -->
                     <div class="relative">
-                        <input type="email" placeholder="Email Address" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
+                        <input type="email" id="signup-email" placeholder="Email Address" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
@@ -105,7 +128,7 @@
                     
                     <!-- Password Input -->
                     <div class="relative">
-                        <input type="password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
+                        <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
@@ -114,7 +137,7 @@
 
                     <!-- Confirm Password Input -->
                     <div class="relative">
-                        <input type="password" placeholder="Confirm Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
@@ -144,12 +167,66 @@
         </div>
     </div>
 
-    <script>
+    <!-- Custom Modal for Messages -->
+    <div id="messageModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+            <p id="modal-message" class="text-dark-text mb-6"></p>
+            <button id="modal-close-btn" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200 w-full">
+                OK
+            </button>
+        </div>
+    </div>
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase configuration from the Canvas environment
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // UI element references
         const loginForm = document.getElementById('loginForm');
         const signUpForm = document.getElementById('signUpForm');
         const showSignUpBtn = document.getElementById('showSignUpBtn');
         const showLoginBtn = document.getElementById('showLoginBtn');
 
+        const loginEmailInput = document.getElementById('login-email');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginSubmitBtn = document.getElementById('login-form');
+        
+        const signupEmailInput = document.getElementById('signup-email');
+        const signupPasswordInput = document.getElementById('signup-password');
+        const signupConfirmPasswordInput = document.getElementById('signup-confirm-password');
+        const signupSubmitBtn = document.getElementById('signup-form');
+        
+        const messageModal = document.getElementById('messageModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        // Function to show a custom message modal
+        function showMessage(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            messageModal.classList.remove('hidden');
+        }
+
+        // Close message modal on button click
+        modalCloseBtn.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+        });
+
+        // Function to switch between login and signup forms
         showSignUpBtn.addEventListener('click', () => {
             loginForm.classList.add('hidden');
             signUpForm.classList.remove('hidden');
@@ -159,6 +236,88 @@
             signUpForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
         });
+
+        // Handle user authentication state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in. Redirect to the dashboard.
+                console.log("User is signed in with UID:", user.uid);
+                // Redirect to the dashboard page after successful login
+                window.location.href = "dashbord.html";
+            } else {
+                // User is signed out. Stay on the login page.
+                console.log("User is signed out.");
+            }
+        });
+
+        // Sign in anonymously on load if no user is authenticated
+        // This is necessary for the Canvas environment to get a user ID for Firestore
+        // if an auth token is not provided.
+        async function authenticate() {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase authentication failed:", error);
+            }
+        }
+        authenticate();
+
+        // Handle login form submission
+        loginSubmitBtn.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginEmailInput.value;
+            const password = loginPasswordInput.value;
+
+            try {
+                // Sign in with email and password
+                await signInWithEmailAndPassword(auth, email, password);
+                console.log('User logged in successfully!');
+                showMessage('Success!', 'You have successfully logged in.');
+                // onAuthStateChanged will handle the redirect
+            } catch (error) {
+                console.error("Login failed:", error);
+                showMessage('Login Failed', 'Invalid email or password. Please try again.');
+            }
+        });
+
+        // Handle signup form submission
+        signupSubmitBtn.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = signupEmailInput.value;
+            const password = signupPasswordInput.value;
+            const confirmPassword = signupConfirmPasswordInput.value;
+
+            if (password !== confirmPassword) {
+                showMessage('Sign Up Failed', 'Passwords do not match. Please try again.');
+                return;
+            }
+
+            try {
+                // Create a new user with email and password
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Create a user document in Firestore for the new user
+                const userDocRef = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'data');
+                await setDoc(userDocRef, {
+                    email: user.email,
+                    createdAt: new Date()
+                });
+                
+                console.log('User signed up successfully and profile created!');
+                showMessage('Success!', 'You have successfully signed up. You can now log in.');
+                // Automatically switch back to the login form
+                showLoginBtn.click();
+            } catch (error) {
+                console.error("Sign up failed:", error);
+                showMessage('Sign Up Failed', error.message);
+            }
+        });
+
     </script>
 </body>
 </html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Customizing the Tailwind theme to match the UI's color palette
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#191A23',
+                        'dark-card': '#252733',
+                        'dark-border': '#3D3D4E',
+                        'dark-text': '#A8A8B3',
+                        'dark-text-bold': '#E5E5E5',
+                        'brand-purple': '#5A63F8',
+                        'brand-blue': '#407BFF',
+                        'brand-teal': '#28B7A5',
+                        'brand-orange': '#FF7C40',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for body and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #191A23;
+            color: #E5E5E5;
+        }
+        /* Style for the mobile menu button */
+        .mobile-menu-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+        }
+        /* Style for the fingerprint scan area */
+        .fingerprint-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .fingerprint-area:hover {
+            transform: scale(1.05);
+        }
+        .fingerprint-area.scanning {
+            animation: pulse-border 1.5s infinite;
+        }
+        @keyframes pulse-border {
+            0% {
+                box-shadow: 0 0 0 0 rgba(90, 99, 248, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(90, 99, 248, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(90, 99, 248, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
+
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="lg:hidden mobile-menu-button p-2 text-dark-text-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+    
+    <!-- Main content container using flexbox for desktop layout -->
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-dark-card w-64 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 fixed lg:relative lg:flex-shrink-0 inset-y-0 left-0 z-40 border-r border-dark-border">
+            <!-- Logo and Navigation -->
+            <div>
+                <!-- Logo -->
+                <div class="mb-4 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                    <h1 class="text-xl font-bold text-dark-text-bold">EduDash</h1>
+                </div>
+                
+                <!-- Navigation Links -->
+                <nav>
+                    <ul>
+                        <!-- Dashboard -->
+                        <li>
+                            <a href="dashbord.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- Students -->
+                        <li>
+                            <a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span>Students</span>
+                            </a>
+                        </li>
+                        <!-- Classes -->
+                        <li>
+                            <a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>Classes</span>
+                            </a>
+                        </li>
+                        <!-- Attendance (active) -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="8.5" cy="7" r="4"></circle>
+                                    <polyline points="17 11 19 13 23 9"></polyline>
+                                </svg>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+                        <!-- Report -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="8" x2="8" y2="16"></line>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                <span>Report</span>
+                            </a>
+                        </li>
+                        <!-- Settings -->
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.64 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-1.66a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0L3.02 19.4a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82v-1.66a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.64-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h1.66a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v1.66z"></path>
+                                </svg>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- User Profile/Logout -->
+            <div class="pt-4 border-t border-dark-border">
+                <a href="#" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                        <polyline points="17 16 21 12 17 8"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+                <p id="userIdDisplay" class="text-xs text-dark-text mt-2 px-3">UID: </p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area: Responsive and scrollable -->
+        <main class="flex-1 p-4 overflow-y-auto transition-all duration-300 ease-in-out">
+            <h2 class="text-2xl font-bold mb-6">Student Attendance</h2>
+            
+            <!-- Fingerprint Scanner Section -->
+            <div id="scannerSection" class="flex flex-col items-center justify-center p-6 bg-dark-card rounded-xl border border-dark-border mb-8">
+                <h3 class="text-lg font-bold mb-4">Place finger on scanner</h3>
+                <div id="fingerprintArea" class="fingerprint-area w-48 h-48 rounded-full border-4 border-dark-border transition-all duration-300 ease-in-out p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 0 0-4 18.25V22l-2-2h-2A10 10 0 1 1 12 2z"></path>
+                    </svg>
+                </div>
+                <div id="statusMessage" class="text-dark-text mt-4">Waiting for scan...</div>
+            </div>
+
+            <!-- Student Profile Section (initially hidden) -->
+            <div id="studentProfile" class="hidden bg-dark-card rounded-xl border border-dark-border p-6 space-y-6">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <img id="profile-picture" src="https://placehold.co/128x128/3D3D4E/A8A8B3?text=Student" alt="Student Profile Picture" class="w-32 h-32 rounded-full border-2 border-brand-purple">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-bold" id="profile-name"></h3>
+                        <p class="text-dark-text" id="profile-class"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Student ID</p>
+                        <p class="text-dark-text" id="profile-id"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Date of Birth</p>
+                        <p class="text-dark-text" id="profile-dob"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Parent Name</p>
+                        <p class="text-dark-text" id="profile-parent-name"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Parent Number</p>
+                        <p class="text-dark-text" id="profile-parent-number"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Fees Paid</p>
+                        <p class="text-dark-text text-brand-teal" id="profile-fees-paid"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-dark-text-bold">Fees Outstanding</p>
+                        <p class="text-dark-text text-brand-orange" id="profile-fees-outstanding"></p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-6">
+                    <h4 class="text-xl font-bold text-brand-teal mb-2">Attendance Recorded!</h4>
+                    <p class="text-dark-text">Your attendance for today has been successfully marked.</p>
+                </div>
+            </div>
+            
+            <!-- Custom Modal for Messages -->
+            <div id="messageModal" class="modal hidden">
+                <div class="modal-content">
+                    <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+                    <p id="modal-message" class="text-dark-text mb-6"></p>
+                    <button id="modal-close-btn" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200 w-full">
+                        OK
+                    </button>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, onSnapshot, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase configuration from the Canvas environment
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // UI element references
+        const logoutButton = document.getElementById('logoutButton');
+        const userIdDisplay = document.getElementById('userIdDisplay');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const sidebar = document.getElementById('sidebar');
+
+        // Attendance UI elements
+        const fingerprintArea = document.getElementById('fingerprintArea');
+        const scannerSection = document.getElementById('scannerSection');
+        const studentProfile = document.getElementById('studentProfile');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Profile display elements
+        const profilePicture = document.getElementById('profile-picture');
+        const profileName = document.getElementById('profile-name');
+        const profileClass = document.getElementById('profile-class');
+        const profileId = document.getElementById('profile-id');
+        const profileDob = document.getElementById('profile-dob');
+        const profileParentName = document.getElementById('profile-parent-name');
+        const profileParentNumber = document.getElementById('profile-parent-number');
+        const profileFeesPaid = document.getElementById('profile-fees-paid');
+        const profileFeesOutstanding = document.getElementById('profile-fees-outstanding');
+        
+        // Modal elements
+        const messageModal = document.getElementById('messageModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        // Sample student data for demonstration purposes
+        const sampleStudents = {
+            "fp_12345": { // Simulated fingerprint ID
+                name: "Emily White",
+                age: 16,
+                dob: "15/03/2006",
+                class: "Grade 10",
+                picture: "https://placehold.co/128x128/5A63F8/FFFFFF?text=EW",
+                parent: { name: "Sarah White", number: "555-0101" },
+                fees: { paid: "2,500.00", outstanding: "500.00" }
+            },
+            "fp_67890": {
+                name: "Michael Brown",
+                age: 17,
+                dob: "20/07/2005",
+                class: "Grade 11",
+                picture: "https://placehold.co/128x128/407BFF/FFFFFF?text=MB",
+                parent: { name: "David Brown", number: "555-0102" },
+                fees: { paid: "3,000.00", outstanding: "0.00" }
+            }
+        };
+
+        // Function to show a custom message modal
+        function showMessage(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            messageModal.classList.remove('hidden');
+        }
+
+        // Close message modal on button click
+        modalCloseBtn.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+        });
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnButton = mobileMenuButton.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+            }
+        });
+
+        // Handle user authentication state changes
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log("User is signed in with UID:", user.uid);
+                userIdDisplay.textContent = `UID: ${user.uid}`;
+            } else {
+                console.log("User is signed out. Redirecting to login page.");
+                window.location.href = "index.html";
+            }
+        });
+        
+        // Sign in anonymously on load if no user is authenticated
+        async function authenticate() {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase authentication failed:", error);
+            }
+        }
+        authenticate();
+
+        // Handle logout
+        logoutButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Logout failed:", error);
+            }
+        });
+
+        // Function to update the UI with student profile data
+        function updateProfileUI(studentData) {
+            profilePicture.src = studentData.picture;
+            profileName.textContent = studentData.name;
+            profileClass.textContent = `Class: ${studentData.class}`;
+            profileId.textContent = studentData.id;
+            profileDob.textContent = studentData.dob;
+            profileParentName.textContent = studentData.parent.name;
+            profileParentNumber.textContent = studentData.parent.number;
+            profileFeesPaid.textContent = `$${studentData.fees.paid}`;
+            profileFeesOutstanding.textContent = `$${studentData.fees.outstanding}`;
+
+            scannerSection.classList.add('hidden');
+            studentProfile.classList.remove('hidden');
+        }
+
+        // Simulating the fingerprint scan and Firestore lookup
+        fingerprintArea.addEventListener('click', async () => {
+            if (!auth.currentUser) {
+                showMessage("Authentication Error", "You must be logged in to take attendance.");
+                return;
+            }
+
+            // Simulate a fingerprint ID lookup
+            const simulatedFingerprintId = "fp_12345"; 
+            statusMessage.textContent = "Scanning...";
+            fingerprintArea.classList.add('scanning');
+
+            // Timeout to simulate a real scan delay
+            setTimeout(async () => {
+                statusMessage.textContent = "Processing...";
+                
+                // Using onSnapshot for real-time updates on student data
+                const studentsRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+                const q = query(studentsRef, where("fingerprintId", "==", simulatedFingerprintId));
+                
+                try {
+                    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+                        unsubscribe(); // Unsubscribe after the first successful lookup
+                        if (!querySnapshot.empty) {
+                            const studentDoc = querySnapshot.docs[0];
+                            const studentData = studentDoc.data();
+                            const studentId = studentDoc.id;
+                            
+                            // Check for today's attendance
+                            const attendanceRef = collection(db, 'artifacts', appId, 'public', 'data', 'attendance');
+                            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+                            const attendanceDocRef = doc(attendanceRef, `${studentId}-${today}`);
+                            const attendanceDoc = await getDoc(attendanceDocRef);
+
+                            if (!attendanceDoc.exists()) {
+                                // Mark attendance if not already marked
+                                await setDoc(attendanceDocRef, {
+                                    studentId: studentId,
+                                    name: studentData.name,
+                                    date: new Date(),
+                                    timestamp: new Date().getTime()
+                                });
+                                showMessage("Success!", `Attendance recorded for ${studentData.name} (${today}).`);
+                            } else {
+                                showMessage("Already Marked", `Attendance for ${studentData.name} has already been recorded today.`);
+                            }
+
+                            // Update the UI with the student's profile
+                            updateProfileUI({ ...studentData, id: studentId });
+
+                        } else {
+                            statusMessage.textContent = "Scan Failed. Student not found.";
+                            showMessage("Scan Failed", "No student found with that fingerprint ID.");
+                            scannerSection.classList.remove('hidden');
+                            studentProfile.classList.add('hidden');
+                        }
+                        fingerprintArea.classList.remove('scanning');
+                    });
+                } catch (error) {
+                    console.error("Error fetching student data:", error);
+                    statusMessage.textContent = "Error during scan. Please try again.";
+                    showMessage("Error", "An error occurred while processing the attendance. Please try again.");
+                    fingerprintArea.classList.remove('scanning');
+                }
+
+            }, 2000); // 2-second delay
+        });
+
+    </script>
+</body>
+</html>
