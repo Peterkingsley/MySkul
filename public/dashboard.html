@@ -3,397 +3,789 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Local Data</title>
-    <!-- Use Tailwind CSS for rapid styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Customizing the Tailwind theme to match the UI's color palette
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'dark-bg': '#191A23',
-                        'dark-card': '#252733',
-                        'dark-border': '#3D3D4E',
-                        'dark-text': '#A8A8B3',
-                        'dark-text-bold': '#E5E5E5',
-                        'brand-purple': '#5A63F8',
-                        'brand-blue': '#407BFF',
-                        'brand-teal': '#28B7A5',
-                        'brand-orange': '#FF7C40',
-                    }
-                }
-            }
-        }
-    </script>
+    <title>SIGNET Community</title>
+    <!-- Use Google Fonts for "Inter" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Custom CSS for body and animations */
+        /* General body and font styles */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #191A23;
-            color: #E5E5E5;
+            background-color: #1a1e28;
+            background-image: radial-gradient(circle at top, #2f3442 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #d1d4dc;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease;
         }
-        /* Chart path animation for a drawing effect */
-        .chart-path {
-            stroke-dasharray: 2000;
-            stroke-dashoffset: 2000;
-            animation: dash 2s ease-in-out forwards;
+
+        /* Container for content */
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
         }
-        .chart-path-2 {
-            stroke-dasharray: 2000;
-            stroke-dashoffset: 2000;
-            animation: dash 2s ease-in-out forwards 0.5s;
-        }
-        /* Circular progress bar animation */
-        .circular-progress {
-            stroke-dasharray: 283; /* 2 * PI * 45 (radius) */
-            stroke-dashoffset: 283;
-            animation: progress-animation 2s forwards ease-out;
-        }
-        @keyframes dash {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        @keyframes progress-animation {
-            to {
-                /* Calculates the offset for 80% progress (283 * (1-0.8) = 56.6) */
-                stroke-dashoffset: 56.6;
-            }
-        }
-        /* Style for the mobile menu button */
-        .mobile-menu-button {
+
+        /* Navbar Styling */
+        .navbar {
             position: fixed;
-            top: 1rem;
-            left: 1rem;
+            width: 100%;
             z-index: 50;
+            background-color: rgba(26, 30, 40, 0.8);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+        }
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+        .nav-links {
+            display: none;
+            gap: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            align-items: center;
+        }
+        .nav-link {
+            color: #d1d4dc;
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #4f46e5;
+        }
+        .join-btn {
+            background: linear-gradient(90deg, #4f46e5, #a855f7);
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 40;
+            background-color: rgba(26, 30, 40, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .mobile-menu-close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 6rem;
+            padding-bottom: 3rem;
+            background: #1a1e28;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .hero {
+                padding-top: 10rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .hero-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #818cf8, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3.75rem;
+            }
+        }
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .hero-subtitle {
+                font-size: 1.25rem;
+            }
+        }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #4f46e5, #a855f7);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #a855f7;
+            border: 2px solid #a855f7;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(168, 85, 247, 0.1);
+        }
+
+        /* General Section Styling */
+        section {
+            padding: 4rem 0;
+            position: relative;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+        @media (min-width: 768px) {
+            section {
+                padding: 6rem 0;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+        .section-card {
+            background-color: #2a313d;
+            border-radius: 1rem;
+            border: 1px solid #374151;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* TradingView-style components */
+        .chart-placeholder {
+            height: 400px;
+            background-color: #1a1e28;
+            border-radius: 0.5rem;
+            border: 1px solid #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-style: italic;
+        }
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: #1a1e28;
+            color: #d1d4dc;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-btn:hover {
+            background-color: #374151;
+        }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .idea-card {
+            background-color: #2a313d;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid #374151;
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .idea-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        .idea-image {
+            width: 100%;
+            height: 150px;
+            background-color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .idea-content {
+            padding: 1rem;
+        }
+        .idea-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .idea-author {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        .data-table {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .data-table {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .data-list {
+            background-color: #2a313d;
+            border-radius: 0.75rem;
+            border: 1px solid #374151;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .data-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #374151;
+        }
+        .data-list-item:last-child {
+            border-bottom: none;
+        }
+        .stock-info {
+            display: flex;
+            align-items: center;
+        }
+        .stock-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .stock-symbol {
+            font-weight: 700;
+            color: #fff;
+        }
+        .stock-name {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        .change-percent {
+            font-weight: 700;
+        }
+        .positive {
+            color: #0d9488;
+        }
+        .negative {
+            color: #dc2626;
+        }
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .story-card {
+            background-color: #2a313d;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #374151;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        .story-title {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .story-meta {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+        .broker-card {
+            background: #2a313d;
+            border-radius: 1rem;
+            border: 1px solid #374151;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .broker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+        .broker-logo {
+            width: 6rem;
+            height: 6rem;
+            background: linear-gradient(135deg, #4f46e5, #a855f7);
+            border-radius: 1rem;
+            margin: 0 auto 1rem;
+        }
+        .broker-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .broker-rating {
+            color: #f59e0b;
+        }
+        /* Footer */
+        .footer {
+            background-color: #111827;
+            color: #d1d5db;
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.875rem;
         }
     </style>
 </head>
-<body class="bg-dark-bg min-h-screen font-sans text-dark-text-bold">
-    <!-- Mobile Menu Button -->
-    <button id="mobileMenuButton" class="lg:hidden mobile-menu-button p-2 text-dark-text-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    </button>
-    
-    <!-- Main content container using flexbox for desktop layout -->
-    <div class="flex flex-col lg:flex-row min-h-screen">
-        
-        <!-- Sidebar for Desktop View (hidden on mobile) -->
-        <aside id="sidebar" class="bg-dark-card w-64 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 fixed lg:relative lg:flex-shrink-0 inset-y-0 left-0 z-40 border-r border-dark-border">
-            <!-- Logo and Navigation -->
-            <div>
-                <!-- Logo -->
-                <div class="mb-4 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                        <path d="M2 17l10 5 10-5"></path>
-                        <path d="M2 12l10 5 10-5"></path>
-                    </svg>
-                    <h1 class="text-xl font-bold text-dark-text-bold">EduDash</h1>
-                </div>
-                
-                <!-- Navigation Links -->
-                <nav>
-                    <ul>
-                        <li><a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-xl font-semibold text-white bg-brand-purple hover:bg-brand-purple/80 transition-colors duration-200 mb-2"><span>Dashboard</span></a></li>
-                        <li><a href="students.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Students</span></a></li>
-                        <li><a href="class.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Classes</span></a></li>
-                        <li><a href="attendance.html" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200 mb-2"><span>Attendance</span></a></li>
-                    </ul>
-                </nav>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <!-- Logo -->
+            <div class="logo">SIGNET</div>
+            <!-- Desktop Nav Links -->
+            <div class="nav-links" id="nav-links">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Performance</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <button class="join-btn">Get Started</button>
             </div>
-            
-            <!-- User Profile/Logout -->
-            <div class="pt-4 border-t border-dark-border">
-                <a href="index.html" id="logoutButton" class="flex items-center space-x-3 p-3 rounded-xl font-medium text-dark-text hover:bg-dark-border transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
-                        <polyline points="17 16 21 12 17 8"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fff;">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
 
-        <!-- Main Content Area: Responsive and scrollable -->
-        <main class="flex-1 p-4 overflow-y-auto transition-all duration-300 ease-in-out pb-16 lg:pb-4">
-            
-            <!-- User Greeting -->
-            <h1 class="text-3xl font-bold mb-6">Welcome, <span id="userName">Admin</span>!</h1>
-
-            <!-- Quick Actions Section -->
-            <div class="mb-4">
-                <h2 class="text-lg font-bold mb-2">Quick Actions</h2>
-                <div class="flex flex-wrap gap-2">
-                    <a href="students.html" class="flex-1 min-w-[150px] p-3 bg-brand-purple text-white font-semibold rounded-lg hover:bg-brand-purple/80 transition-colors duration-200 text-center">
-                        Add New Student
-                    </a>
-                    <button class="flex-1 min-w-[150px] p-3 bg-brand-blue text-white font-semibold rounded-lg hover:bg-brand-blue/80 transition-colors duration-200">
-                        Manage Teachers
-                    </button>
-                    <button class="flex-1 min-w-[150px] p-3 bg-brand-teal text-white font-semibold rounded-lg hover:bg-brand-teal/80 transition-colors duration-200">
-                        Customize Reports
-                    </button>
-                </div>
-            </div>
-
-            <!-- Dashboard Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 text-dark-text-bold">
-
-                <!-- Quick Metrics Section -->
-                <div class="col-span-full">
-                    <h2 class="text-lg font-bold mb-4">Quick Metrics</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        <!-- Total Students Card -->
-                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
-                            <div class="p-3 bg-brand-purple rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6M23 11h-6"></path></svg>
-                            </div>
-                            <div>
-                                <span id="totalStudents" class="block text-xl font-bold">0</span>
-                                <span class="block text-dark-text text-sm">Total Students</span>
-                            </div>
-                        </div>
-                        <!-- Students Present Today Card -->
-                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
-                            <div class="p-3 bg-brand-teal rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
-                            </div>
-                            <div>
-                                <span id="presentStudents" class="block text-xl font-bold">0</span>
-                                <span class="block text-dark-text text-sm">Students Present Today</span>
-                            </div>
-                        </div>
-                        <!-- New Students This Month Card -->
-                        <div class="p-4 bg-dark-card rounded-xl flex items-center space-x-4 border border-dark-border">
-                            <div class="p-3 bg-brand-blue rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                            </div>
-                            <div>
-                                <span id="newStudents" class="block text-xl font-bold">0</span>
-                                <span class="block text-dark-text text-sm">New Students (This Month)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Left Column Content -->
-                <div class="lg:col-span-2 space-y-3">
-                    <!-- Top Students Table -->
-                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
-                        <h2 class="text-lg font-bold mb-4">Top Students</h2>
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-dark-text">
-                                    <th class="py-2">#</th>
-                                    <th class="py-2">Name</th>
-                                    <th class="py-2">Performance</th>
-                                    <th class="py-2">Attendance</th>
-                                </tr>
-                            </thead>
-                            <tbody id="topStudentsTable">
-                                <!-- Data will be populated by script -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Total School Payment and Circular Progress -->
-                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border flex items-center space-x-6">
-                        <div>
-                            <h2 class="text-lg font-bold mb-1">Total School Payment</h2>
-                            <span class="block text-dark-text text-sm mb-4">Collected this month</span>
-                            <div id="totalPayment" class="text-3xl font-bold mb-2">$0.00</div>
-                            <span id="paymentTarget" class="text-xs text-brand-teal font-medium">0% of monthly target</span>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <svg class="h-28 w-28 -rotate-90" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <circle class="stroke-dark-border" cx="50" cy="50" r="45" stroke-width="10" fill="none"></circle>
-                                <circle id="progressCircle" class="circular-progress stroke-brand-teal" cx="50" cy="50" r="45" stroke-width="10" fill="none" stroke-linecap="round" style="stroke-dashoffset: 283;"></circle>
-                                <text id="progressText" x="50" y="50" font-size="18" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#E5E5E5" transform="rotate(90 50 50)">0%</text>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Activity Feed Section -->
-                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
-                        <h2 class="text-lg font-bold mb-4">Activity Feed</h2>
-                        <ul id="activityFeed" class="space-y-2 text-sm text-dark-text">
-                           <!-- Activity will be populated by script -->
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Right Column Content (Charts are static for this example) -->
-                <div class="lg:col-span-2 space-y-3">
-                    <!-- Grade Growth Chart -->
-                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
-                        <h2 class="text-lg font-bold mb-4">Grade Growth</h2>
-                        <div class="h-40 flex items-end justify-around pb-4 space-x-4">
-                            <div class="flex flex-col items-center">
-                                <div class="w-8 rounded-t-lg bg-brand-purple h-[85%] animate-pulse"></div>
-                                <span class="text-dark-text text-xs mt-2">Math</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-8 rounded-t-lg bg-brand-blue h-[92%] animate-pulse" style="animation-delay: 0.1s;"></div>
-                                <span class="text-dark-text text-xs mt-2">Science</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-8 rounded-t-lg bg-brand-teal h-[78%] animate-pulse" style="animation-delay: 0.2s;"></div>
-                                <span class="text-dark-text text-xs mt-2">English</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-8 rounded-t-lg bg-brand-orange h-[88%] animate-pulse" style="animation-delay: 0.3s;"></div>
-                                <span class="text-dark-text text-xs mt-2">History</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Attendance Analytics Area Chart -->
-                    <div class="p-4 bg-dark-card rounded-xl border border-dark-border">
-                        <h2 class="text-lg font-bold mb-4">Attendance Analytics</h2>
-                        <div class="h-40 relative">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                <path class="fill-brand-purple/20 stroke-brand-purple chart-path" stroke-width="2" d="M0,80 C20,60 30,40 50,50 C70,60 80,30 100,50 L100,100 L0,100 Z"></path>
-                                <path class="fill-brand-teal/20 stroke-brand-teal chart-path-2" stroke-width="2" d="M0,50 C20,70 30,90 50,80 C70,70 80,100 100,80 L100,100 L0,100 Z"></path>
-                            </svg>
-                        </div>
-                        <div class="flex items-center justify-between mt-4 text-xs">
-                            <div class="flex items-center space-x-2">
-                                <div class="h-2 w-2 bg-brand-purple rounded-full"></div>
-                                <span class="text-dark-text font-medium">Previous Period Average</span>
-                                <span class="text-brand-purple font-medium">92%</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <div class="h-2 w-2 bg-brand-teal rounded-full"></div>
-                                <span class="text-dark-text font-medium">Current Period</span>
-                                <span class="text-brand-teal font-medium">95%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close-btn" id="mobile-menu-close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fff;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Performance</a>
+        <a href="#" class="nav-link">Pricing</a>
+        <button class="join-btn">Get Started</button>
     </div>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">
+                Building the Future of Our Trading Community.
+            </h1>
+            <p class="hero-subtitle">
+                A professional web platform built by the SIGNET community to showcase our performance and streamline access.
+            </p>
+            <div class="hero-actions">
+                <a href="#" class="btn btn-primary">
+                    Join Community
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.5rem; color: #fff;">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    Learn More
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.5rem; color: #a855f7;">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Summary -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Market Summary
+            </h2>
+            <div class="section-card">
+                <div class="tabs">
+                    <button class="tab-btn active">Indices</button>
+                    <button class="tab-btn">Crypto</button>
+                    <button class="tab-btn">Futures</button>
+                    <button class="tab-btn">Forex</button>
+                    <button class="tab-btn">Bonds</button>
+                    <button class="tab-btn">ETFs</button>
+                </div>
+                <div class="chart-placeholder">
+                    [Placeholder for chart or live data]
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community & Trade Ideas -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Community Ideas
+            </h2>
+            <div class="ideas-grid">
+                <!-- Mock Idea Card 1 -->
+                <div class="idea-card">
+                    <div class="idea-image">Image Placeholder</div>
+                    <div class="idea-content">
+                        <h3 class="idea-title">Bitcoin Daily Analysis - The Trend is Our Friend</h3>
+                        <p class="idea-author">by TraderTilki</p>
+                    </div>
+                </div>
+                <!-- Mock Idea Card 2 -->
+                <div class="idea-card">
+                    <div class="idea-image">Image Placeholder</div>
+                    <div class="idea-content">
+                        <h3 class="idea-title">Angle Market Structure - Bullish Setup</h3>
+                        <p class="idea-author">by BigBeluga</p>
+                    </div>
+                </div>
+                <!-- Mock Idea Card 3 -->
+                <div class="idea-card">
+                    <div class="idea-image">Image Placeholder</div>
+                    <div class="idea-content">
+                        <h3 class="idea-title">Is the AI Trade Done for Now?</h3>
+                        <p class="idea-author">by TradeStation</p>
+                    </div>
+                </div>
+                <!-- Mock Idea Card 4 -->
+                <div class="idea-card">
+                    <div class="idea-image">Image Placeholder</div>
+                    <div class="idea-content">
+                        <h3 class="idea-title">Volume Rotor Clock - How to Use It</h3>
+                        <p class="idea-author">by haplarmonic</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stock Gainers and Losers -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Stock Movers
+            </h2>
+            <div class="data-table">
+                <div class="data-list">
+                    <h3 style="font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem; color: #fff;">Stock Gainers</h3>
+                    <div class="data-list-item">
+                        <div class="stock-info">
+                            <div class="stock-icon">APRM</div>
+                            <div>
+                                <div class="stock-symbol">Aptorum Group Limited</div>
+                                <div class="stock-name">APRM</div>
+                            </div>
+                        </div>
+                        <div class="change-percent positive">+226.38%</div>
+                    </div>
+                    <div class="data-list-item">
+                        <div class="stock-info">
+                            <div class="stock-icon">AET</div>
+                            <div>
+                                <div class="stock-symbol">Aethlon Medical, Inc.</div>
+                                <div class="stock-name">AEMD</div>
+                            </div>
+                        </div>
+                        <div class="change-percent positive">+94.14%</div>
+                    </div>
+                </div>
+                <div class="data-list">
+                    <h3 style="font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem; color: #fff;">Stock Losers</h3>
+                    <div class="data-list-item">
+                        <div class="stock-info">
+                            <div class="stock-icon">ZYBT</div>
+                            <div>
+                                <div class="stock-symbol">Zhengye Biotechnology</div>
+                                <div class="stock-name">ZYBT</div>
+                            </div>
+                        </div>
+                        <div class="change-percent negative">-30.66%</div>
+                    </div>
+                    <div class="data-list-item">
+                        <div class="stock-info">
+                            <div class="stock-icon">RMSG</div>
+                            <div>
+                                <div class="stock-symbol">Real Messenger Corp.</div>
+                                <div class="stock-name">RMSG</div>
+                            </div>
+                        </div>
+                        <div class="change-percent negative">-25.72%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Earnings Calendar -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Earnings Calendar
+            </h2>
+            <div style="display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem;">
+                <!-- Mock Calendar Card 1 -->
+                <div class="section-card" style="min-width: 250px;">
+                    <div style="font-size: 1rem; color: #9ca3af; margin-bottom: 0.5rem;">Today</div>
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div class="stock-icon">CSIQ</div>
+                        <div style="margin-left: 0.75rem;">
+                            <h4 style="font-weight: 700; color: #fff;">Canadian Solar Inc.</h4>
+                            <p style="font-size: 0.875rem; color: #9ca3af;">Estimate: $1.34 USD</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mock Calendar Card 2 -->
+                <div class="section-card" style="min-width: 250px;">
+                    <div style="font-size: 1rem; color: #9ca3af; margin-bottom: 0.5rem;">Today</div>
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div class="stock-icon">LYTS</div>
+                        <div style="margin-left: 0.75rem;">
+                            <h4 style="font-weight: 700; color: #fff;">LSI Industries Inc.</h4>
+                            <p style="font-size: 0.875rem; color: #9ca3af;">Estimate: $0.22 USD</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Stories -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Top Stories
+            </h2>
+            <div class="stories-grid">
+                <div class="story-card">
+                    <h4 class="story-title">Walmart Stock Dips 3% as Big-Box Retailer Cites Profit Squeeze</h4>
+                    <p class="story-meta">10 hours ago · Dow Jones Newswires</p>
+                </div>
+                <div class="story-card">
+                    <h4 class="story-title">TSLA: Tesla Stock Extends Slump Despite CEO Musk Dropping His "America Party" Political Project</h4>
+                    <p class="story-meta">9 hours ago · TradingView</p>
+                </div>
+                <div class="story-card">
+                    <h4 class="story-title">NVIDIA Resumes Slide as Earnings Date Nears. Here's What to Watch for in the Update</h4>
+                    <p class="story-meta">11 hours ago · Reuters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading and Brokers -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">
+                Trading and Brokers
+            </h2>
+            <p class="section-subtitle">
+                Trade directly through our supported, fully-verified, and user-reviewed brokers.
+            </p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                <div class="broker-card">
+                    <div class="broker-logo"></div>
+                    <div class="broker-name">easyMarkets</div>
+                    <div class="broker-rating">★★★★★</div>
+                    <p style="font-size: 0.875rem; color: #9ca3af;">Forex, CFDs</p>
+                </div>
+                <div class="broker-card">
+                    <div class="broker-logo"></div>
+                    <div class="broker-name">WhiteBIT</div>
+                    <div class="broker-rating">★★★★★</div>
+                    <p style="font-size: 0.875rem; color: #9ca3af;">Crypto</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div style="max-width: 900px; margin: auto; text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">
+                    What Our Members Say
+                </h2>
+                <p class="section-subtitle">
+                    Hear directly from the people who make this community great.
+                </p>
+            </div>
+            <div class="testimonial-grid">
+                <!-- Testimonial Card 1 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">JT</div>
+                        <div class="author-info">
+                            <div class="author-name">John T.</div>
+                            <div class="author-title">Joined 3 months ago</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "The automated access and clear performance data made joining seamless. This project is a testament to what we can achieve together."
+                    </p>
+                </div>
+                <!-- Testimonial Card 2 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">SA</div>
+                        <div class="author-info">
+                            <div class="author-name">Sarah A.</div>
+                            <div class="author-title">Joined 6 months ago</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "The website is so professional and easy to navigate. The PNL proofs gave me the confidence to join, and I'm proud to be a part of this community."
+                    </p>
+                </div>
+                <!-- Testimonial Card 3 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">RD</div>
+                        <div class="author-info">
+                            <div class="author-name">Richard D.</div>
+                            <div class="author-title">Joined 1 month ago</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "I was impressed by the user flow. Everything from signing up to getting my Telegram invite was instant and secure. A great experience."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SIGNET Community. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Local Data Source (JSON Object) ---
-            const dashboardData = {
-                userName: "Admin",
-                metrics: {
-                    totalStudents: 1250,
-                    presentStudents: 1180,
-                    newStudentsThisMonth: 45
-                },
-                topStudents: [
-                    { rank: 1, name: 'Emily White', performance: 95, attendance: '95%' },
-                    { rank: 2, name: 'Michael Brown', performance: 92, attendance: '92%' },
-                    { rank: 3, name: 'Sophia Davis', performance: 89, attendance: '89%' },
-                    { rank: 4, name: 'James Wilson', performance: 85, attendance: '85%' }
-                ],
-                payment: {
-                    collected: 10500.00,
-                    targetPercentage: 95
-                },
-                activityFeed: [
-                    { time: '2m ago', message: 'A new student profile for John Doe was created.', color: 'brand-purple' },
-                    { time: '5m ago', message: 'Report cards for Grade 5 were generated.', color: 'brand-blue' },
-                    { time: '10m ago', message: 'Ms. Smith updated grades for Algebra I.', color: 'brand-teal' },
-                    { time: '15m ago', message: 'New teacher Mr. Jones was added to the system.', color: 'brand-orange' }
-                ]
-            };
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
 
-            // --- UI Element References ---
-            const userNameElement = document.getElementById('userName');
-            const mobileMenuButton = document.getElementById('mobileMenuButton');
-            const sidebar = document.getElementById('sidebar');
+        // Function to toggle the mobile menu visibility
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('active');
+        }
 
-            // Metrics
-            const totalStudentsEl = document.getElementById('totalStudents');
-            const presentStudentsEl = document.getElementById('presentStudents');
-            const newStudentsEl = document.getElementById('newStudents');
-            
-            // Top Students
-            const topStudentsTable = document.getElementById('topStudentsTable');
-
-            // Payment
-            const totalPaymentEl = document.getElementById('totalPayment');
-            const paymentTargetEl = document.getElementById('paymentTarget');
-            const progressCircle = document.getElementById('progressCircle');
-            const progressText = document.getElementById('progressText');
-
-            // Activity
-            const activityFeedEl = document.getElementById('activityFeed');
-
-            // --- Functions to Populate UI ---
-
-            function populateDashboard() {
-                // Set User Name
-                userNameElement.textContent = dashboardData.userName;
-
-                // Set Metrics
-                totalStudentsEl.textContent = dashboardData.metrics.totalStudents.toLocaleString();
-                presentStudentsEl.textContent = dashboardData.metrics.presentStudents.toLocaleString();
-                newStudentsEl.textContent = dashboardData.metrics.newStudentsThisMonth.toLocaleString();
-
-                // Populate Top Students Table
-                topStudentsTable.innerHTML = '';
-                const performanceColors = ['brand-purple', 'brand-blue', 'brand-teal', 'brand-orange'];
-                dashboardData.topStudents.forEach((student, index) => {
-                    const colorClass = performanceColors[index % performanceColors.length];
-                    const row = `
-                        <tr class="border-b border-dark-border">
-                            <td class="py-2">0${student.rank}</td>
-                            <td class="py-2 font-medium">${student.name}</td>
-                            <td class="py-2">
-                                <div class="w-full bg-dark-border rounded-full h-1">
-                                    <div class="bg-${colorClass} h-full rounded-full" style="width: ${student.performance}%;"></div>
-                                </div>
-                            </td>
-                            <td class="py-2 text-dark-text">${student.attendance}</td>
-                        </tr>
-                    `;
-                    topStudentsTable.innerHTML += row;
-                });
-
-                // Populate Payment Info
-                totalPaymentEl.textContent = `$${dashboardData.payment.collected.toFixed(2)}`;
-                paymentTargetEl.textContent = `${dashboardData.payment.targetPercentage}% of monthly target`;
-                
-                // Update Circular Progress Bar
-                const circumference = 2 * Math.PI * 45; // 2 * PI * radius
-                const offset = circumference - (dashboardData.payment.targetPercentage / 100) * circumference;
-                progressCircle.style.strokeDashoffset = offset;
-                progressText.textContent = `${dashboardData.payment.targetPercentage}%`;
-
-
-                // Populate Activity Feed
-                activityFeedEl.innerHTML = '';
-                dashboardData.activityFeed.forEach(activity => {
-                    const item = `
-                        <li class="flex items-center space-x-2">
-                            <div class="w-2 h-2 bg-${activity.color} rounded-full"></div>
-                            <span>[${activity.time}] ${activity.message}</span>
-                        </li>
-                    `;
-                    activityFeedEl.innerHTML += item;
-                });
-            }
-
-            // --- Initial Setup ---
-
-            // Mobile menu toggle
-            mobileMenuButton.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-
-            // Populate the dashboard on page load
-            populateDashboard();
-        });
+        // Add event listeners for click events
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileMenuCloseBtn.addEventListener('click', toggleMobileMenu);
     </script>
+
 </body>
 </html>
