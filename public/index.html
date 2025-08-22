@@ -51,6 +51,8 @@
     nav a{opacity:.9}
     nav a:hover{opacity:1}
     .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links.mobile-hidden{ display: none; }
+    .nav-toggle-btn { display: none; }
 
     /* Hero */
     .hero{position:relative;overflow:hidden}
@@ -140,15 +142,51 @@
 
     /* Responsive */
     @media (max-width: 980px){
-      .hero-wrap{grid-template-columns:1fr}
-      .perf-wrap{grid-template-columns:1fr}
-      .benefit-grid{grid-template-columns:repeat(2,1fr)}
-      .steps{grid-template-columns:repeat(2,1fr)}
+      /* General layout */
+      .hero-wrap, .perf-wrap, .f-grid{grid-template-columns:1fr}
+      .benefit-grid, .steps, .t-grid{grid-template-columns:repeat(2,1fr)}
       .plans{grid-template-columns:1fr}
-      .t-grid{grid-template-columns:1fr}
-      .f-grid{grid-template-columns:1fr}
-      .sticky-cta{display:block}
+      
+      /* Header & Nav */
+      .nav-links{display:none;}
+      .nav{padding:12px 0;}
+      .nav-toggle-btn{display:block; cursor: pointer; background: transparent; border: none; font-size: 1.5rem; color: var(--text);}
+      header.mobile-nav-open .nav-links{
+        display:flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-2);
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      header.mobile-nav-open .nav-links a{
+        padding: 10px 20px;
+        text-align: center;
+      }
+      
+      /* Spacing and sections */
+      .benefits, .testimonials, .pricing, .how, .faq{
+        padding: 48px 0;
+      }
+
+      /* Hero section */
+      .hero-panel{display:none;}
+      
+      /* Sticky CTA */
+      .sticky-cta{display:block;}
     }
+
+    /* Even smaller mobile adjustments */
+    @media (max-width: 580px){
+      .benefit-grid, .steps, .t-grid{grid-template-columns:1fr;}
+      .hero h1{font-size: 2rem;}
+      .proof-wrap{flex-direction: column; align-items: flex-start;}
+    }
+
   </style>
 </head>
 <body>
@@ -159,7 +197,8 @@
         <span class="logo" aria-hidden="true"></span>
         <strong>SIGNET</strong>
       </a>
-      <nav class="nav-links" aria-label="primary">
+      <button class="nav-toggle-btn" aria-label="Toggle navigation" aria-controls="nav-menu">☰</button>
+      <nav class="nav-links" id="nav-menu" aria-label="primary">
         <a href="#performance">Performance</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
@@ -506,7 +545,21 @@
         const el = document.getElementById(id);
         if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
       })
-    })
+    });
+    
+    // Mobile navigation toggle
+    document.querySelector('.nav-toggle-btn').addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('mobile-nav-open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.remove('mobile-nav-open');
+      });
+    });
   </script>
 </body>
 </html>
