@@ -85,6 +85,25 @@
       .performance table { font-size: 0.85rem; white-space: nowrap; }
       .performance th, .performance td { padding: 8px; }
       footer{ padding: 36px 20px 12px; }
+      .nav-links{display:none;}
+      .nav{padding:12px 16px;}
+      .nav-toggle-btn{display:block; cursor: pointer; background: transparent; border: none; font-size: 1.5rem; color: var(--text);}
+      header.mobile-nav-open .nav-links{
+        display:flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-2);
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      header.mobile-nav-open .nav-links a{
+        padding: 10px 20px;
+        text-align: center;
+      }
     }
     
     @media (max-width: 580px){
@@ -103,6 +122,16 @@
         <span class="logo" aria-hidden="true"></span>
         <strong>SIGNET</strong>
       </a>
+      <button class="nav-toggle-btn" aria-label="Toggle navigation" aria-controls="nav-menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+      <nav class="nav-links" id="nav-menu" aria-label="primary">
+        <a href="#performance">Performance</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#contact">Contact</a>
+        <a class="btn btn-primary" href="index.html#join">Get Signals</a>
+      </nav>
     </div>
   </header>
   
@@ -220,6 +249,19 @@
     },{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     
+    // Mobile navigation toggle
+    document.querySelector('.nav-toggle-btn').addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('mobile-nav-open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.remove('mobile-nav-open');
+      });
+    });
   </script>
 </body>
 </html>
