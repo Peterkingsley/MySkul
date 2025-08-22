@@ -188,6 +188,14 @@
       
       /* Sticky CTA */
       .sticky-cta{display:block;}
+
+      /* Performance adjustments */
+      .performance table {
+        font-size: 0.85rem;
+      }
+      .performance th, .performance td {
+        padding: 8px;
+      }
     }
 
     /* Even smaller mobile adjustments */
@@ -195,6 +203,11 @@
       .benefit-grid, .steps, .t-grid, .f-grid{grid-template-columns:1fr;}
       .hero h1{font-size: 2rem;}
       .proof-wrap{flex-direction: column; align-items: flex-start; padding: 14px 0;}
+
+      /* PNL Proof grid to single column */
+      .performance .grid {
+        grid-template-columns: 1fr;
+      }
     }
 
   </style>
