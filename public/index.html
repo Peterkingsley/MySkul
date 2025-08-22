@@ -1,251 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up - Local Data</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Customizing the Tailwind theme to match the UI's color palette
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'dark-bg': '#191A23',
-                        'dark-card': '#252733',
-                        'dark-border': '#3D3D4E',
-                        'dark-text': '#A8A8B3',
-                        'dark-text-bold': '#E5E5E5',
-                        'brand-purple': '#5A63F8',
-                        'brand-blue': '#407BFF',
-                        'brand-teal': '#28B7A5',
-                        'brand-orange': '#FF7C40',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #191A23;
-            color: #E5E5E5;
-        }
-        /* Custom modal styles for displaying messages */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .modal-content {
-            background-color: #252733;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid #3D3D4E;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIGNET — Futures Signals, Done Right</title>
+  <meta name="description" content="Join SIGNET: actionable futures signals with clear risk management and automated Telegram access. OPay & Crypto supported." />
+  <style>
+    :root{
+      --bg:#0b0f14;           /* deep navy/charcoal */
+      --bg-2:#0f141b;         /* card background */
+      --text:#e9edf3;         /* off-white */
+      --muted:#a8b3c7;        /* muted text */
+      --accent:#2ad678;       /* profit green */
+      --accent-2:#f0c75e;     /* gold for badges */
+      --danger:#ff5d5d;       /* soft red */
+      --line:#1b2330;         /* subtle borders */
+      --shadow:0 8px 24px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius-lg:20px;
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+
+    /* Utility */
+    .container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:20px}
+    .grid{display:grid;gap:20px}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.2s ease;white-space:nowrap}
+    .btn-primary{background:var(--accent);color:#04140a;font-weight:700}
+    .btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+    .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
+    .btn-ghost:hover{background:#0f151d}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(42,214,120,.1);color:var(--accent);border:1px solid rgba(42,214,120,.25);padding:.35rem .6rem;border-radius:999px;font-size:.78rem;font-weight:600}
+    .card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .muted{color:var(--muted)}
+    .center{text-align:center}
+
+    /* Reveal animations */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease, transform .5s ease}
+    .reveal.in{opacity:1;transform:none}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.6));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;}
+    .brand{display:flex;align-items:center;gap:.6rem}
+    .logo{width:28px;height:28px;border-radius:7px;background:conic-gradient(from 30deg, #12b886, #2ad678, #8ef7bf);box-shadow:0 0 0 2px rgba(42,214,120,.15)}
+    nav a{opacity:.9}
+    nav a:hover{opacity:1}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-toggle-btn { display: none; }
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(1000px 400px at 20% -10%, rgba(42,214,120,.15), rgba(0,0,0,0)), radial-gradient(900px 400px at 80% -20%, rgba(240,199,94,.08), rgba(0,0,0,0));pointer-events:none}
+    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;padding:56px 20px;}
+    .hero h1{font-size:clamp(1.9rem, 4vw, 3rem);line-height:1.1;margin:0 0 10px}
+    .hero p{font-size:clamp(1rem, 1.4vw, 1.15rem);color:var(--muted);margin:0 0 24px}
+    .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-panel{aspect-ratio:16/10;background:linear-gradient(180deg,#0f151d,#0b141b);border:1px solid var(--line);border-radius:var(--radius-lg);position:relative;overflow:hidden}
+    .scan{position:absolute;inset:0;background:repeating-linear-gradient( to bottom, rgba(42,214,120,.05) 0 2px, transparent 2px 4px);animation:scan 8s linear infinite;mix-blend:overlay}
+    @keyframes scan{0%{transform:translateY(-30%)}100%{transform:translateY(30%)}}
+    .spark{position:absolute;width:120px;height:120px;border-radius:50%;filter:blur(40px);background:radial-gradient(circle, rgba(42,214,120,.35), rgba(42,214,120,0));top:20%;left:15%}
+    .spark2{top:60%;left:auto;right:10%;background:radial-gradient(circle, rgba(240,199,94,.25), rgba(240,199,94,0))}
+
+    /* Social proof bar */
+    .proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0d1219}
+    .proof-wrap{display:flex;gap:24px;justify-content:center;align-items:center;padding:14px 20px;flex-wrap:wrap}
+    .kpi{display:flex;align-items:baseline;gap:.5rem}
+    .kpi .num{font-weight:800;font-size:1.25rem}
+
+    /* Benefits */
+    .benefits{padding:64px 20px;}
+    .benefit-grid{grid-template-columns:repeat(4,1fr)}
+    .benefit{padding:20px}
+    .benefit .icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:rgba(42,214,120,.08);border:1px solid rgba(42,214,120,.25);margin-bottom:10px}
+    .benefit h4{margin:6px 0 6px}
+    .benefit p{margin:0;color:var(--muted)}
+
+    /* Performance snapshot */
+    .performance{padding:48px 20px;}
+    .perf-wrap{display:grid;grid-template-columns:1fr .9fr;gap:24px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}
+    th{color:var(--muted);font-weight:600}
+    .gain{color:var(--accent);font-weight:700}
+    .loss{color:var(--danger);font-weight:700}
+
+    /* How it works */
+    .how{padding:56px 20px;}
+    .steps{grid-template-columns:repeat(4,1fr)}
+    .step{padding:20px;border:1px dashed var(--line);border-radius:var(--radius)}
+    .step .icon{width:34px;height:34px;margin-bottom:10px;display:grid;place-items:center}
+
+    /* Pricing */
+    .pricing{padding:56px 20px;}
+    .plans{grid-template-columns:repeat(3,1fr)}
+    .plan{padding:24px;position:relative;transition:transform .15s ease}
+    .plan:hover{transform:translateY(-3px)}
+    .plan .tag{position:absolute;top:12px;right:12px;background:rgba(240,199,94,.15);color:var(--accent-2);border:1px solid rgba(240,199,94,.35);padding:.3rem .6rem;border-radius:999px;font-size:.78rem;font-weight:700}
+    .features{list-style:none;padding:0;margin:12px 0 16px;display:grid;gap:10px}
+    .features li{display:flex;gap:10px;align-items:flex-start}
+
+    /* Testimonials */
+    .testimonials{padding:56px 20px;}
+    .t-grid{grid-template-columns:repeat(3,1fr)}
+    .quote{padding:20px}
+    .quote p{color:var(--muted)}
+
+    /* Community peek */
+    .peek{padding:48px 20px;}
+    .peek .panel{min-height:220px;background:linear-gradient(180deg,#0f141b,#0c1016);border:1px solid var(--line);border-radius:var(--radius);position:relative;overflow:hidden}
+    .blurbar{position:absolute;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(2px)}
+
+    /* FAQ */
+    .faq{padding:56px 20px;}
+    .accordion{display:grid;gap:12px}
+    .acc-item{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    .acc-head{background:#0e141c;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer}
+    .acc-body{max-height:0;overflow:hidden;background:#0c1118;transition:max-height .25s ease}
+    .acc-body-inner{padding:14px 16px;color:var(--muted)}
+
+    /* Disclaimer */
+    .disclaimer{padding:20px;border-top:1px solid var(--line);background:#0c1118;color:var(--muted);font-size:.92rem}
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);background:#0b1017;padding:36px 20px 12px;}
+    .f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:20px;}
+    footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+    footer li a{color:var(--muted)}
+    footer li a:hover{color:var(--text)}
+    .subtle{font-size:.88rem;color:var(--muted)}
+
+    /* Sticky CTA (mobile) */
+    .sticky-cta{position:fixed;bottom:10px;left:10px;right:10px;z-index:60;display:none}
+    .sticky-cta .inner{display:flex;gap:10px;justify-content:space-between;align-items:center;background:#0e151e;border:1px solid var(--line);padding:10px 12px;border-radius:14px;box-shadow:var(--shadow)}
+    .sticky-cta .price{font-weight:800}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      /* General layout */
+      .container { padding-inline: 0; }
+      .hero-wrap, .perf-wrap, .f-grid{grid-template-columns:1fr; padding-inline: 16px; }
+      .benefit-grid, .steps, .t-grid{grid-template-columns:repeat(2,1fr)}
+      .plans{grid-template-columns:1fr}
+      
+      /* Header & Nav */
+      .nav-links{display:none;}
+      .nav{padding:12px 16px;}
+      .nav-toggle-btn{display:block; cursor: pointer; background: transparent; border: none; font-size: 1.5rem; color: var(--text);}
+      header.mobile-nav-open .nav-links{
+        display:flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-2);
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      header.mobile-nav-open .nav-links a{
+        padding: 10px 20px;
+        text-align: center;
+      }
+      
+      /* Spacing and sections */
+      .benefits, .testimonials, .pricing, .how, .faq{
+        padding: 48px 16px;
+      }
+
+      /* Hero section */
+      .hero-panel{display:none;}
+      .hero-wrap{padding: 32px 16px;}
+      
+      /* Sticky CTA */
+      .sticky-cta{display:block;}
+    }
+
+    /* Even smaller mobile adjustments */
+    @media (max-width: 580px){
+      .benefit-grid, .steps, .t-grid, .f-grid{grid-template-columns:1fr;}
+      .hero h1{font-size: 2rem;}
+      .proof-wrap{flex-direction: column; align-items: flex-start; padding: 14px 16px;}
+    }
+
+  </style>
 </head>
-<body class="bg-dark-bg min-h-screen flex items-center justify-center p-4">
-
-    <!-- Auth Container -->
-    <div class="flex bg-dark-card rounded-xl shadow-lg overflow-hidden w-full max-w-4xl border border-dark-border">
-        
-        <!-- Left Side: Login/Sign Up Form -->
-        <div class="flex-1 p-8 flex flex-col justify-center">
-            
-            <!-- Login Form -->
-            <div id="loginForm" class="block">
-                <h2 class="text-3xl font-bold mb-2">LOGIN</h2>
-                <p class="text-dark-text mb-6">How do I get started lorem ipsum dolor at?</p>
-                
-                <form id="login-form" class="space-y-4">
-                    <!-- Email Input -->
-                    <div class="relative">
-                        <input type="email" id="login-email" placeholder="Email Address" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold" value="admin@test.com" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                    </div>
-                    
-                    <!-- Password Input -->
-                    <div class="relative">
-                        <input type="password" id="login-password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold" value="password123" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                    </div>
-
-                    <!-- Login Button -->
-                    <button type="submit" class="w-full p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200">
-                        Login Now
-                    </button>
-                </form>
-
-                <p class="text-center text-dark-text text-sm mt-4">Don't have an account? 
-                    <button id="showSignUpBtn" class="text-brand-purple font-medium hover:underline focus:outline-none">Sign Up</button>
-                </p>
-            </div>
-
-            <!-- Sign Up Form (initially hidden) -->
-            <div id="signUpForm" class="hidden">
-                <h2 class="text-3xl font-bold mb-2">SIGN UP</h2>
-                <p class="text-dark-text mb-6">Create your account to get started!</p>
-                
-                <form id="signup-form" class="space-y-4">
-                    <!-- Email Input -->
-                    <div class="relative">
-                        <input type="email" id="signup-email" placeholder="Email Address" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    
-                    <!-- Password Input -->
-                    <div class="relative">
-                        <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                    </div>
-
-                    <!-- Confirm Password Input -->
-                    <div class="relative">
-                        <input type="password" id="signup-confirm-password" placeholder="Confirm Password" class="w-full p-3 pl-10 rounded-lg bg-dark-bg border border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-purple text-dark-text-bold" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-dark-text absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                    </div>
-
-                    <!-- Sign Up Button -->
-                    <button type="submit" class="w-full p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200">
-                        Sign Up Now
-                    </button>
-                </form>
-
-                <p class="text-center text-dark-text text-sm mt-4">Already have an account? 
-                    <button id="showLoginBtn" class="text-brand-purple font-medium hover:underline focus:outline-none">Login</button>
-                </p>
-            </div>
-            
-        </div>
-        
-        <!-- Right Side: Decorative Image and Text (Hidden on mobile) -->
-        <div class="hidden lg:flex flex-1 relative bg-gradient-to-br from-brand-purple to-brand-blue p-8 items-center justify-center">
-             <img src="https://placehold.co/500x500/5A63F8/FFFFFF?text=Welcome" alt="Decorative background" class="absolute inset-0 w-full h-full object-cover opacity-20">
-             <div class="z-10 p-6 bg-white/10 backdrop-blur-md rounded-xl text-center">
-                <h3 class="text-4xl font-extrabold text-white leading-tight">Very good works are waiting for you Login Now!!!</h3>
-             </div>
-        </div>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#" aria-label="SIGNET home">
+        <span class="logo" aria-hidden="true"></span>
+        <strong>SIGNET</strong>
+      </a>
+      <button class="nav-toggle-btn" aria-label="Toggle navigation" aria-controls="nav-menu">☰</button>
+      <nav class="nav-links" id="nav-menu" aria-label="primary">
+        <a href="#performance">Performance</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#join">Get Access</a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Custom Modal for Messages -->
-    <div id="messageModal" class="modal hidden">
-        <div class="modal-content">
-            <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
-            <p id="modal-message" class="text-dark-text mb-6"></p>
-            <button id="modal-close-btn" class="p-3 bg-brand-purple rounded-lg text-white font-semibold hover:bg-brand-purple/80 transition-colors duration-200 w-full">
-                OK
-            </button>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div class="reveal">
+        <span class="badge">Automated Telegram Access</span>
+        <h1>Futures Signals with <span style="color:var(--accent)">Clarity</span> & Discipline</h1>
+        <p>Actionable entries, exits, and stops — delivered in real time. Pay with OPay or Crypto and get your unique Telegram invite instantly.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#pricing">Join the Community</a>
+          <a class="btn btn-ghost" href="#performance">See Performance</a>
         </div>
+        <div style="margin-top:14px" class="muted">No fluff. Transparent results. Risk-first.
+        </div>
+      </div>
+      <div class="hero-panel reveal" aria-hidden="true">
+        <!-- abstract preview panel -->
+        <div class="scan"></div>
+        <div class="spark"></div>
+        <div class="spark spark2"></div>
+        <svg viewBox="0 0 600 360" width="100%" height="100%" style="position:absolute;inset:0;opacity:.7">
+          <!-- Candlestick-like shapes -->
+          <g fill="none" stroke="#2ad678" stroke-width="2">
+            <line x1="50" y1="220" x2="50" y2="140"/>
+            <rect x="40" y="160" width="20" height="40" fill="rgba(42,214,120,.35)"/>
+            <line x1="120" y1="200" x2="120" y2="110"/>
+            <rect x="110" y="130" width="20" height="50" fill="rgba(42,214,120,.25)"/>
+            <line x1="190" y1="250" x2="190" y2="170"/>
+            <rect x="180" y="190" width="20" height="40" fill="rgba(255,93,93,.25)" stroke="#ff5d5d"/>
+            <line x1="260" y1="210" x2="260" y2="120"/>
+            <rect x="250" y="140" width="20" height="48" fill="rgba(42,214,120,.25)"/>
+            <polyline points="50,180 120,140 190,200 260,160 330,130 400,170 470,120 540,150" stroke="#8ef7bf" fill="none"/>
+          </g>
+        </svg>
+      </div>
     </div>
+  </section>
+
+  <!-- Social Proof Bar -->
+  <div class="proof">
+    <div class="container proof-wrap">
+      <div class="kpi"><span class="num" data-count="2300">0</span><span class="muted">members</span></div>
+      <div class="kpi"><span class="num" data-count="92">0</span><span class="muted">% signals with RR & stops</span></div>
+      <div class="kpi"><span class="num" data-count="3">0</span><span class="muted">min avg. response</span></div>
+      <div class="kpi"><span class="num" data-count="24">0</span><span class="muted">/7 active chat</span></div>
+    </div>
+  </div>
+
+  <!-- Benefits -->
+  <section class="benefits container">
+    <h2 class="center reveal">Why Traders Choose SIGNET</h2>
+    <div class="grid benefit-grid">
+      <article class="card benefit reveal">
+        <div class="icon" aria-hidden="true">📈</div>
+        <h4>Signal Clarity</h4>
+        <p>Entries, invalidation, and targets you can act on without guesswork.</p>
+      </article>
+      <article class="card benefit reveal">
+        <div class="icon" aria-hidden="true">🛡️</div>
+        <h4>Risk First</h4>
+        <p>Every call includes a stop-loss framework and risk context.</p>
+      </article>
+      <article class="card benefit reveal">
+        <div class="icon" aria-hidden="true">⚡</div>
+        <h4>Timely Alerts</h4>
+        <p>Real-time updates so you don’t chase; you plan.</p>
+      </article>
+      <article class="card benefit reveal">
+        <div class="icon" aria-hidden="true">🤖</div>
+        <h4>Automated Access</h4>
+        <p>Pay → auto invite → join private Telegram instantly.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Performance Snapshot -->
+  <section id="performance" class="performance container">
+    <div class="perf-wrap">
+      <div class="card reveal" style="padding:18px">
+        <h3 style="margin:6px 0 10px">Recent Signals (preview)</h3>
+        <div style="overflow:auto">
+          <table aria-label="Recent signals">
+            <thead>
+              <tr><th>Date</th><th>Pair</th><th>Side</th><th>Entry</th><th>Exit</th><th>P/L %</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2025-08-14</td><td>BTC/USDT</td><td>Long</td><td>57,240</td><td>59,880</td><td class="gain">+4.6%</td></tr>
+              <tr><td>2025-08-13</td><td>ETH/USDT</td><td>Short</td><td>2,420</td><td>2,360</td><td class="gain">+2.5%</td></tr>
+              <tr><td>2025-08-12</td><td>SOL/USDT</td><td>Long</td><td>168.5</td><td>165.2</td><td class="loss">-2.0%</td></tr>
+              <tr><td>2025-08-11</td><td>BNB/USDT</td><td>Long</td><td>612</td><td>635</td><td class="gain">+3.7%</td></tr>
+              <tr><td>2025-08-10</td><td>ADA/USDT</td><td>Short</td><td>0.41</td><td>0.39</td><td class="gain">+4.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:12px"><a class="btn btn-ghost" href="#" aria-label="View full performance">View full performance →</a></div>
+      </div>
+      <div class="card reveal" style="padding:18px">
+        <h3 style="margin:6px 0 10px">PNL Proof (blurred)</h3>
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px">
+          <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+            <div class="blurbar"></div>
+          </div>
+          <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+            <div class="blurbar"></div>
+          </div>
+          <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+            <div class="blurbar"></div>
+          </div>
+          <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+            <div class="blurbar"></div>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:12px">Sensitive details intentionally blurred. Full gallery on the Performance page.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how container">
+    <h2 class="center reveal">How It Works</h2>
+    <div class="grid steps">
+      <div class="card step reveal">
+        <div class="icon">👤</div>
+        <h4>Create Account</h4>
+        <p class="muted">30 seconds to sign up with your email and Telegram @handle.</p>
+      </div>
+      <div class="card step reveal">
+        <div class="icon">👛</div>
+        <h4>Choose a Plan</h4>
+        <p class="muted">Pay via OPay or Crypto — monthly, quarterly, or yearly.</p>
+      </div>
+      <div class="card step reveal">
+        <div class="icon">🔗</div>
+        <h4>Auto‑Invite Link</h4>
+        <p class="muted">Get a unique, secure Telegram invite instantly after payment.</p>
+      </div>
+      <div class="card step reveal">
+        <div class="icon">📣</div>
+        <h4>Start Trading</h4>
+        <p class="muted">Receive real‑time signals and discuss with the community.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="pricing container">
+    <h2 class="center reveal">Simple Pricing</h2>
+    <div class="grid plans">
+      <div class="card plan reveal">
+        <h3>Monthly</h3>
+        <p class="muted">Good to try us out</p>
+        <p style="font-size:2rem;font-weight:800;margin:8px 0">$39</p>
+        <ul class="features">
+          <li>✅ Real‑time signals</li>
+          <li>✅ Automated Telegram access</li>
+          <li>✅ Risk framework on every call</li>
+        </ul>
+        <a class="btn btn-primary" href="#join">Join Monthly</a>
+      </div>
+      <div class="card plan reveal" style="outline:2px solid rgba(240,199,94,.25)">
+        <div class="tag">Best value</div>
+        <h3>Quarterly</h3>
+        <p class="muted">Commit and save</p>
+        <p style="font-size:2rem;font-weight:800;margin:8px 0">$99</p>
+        <ul class="features">
+          <li>✅ Everything in Monthly</li>
+          <li>✅ Priority support</li>
+          <li>✅ Member‑only Q&As</li>
+        </ul>
+        <a class="btn btn-primary" href="#join">Join Quarterly</a>
+      </div>
+      <div class="card plan reveal">
+        <h3>Yearly</h3>
+        <p class="muted">Maximum savings</p>
+        <p style="font-size:2rem;font-weight:800;margin:8px 0">$299</p>
+        <ul class="features">
+          <li>✅ Everything in Quarterly</li>
+          <li>✅ VIP role in community</li>
+          <li>✅ Bonus market notes</li>
+        </ul>
+        <a class="btn btn-primary" href="#join">Join Yearly</a>
+      </div>
+    </div>
+    <p class="center subtle" style="margin-top:12px">Payments: OPay & Crypto supported • Instant invite after payment</p>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials container">
+    <h2 class="center reveal">What Members Say</h2>
+    <div class="grid t-grid">
+      <article class="card quote reveal">
+        <p>“Clear entries & stops — finally consistent.”</p>
+        <div class="subtle">— Ahmed O.</div>
+      </article>
+      <article class="card quote reveal">
+        <p>“Auto access saved me time. Signals are timely.”</p>
+        <div class="subtle">— Ifeoluwa A.</div>
+      </article>
+      <article class="card quote reveal">
+        <p>“Transparency on wins & losses = real trust.”</p>
+        <div class="subtle">— Grace K.</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Community peek -->
+  <section class="peek container">
+    <h2 class="center reveal">Inside the Community</h2>
+    <div class="card panel reveal" aria-label="telegram preview">
+      <div class="blurbar"></div>
+      <div style="position:absolute;inset:0;padding:18px;display:grid;gap:10px;grid-template-columns:1fr;opacity:.95">
+        <div style="display:flex;gap:10px;align-items:center"><span class="badge">#signals</span><span class="muted">real‑time alerts</span></div>
+        <div style="background:#0f161f;border:1px solid var(--line);border-radius:10px;padding:10px">[12:04] LONG BTC 57,240 → TP1 58,200 | SL 56,600</div>
+        <div style="background:#0f161f;border:1px solid var(--line);border-radius:10px;padding:10px">[12:16] TP1 hit ✅ trail SL to 57,000</div>
+        <div style="background:#0f161f;border:1px solid var(--line);border-radius:10px;padding:10px">[12:45] Partial exit +2.1%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq container">
+    <h2 class="center reveal">FAQ</h2>
+    <div class="accordion">
+      <div class="acc-item reveal">
+        <button class="acc-head" aria-expanded="false"><span>Do you guarantee profits?</span><span>＋</span></button>
+        <div class="acc-body"><div class="acc-body-inner">No. Trading involves risk and results vary. We focus on clarity and risk management, not promises.</div></div>
+      </div>
+      <div class="acc-item reveal">
+        <button class="acc-head" aria-expanded="false"><span>How fast is access after payment?</span><span>＋</span></button>
+        <div class="acc-body"><div class="acc-body-inner">Instant. Our system generates a one‑time Telegram invite once payment is confirmed.</div></div>
+      </div>
+      <div class="acc-item reveal">
+        <button class="acc-head" aria-expanded="false"><span>What exchanges do you support?</span><span>＋</span></button>
+        <div class="acc-body"><div class="acc-body-inner">Any exchange that supports the pairs we trade. We share entries, stops, and targets; you execute on your preferred platform.</div></div>
+      </div>
+      <div class="acc-item reveal">
+        <button class="acc-head" aria-expanded="false"><span>Refund policy?</span><span>＋</span></button>
+        <div class="acc-body"><div class="acc-body-inner">Subscriptions provide immediate value (signals & access). Refunds are not guaranteed, but contact support and we’ll review case‑by‑case.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer container">
+    <strong>Risk Notice:</strong> Trading involves risk. Past performance does not guarantee future results. This is not financial advice.
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container grid f-grid">
+      <div>
+        <div class="brand" style="margin-bottom:10px"><span class="logo"></span><strong>SIGNET</strong></div>
+        <p class="subtle">Signals with structure. Community with standards.</p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#performance">Performance</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Risk Disclaimer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Payments & Social</h4>
+        <ul>
+          <li class="subtle">OPay • Crypto</li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">X (Twitter)</a></li>
+          <li><a href="#">Support Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="border-top:1px solid var(--line);margin-top:18px;padding-top:12px">
+      <div class="subtle">© <span id="year"></span> SIGNET. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA (mobile) -->
+  <div class="sticky-cta" id="join">
+    <div class="inner">
+      <div>
+        <div style="font-weight:700">Join SIGNET</div>
+        <div class="subtle">Instant Telegram access</div>
+      </div>
+      <a class="btn btn-primary" href="#pricing">Get Access</a>
+    </div>
+  </div>
+
+  <script>
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Count-up KPIs
+    const nums = document.querySelectorAll('.kpi .num');
+    const iok = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        const el = e.target; const target = +el.dataset.count; let cur = 0; const step = Math.ceil(target/40);
+        const tick = ()=>{ cur += step; if(cur>=target){ el.textContent = target; } else { el.textContent = cur; requestAnimationFrame(tick);} };
+        requestAnimationFrame(tick); iok.unobserve(el);
+      })
+    },{threshold:.8});
+    nums.forEach(n=>iok.observe(n));
+
+    // FAQ accordion
+    document.querySelectorAll('.acc-item').forEach(item=>{
+      const head = item.querySelector('.acc-head');
+      const body = item.querySelector('.acc-body');
+      head.addEventListener('click', ()=>{
+        const expanded = head.getAttribute('aria-expanded') === 'true';
+        head.setAttribute('aria-expanded', !expanded);
+        body.style.maxHeight = expanded ? '0' : body.scrollHeight + 'px';
+      });
+    });
+
+    // Smooth anchor scroll (basic)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        if(!id) return;
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      })
+    });
     
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- UI Element References ---
-            const loginFormContainer = document.getElementById('loginForm');
-            const signUpFormContainer = document.getElementById('signUpForm');
-            const showSignUpBtn = document.getElementById('showSignUpBtn');
-            const showLoginBtn = document.getElementById('showLoginBtn');
+    // Mobile navigation toggle
+    document.querySelector('.nav-toggle-btn').addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('mobile-nav-open');
+    });
 
-            const loginForm = document.getElementById('login-form');
-            const loginEmailInput = document.getElementById('login-email');
-            const loginPasswordInput = document.getElementById('login-password');
-            
-            const signupForm = document.getElementById('signup-form');
-            const signupPasswordInput = document.getElementById('signup-password');
-            const signupConfirmPasswordInput = document.getElementById('signup-confirm-password');
-            
-            const messageModal = document.getElementById('messageModal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalMessage = document.getElementById('modal-message');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-
-            // --- Dummy User Data for Local Auth ---
-            const dummyUser = {
-                email: 'admin@test.com',
-                password: 'password123'
-            };
-
-            // --- Helper Functions ---
-            function showMessage(title, message) {
-                modalTitle.textContent = title;
-                modalMessage.textContent = message;
-                messageModal.classList.remove('hidden');
-            }
-
-            modalCloseBtn.addEventListener('click', () => {
-                messageModal.classList.add('hidden');
-            });
-
-            // --- Event Listeners ---
-            showSignUpBtn.addEventListener('click', () => {
-                loginFormContainer.classList.add('hidden');
-                signUpFormContainer.classList.remove('hidden');
-            });
-
-            showLoginBtn.addEventListener('click', () => {
-                signUpFormContainer.classList.add('hidden');
-                loginFormContainer.classList.remove('hidden');
-            });
-
-            // Handle login form submission
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = loginEmailInput.value;
-                const password = loginPasswordInput.value;
-
-                if (email === dummyUser.email && password === dummyUser.password) {
-                    // Simulate successful login by setting a flag in session storage
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    // Redirect to dashboard
-                    window.location.href = "dashbord.html";
-                } else {
-                    showMessage('Login Failed', 'Invalid email or password. Please try again.');
-                }
-            });
-
-            // Handle signup form submission
-            signupForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const password = signupPasswordInput.value;
-                const confirmPassword = signupConfirmPasswordInput.value;
-
-                if (password !== confirmPassword) {
-                    showMessage('Sign Up Failed', 'Passwords do not match. Please try again.');
-                    return;
-                }
-
-                // Simulate successful signup
-                showMessage('Success!', 'You have successfully signed up. Please log in.');
-                // Switch back to the login form
-                showLoginBtn.click();
-                signupForm.reset();
-            });
-        });
-    </script>
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.remove('mobile-nav-open');
+      });
+    });
+  </script>
 </body>
 </html>
