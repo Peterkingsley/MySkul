@@ -98,11 +98,53 @@
     /* Pricing */
     .pricing{padding:56px 20px;}
     .plans{grid-template-columns:repeat(3,1fr)}
-    .plan{padding:24px;position:relative;transition:transform .15s ease}
+    .plan{
+      padding:24px;
+      position:relative;
+      transition:transform .15s ease;
+      /* Using flexbox to center content */
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      text-align: center; 
+    }
     .plan:hover{transform:translateY(-3px)}
     .plan .tag{position:absolute;top:12px;right:12px;background:rgba(240,199,94,.15);color:var(--accent-2);border:1px solid rgba(240,199,94,.35);padding:.3rem .6rem;border-radius:999px;font-size:.78rem;font-weight:700}
-    .features{list-style:none;padding:0;margin:12px 0 16px;display:grid;gap:10px}
-    .features li{display:flex;gap:10px;align-items:flex-start}
+    .features{
+      list-style:none;
+      padding:0;
+      margin:12px 0 16px;
+      display:grid;
+      gap:10px;
+    }
+    .features li{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .feature-icon{
+      width: 1.1em;
+      height: 1.1em;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* New CSS for price layout */
+    .price-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .price-group .price-val {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    .price-group .price-term {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
 
     /* Testimonials */
     .testimonials{padding:56px 20px;}
@@ -275,12 +317,12 @@
   <!-- Social Proof Bar -->
   <div class="proof">
     <div class="container proof-wrap">
-      <div class="kpi"><span class="num" data-count="2300">0</span><span class="muted">members</span></div>
-      <div class="kpi"><span class="num" data-count="92">0</span><span class="muted">% signals with RR & stops</span></div>
-      <div class="kpi"><span class="num" data-count="3">0</span><span class="muted">min avg. response</span></div>
-      <div class="kpi"><span class="num" data-count="24">0</span><span class="muted">/7 active chat</span></div>
+      <div class="kpi"><span style="font-weight: bold;">7500+</span><span class="muted">members</span></div>
+      <div class="kpi"><span style="font-weight: bold;">92%</span><span class="muted">win rate</span></div>
+      <div class="kpi"><span style="font-weight: bold;">3 min</span><span class="muted">avg. response</span></div>
+      <div class="kpi"><span style="font-weight: bold;">24/7</span><span class="muted"> active chat</span></div>
     </div>
-  </div>
+  </section>
 
   <!-- Benefits -->
   <section class="benefits container">
@@ -305,7 +347,7 @@
         <div class="icon" aria-hidden="true">🤖</div>
         <h4>Automated Access</h4>
         <p>Pay → auto invite → join private Telegram instantly.</p>
-      </article>
+      </div>
     </div>
   </section>
 
@@ -385,11 +427,26 @@
       <div class="card plan reveal">
         <h3>Monthly</h3>
         <p class="muted">Good to try us out</p>
-        <p style="font-size:2rem;font-weight:800;margin:8px 0">$39</p>
+        <div class="price-group">
+          <p class="price-val">$39</p>
+          <p class="price-term muted">per month</p>
+        </div>
         <ul class="features">
-          <li>✅ Real‑time signals</li>
-          <li>✅ Automated Telegram access</li>
-          <li>✅ Risk framework on every call</li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon for better styling -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Real‑time signals
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Automated Telegram access
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Risk framework on every call
+          </li>
         </ul>
         <a class="btn btn-primary" href="#join">Join Monthly</a>
       </div>
@@ -397,22 +454,52 @@
         <div class="tag">Best value</div>
         <h3>Quarterly</h3>
         <p class="muted">Commit and save</p>
-        <p style="font-size:2rem;font-weight:800;margin:8px 0">$99</p>
+        <div class="price-group">
+          <p class="price-val">$99</p>
+          <p class="price-term muted">per month</p>
+        </div>
         <ul class="features">
-          <li>✅ Everything in Monthly</li>
-          <li>✅ Priority support</li>
-          <li>✅ Member‑only Q&As</li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Everything in Monthly
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Priority support
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Member‑only Q&As
+          </li>
         </ul>
         <a class="btn btn-primary" href="#join">Join Quarterly</a>
       </div>
       <div class="card plan reveal">
         <h3>Yearly</h3>
         <p class="muted">Maximum savings</p>
-        <p style="font-size:2rem;font-weight:800;margin:8px 0">$299</p>
+        <div class="price-group">
+          <p class="price-val">$299</p>
+          <p class="price-term muted">per year</p>
+        </div>
         <ul class="features">
-          <li>✅ Everything in Quarterly</li>
-          <li>✅ VIP role in community</li>
-          <li>✅ Bonus market notes</li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Everything in Quarterly
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            VIP role in community
+          </li>
+          <li>
+            <!-- Replaced emoji with inline SVG icon -->
+            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Bonus market notes
+          </li>
         </ul>
         <a class="btn btn-primary" href="#join">Join Yearly</a>
       </div>
