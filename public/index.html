@@ -51,7 +51,6 @@
     nav a{opacity:.9}
     nav a:hover{opacity:1}
     .nav-links{display:flex;gap:18px;align-items:center}
-    .nav-links.mobile-hidden{ display: none; }
     .nav-toggle-btn { display: none; }
 
     /* Hero */
@@ -129,7 +128,7 @@
 
     /* Footer */
     footer{border-top:1px solid var(--line);background:#0b1017;padding:36px 0 12px}
-    .f-grid{grid-template-columns:2fr 1fr 1fr 1.2fr}
+    .f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:20px;}
     footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     footer li a{color:var(--muted)}
     footer li a:hover{color:var(--text)}
@@ -143,7 +142,8 @@
     /* Responsive */
     @media (max-width: 980px){
       /* General layout */
-      .hero-wrap, .perf-wrap, .f-grid{grid-template-columns:1fr}
+      .hero-wrap, .perf-wrap, .f-grid{grid-template-columns:1fr; padding-inline: 16px; }
+      .container{padding-inline: 16px;}
       .benefit-grid, .steps, .t-grid{grid-template-columns:repeat(2,1fr)}
       .plans{grid-template-columns:1fr}
       
@@ -172,6 +172,9 @@
       .benefits, .testimonials, .pricing, .how, .faq{
         padding: 48px 0;
       }
+
+      /* Hero section */
+      .hero-panel{display:none;}
       
       /* Sticky CTA */
       .sticky-cta{display:block;}
