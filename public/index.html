@@ -45,7 +45,7 @@
 
     /* Header */
     header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.6));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;}
     .brand{display:flex;align-items:center;gap:.6rem}
     .logo{width:28px;height:28px;border-radius:7px;background:conic-gradient(from 30deg, #12b886, #2ad678, #8ef7bf);box-shadow:0 0 0 2px rgba(42,214,120,.15)}
     nav a{opacity:.9}
@@ -56,7 +56,7 @@
     /* Hero */
     .hero{position:relative;overflow:hidden}
     .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(1000px 400px at 20% -10%, rgba(42,214,120,.15), rgba(0,0,0,0)), radial-gradient(900px 400px at 80% -20%, rgba(240,199,94,.08), rgba(0,0,0,0));pointer-events:none}
-    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;padding:56px 0}
+    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;padding:56px 20px;}
     .hero h1{font-size:clamp(1.9rem, 4vw, 3rem);line-height:1.1;margin:0 0 10px}
     .hero p{font-size:clamp(1rem, 1.4vw, 1.15rem);color:var(--muted);margin:0 0 24px}
     .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
@@ -68,12 +68,12 @@
 
     /* Social proof bar */
     .proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0d1219}
-    .proof-wrap{display:flex;gap:24px;justify-content:center;align-items:center;padding:14px 0;flex-wrap:wrap}
+    .proof-wrap{display:flex;gap:24px;justify-content:center;align-items:center;padding:14px 20px;flex-wrap:wrap}
     .kpi{display:flex;align-items:baseline;gap:.5rem}
     .kpi .num{font-weight:800;font-size:1.25rem}
 
     /* Benefits */
-    .benefits{padding:64px 0}
+    .benefits{padding:64px 20px;}
     .benefit-grid{grid-template-columns:repeat(4,1fr)}
     .benefit{padding:20px}
     .benefit .icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:rgba(42,214,120,.08);border:1px solid rgba(42,214,120,.25);margin-bottom:10px}
@@ -81,7 +81,7 @@
     .benefit p{margin:0;color:var(--muted)}
 
     /* Performance snapshot */
-    .performance{padding:48px 0}
+    .performance{padding:48px 20px;}
     .perf-wrap{display:grid;grid-template-columns:1fr .9fr;gap:24px}
     table{width:100%;border-collapse:collapse}
     th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}
@@ -90,13 +90,13 @@
     .loss{color:var(--danger);font-weight:700}
 
     /* How it works */
-    .how{padding:56px 0}
+    .how{padding:56px 20px;}
     .steps{grid-template-columns:repeat(4,1fr)}
     .step{padding:20px;border:1px dashed var(--line);border-radius:var(--radius)}
     .step .icon{width:34px;height:34px;margin-bottom:10px;display:grid;place-items:center}
 
     /* Pricing */
-    .pricing{padding:56px 0}
+    .pricing{padding:56px 20px;}
     .plans{grid-template-columns:repeat(3,1fr)}
     .plan{padding:24px;position:relative;transition:transform .15s ease}
     .plan:hover{transform:translateY(-3px)}
@@ -105,18 +105,18 @@
     .features li{display:flex;gap:10px;align-items:flex-start}
 
     /* Testimonials */
-    .testimonials{padding:56px 0}
+    .testimonials{padding:56px 20px;}
     .t-grid{grid-template-columns:repeat(3,1fr)}
     .quote{padding:20px}
     .quote p{color:var(--muted)}
 
     /* Community peek */
-    .peek{padding:48px 0}
+    .peek{padding:48px 20px;}
     .peek .panel{min-height:220px;background:linear-gradient(180deg,#0f141b,#0c1016);border:1px solid var(--line);border-radius:var(--radius);position:relative;overflow:hidden}
     .blurbar{position:absolute;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(2px)}
 
     /* FAQ */
-    .faq{padding:56px 0}
+    .faq{padding:56px 20px;}
     .accordion{display:grid;gap:12px}
     .acc-item{border:1px solid var(--line);border-radius:12px;overflow:hidden}
     .acc-head{background:#0e141c;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer}
@@ -127,7 +127,7 @@
     .disclaimer{padding:20px;border-top:1px solid var(--line);background:#0c1118;color:var(--muted);font-size:.92rem}
 
     /* Footer */
-    footer{border-top:1px solid var(--line);background:#0b1017;padding:36px 0 12px}
+    footer{border-top:1px solid var(--line);background:#0b1017;padding:36px 20px 12px;}
     .f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:20px;}
     footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     footer li a{color:var(--muted)}
@@ -142,14 +142,14 @@
     /* Responsive */
     @media (max-width: 980px){
       /* General layout */
+      .container { padding-inline: 0; }
       .hero-wrap, .perf-wrap, .f-grid{grid-template-columns:1fr; padding-inline: 16px; }
-      .container{padding-inline: 16px;}
       .benefit-grid, .steps, .t-grid{grid-template-columns:repeat(2,1fr)}
       .plans{grid-template-columns:1fr}
       
       /* Header & Nav */
       .nav-links{display:none;}
-      .nav{padding:12px 0;}
+      .nav{padding:12px 16px;}
       .nav-toggle-btn{display:block; cursor: pointer; background: transparent; border: none; font-size: 1.5rem; color: var(--text);}
       header.mobile-nav-open .nav-links{
         display:flex;
@@ -170,11 +170,12 @@
       
       /* Spacing and sections */
       .benefits, .testimonials, .pricing, .how, .faq{
-        padding: 48px 0;
+        padding: 48px 16px;
       }
 
       /* Hero section */
       .hero-panel{display:none;}
+      .hero-wrap{padding: 32px 16px;}
       
       /* Sticky CTA */
       .sticky-cta{display:block;}
@@ -184,7 +185,7 @@
     @media (max-width: 580px){
       .benefit-grid, .steps, .t-grid, .f-grid{grid-template-columns:1fr;}
       .hero h1{font-size: 2rem;}
-      .proof-wrap{flex-direction: column; align-items: flex-start;}
+      .proof-wrap{flex-direction: column; align-items: flex-start; padding: 14px 16px;}
     }
 
   </style>
@@ -412,7 +413,7 @@
     </div>
   </section>
 
-  <!-- Community Peek -->
+  <!-- Community peek -->
   <section class="peek container">
     <h2 class="center reveal">Inside the Community</h2>
     <div class="card panel reveal" aria-label="telegram preview">
