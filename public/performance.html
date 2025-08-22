@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIGNET — Performance</title>
+  <meta name="description" content="View the full performance history of SIGNET's futures signals." />
+  <!-- Lucide Icons for a clean, professional look -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b0f14;           /* deep navy/charcoal */
+      --bg-2:#0f141b;         /* card background */
+      --text:#e9edf3;         /* off-white */
+      --muted:#a8b3c7;        /* muted text */
+      --accent:#2ad678;       /* profit green */
+      --accent-2:#f0c75e;     /* gold for badges */
+      --danger:#ff5d5d;       /* soft red */
+      --line:#1b2330;         /* subtle borders */
+      --shadow:0 8px 24px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius-lg:20px;
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+
+    /* Utility */
+    .container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:20px}
+    .grid{display:grid;gap:20px}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem .9rem;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.2s ease;white-space:nowrap}
+    .btn-primary{background:var(--accent);color:#04140a;font-weight:600}
+    .btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+    .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
+    .btn-ghost:hover{background:#0f151d}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(42,214,120,.1);color:var(--accent);border:1px solid rgba(42,214,120,.25);padding:.35rem .6rem;border-radius:999px;font-size:.78rem;font-weight:600; margin: 10px 0;}
+    .card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .muted{color:var(--muted)}
+    .center{text-align:center}
+    .section-title { margin-top: 0; }
+    
+    /* Reveal animations */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease, transform .5s ease}
+    .reveal.in{opacity:1;transform:none}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.6));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;}
+    .brand{display:flex;align-items:center;gap:.6rem}
+    .logo{width:28px;height:28px;border-radius:7px;background:conic-gradient(from 30deg, #12b886, #2ad678, #8ef7bf);box-shadow:0 0 0 2px rgba(42,214,120,.15)}
+    nav a{opacity:.9}
+    nav a:hover{opacity:1}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-toggle-btn { display: none; }
+    
+    /* Main Content Styling */
+    .main-content { padding: 48px 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; color: var(--muted); }
+    .back-link:hover { color: var(--text); }
+
+    /* Performance snapshot */
+    .performance{padding:48px 0;}
+    .perf-wrap{display:grid;grid-template-columns:1fr .9fr;gap:24px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}
+    th{color:var(--muted);font-weight:600}
+    .gain{color:var(--accent);font-weight:700}
+    .loss{color:var(--danger);font-weight:700}
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);background:#0b1017;padding:36px 20px 12px;}
+    .f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:20px;}
+    footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+    footer li a{color:var(--muted)}
+    footer li a:hover{color:var(--text)}
+    .subtle{font-size:.88rem;color:var(--muted)}
+    
+    /* Responsive */
+    @media (max-width: 980px){
+      .container { padding-inline: 0; }
+      .perf-wrap, .f-grid{grid-template-columns:1fr;}
+      .performance table { font-size: 0.85rem; white-space: nowrap; }
+      .performance th, .performance td { padding: 8px; }
+      footer{ padding: 36px 20px 12px; }
+    }
+    
+    @media (max-width: 580px){
+      .f-grid{grid-template-columns:1fr;}
+      .performance .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="SIGNET home">
+        <span class="logo" aria-hidden="true"></span>
+        <strong>SIGNET</strong>
+      </a>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <a class="back-link" href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Home
+      </a>
+      
+      <section id="performance">
+        <div class="perf-wrap">
+          <div class="card reveal" style="padding:18px">
+            <h3 style="margin:6px 0 10px">Full Recent Signals</h3>
+            <div style="overflow:auto">
+              <table aria-label="Full recent signals">
+                <thead>
+                  <tr><th>Date</th><th>Pair</th><th>Entry</th><th>Exit</th><th>P/L %</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>14/08/25</td><td style="color:var(--accent)">BTC/USDT</td><td>57,240</td><td>59,880</td><td class="gain">+4.6%</td></tr>
+                  <tr><td>13/08/25</td><td style="color:var(--danger)">ETH/USDT</td><td>2,420</td><td>2,360</td><td class="gain">+2.5%</td></tr>
+                  <tr><td>12/08/25</td><td style="color:var(--accent)">SOL/USDT</td><td>168.5</td><td>165.2</td><td class="loss">-2.0%</td></tr>
+                  <tr><td>11/08/25</td><td style="color:var(--accent)">BNB/USDT</td><td>612</td><td>635</td><td class="gain">+3.7%</td></tr>
+                  <tr><td>10/08/25</td><td style="color:var(--danger)">ADA/USDT</td><td>0.41</td><td>0.39</td><td class="gain">+4.8%</td></tr>
+                  <tr><td>09/08/25</td><td style="color:var(--accent)">LINK/USDT</td><td>18.15</td><td>18.72</td><td class="gain">+3.1%</td></tr>
+                  <tr><td>08/08/25</td><td style="color:var(--accent)">DOT/USDT</td><td>6.89</td><td>7.01</td><td class="gain">+1.7%</td></tr>
+                  <tr><td>07/08/25</td><td style="color:var(--danger)">LTC/USDT</td><td>78.5</td><td>76.0</td><td class="loss">-3.2%</td></tr>
+                  <tr><td>06/08/25</td><td style="color:var(--accent)">XRP/USDT</td><td>0.52</td><td>0.54</td><td class="gain">+3.8%</td></tr>
+                  <tr><td>05/08/25</td><td style="color:var(--danger)">BCH/USDT</td><td>380.1</td><td>375.5</td><td class="gain">+1.2%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card reveal" style="padding:18px">
+            <h3 style="margin:6px 0 10px">PNL Proof (full gallery)</h3>
+            <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px">
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:12px">Sensitive details intentionally blurred. This is a full gallery.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <!-- Disclaimer -->
+  <div class="disclaimer container">
+    <strong>Risk Notice:</strong> Trading involves risk. Past performance does not guarantee future results. This is not financial advice.
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container grid f-grid">
+      <div>
+        <div class="brand" style="margin-bottom:10px"><span class="logo"></span><strong>SIGNET</strong></div>
+        <p class="subtle">Signals with structure. Community with standards.</p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#performance">Performance</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Risk Disclaimer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Payments & Social</h4>
+        <ul>
+          <li class="subtle">OPay • Crypto</li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">X (Twitter)</a></li>
+          <li><a href="#">Support Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="border-top:1px solid var(--line);margin-top:18px;padding-top:12px">
+      <div class="subtle">© <span id="year"></span> SIGNET. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    
+  </script>
+</body>
+</html>
