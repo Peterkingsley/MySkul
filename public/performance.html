@@ -824,7 +824,9 @@
       // New function to handle sharing and saving the ROI panel
       async function handleShareAndSave(action) {
         try {
-          // Temporarily hide the share/save buttons to prevent them from being in the screenshot
+          // Temporarily hide the animation containers for a clean screenshot
+          profitAnimationContainer.style.display = 'none';
+          lossAnimationContainer.style.display = 'none';
           const actionsDiv = document.querySelector('.roi-actions');
           actionsDiv.style.display = 'none';
 
@@ -832,7 +834,9 @@
           const dataUrl = await htmlToImage.toPng(roiPanelContent);
           const blob = await (await fetch(dataUrl)).blob();
 
-          // Restore the buttons
+          // Restore the animations and buttons
+          profitAnimationContainer.style.display = 'block';
+          lossAnimationContainer.style.display = 'block';
           actionsDiv.style.display = 'flex';
 
           if (action === 'share' && navigator.share) {
