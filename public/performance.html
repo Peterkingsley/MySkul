@@ -824,7 +824,15 @@
       // New function to handle sharing and saving the ROI panel
       async function handleShareAndSave(action) {
         try {
-          // Temporarily hide the animation containers for a clean screenshot
+          // Store original styles to restore them later
+          const originalMaxWidth = roiPanelContent.style.maxWidth;
+          const originalPadding = roiPanelContent.style.padding;
+          const originalMargin = roiPanelContent.style.margin;
+
+          // Temporarily modify styles for a full-width, clean image capture
+          roiPanelContent.style.maxWidth = '100vw';
+          roiPanelContent.style.padding = '32px';
+          roiPanelContent.style.margin = '0';
           profitAnimationContainer.style.display = 'none';
           lossAnimationContainer.style.display = 'none';
           const actionsDiv = document.querySelector('.roi-actions');
@@ -834,7 +842,10 @@
           const dataUrl = await htmlToImage.toPng(roiPanelContent);
           const blob = await (await fetch(dataUrl)).blob();
 
-          // Restore the animations and buttons
+          // Restore the original styles and buttons
+          roiPanelContent.style.maxWidth = originalMaxWidth;
+          roiPanelContent.style.padding = originalPadding;
+          roiPanelContent.style.margin = originalMargin;
           profitAnimationContainer.style.display = 'block';
           lossAnimationContainer.style.display = 'block';
           actionsDiv.style.display = 'flex';
