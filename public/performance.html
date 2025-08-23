@@ -248,90 +248,28 @@
       font-weight: 600;
     }
 
-    /* New CSS for animations */
-    .profit-animation, .loss-animation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 1;
-    }
-    .coin, .flame {
-      position: absolute;
-      will-change: transform;
-      animation-iteration-count: infinite; /* Make animation loop */
-    }
-    .coin {
-      font-size: 24px;
-      color: #ffc107; /* Gold color */
-      animation: coin-fall 2s ease-in infinite; /* Loop the animation */
-    }
-    .flame {
-      font-size: 20px;
-      color: #ff5d5d;
-      animation: burn-up 1.5s ease-out infinite; /* Loop the animation */
-    }
-
-    @keyframes coin-fall {
-      0% { transform: translateY(-50px) scale(0.5); opacity: 1; }
-      100% { transform: translateY(100px) scale(1.5); opacity: 0; }
-    }
-    @keyframes burn-up {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
-    }
-
-    .roi-chart-placeholder {
+    /* --- Community Banner Styles --- */
+    .community-banner {
       height: 120px;
-      background: linear-gradient(to top, var(--bg-2), #141b26);
+      background: linear-gradient(135deg, #2ad678, #12b886);
       border-radius: 12px;
-      position: relative;
       margin-bottom: 20px;
-      overflow: hidden;
-      border: 1px solid var(--line);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #04140a;
+      font-weight: 700;
     }
-
-    .roi-chart-placeholder::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 120 80" preserveAspectRatio="none"><path d="M0,70 Q20,50 40,65 T80,55 T100,60 T120,40" fill="none" stroke="%231b2330" stroke-width="2" stroke-dasharray="2,4" /></svg>') no-repeat center center;
-      background-size: cover;
-      opacity: 0.7;
+    .community-banner .banner-text {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
     }
-
-    .roi-chart-placeholder::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(42,214,120,0) 0%, rgba(42,214,120,0.1) 100%);
-      clip-path: polygon(0 70%, 20% 50%, 40% 65%, 60% 55%, 80% 60%, 100% 40%, 100% 100%, 0% 100%);
-      transition: clip-path 0.5s ease;
-    }
-
-    .roi-chart-placeholder.loss::before {
-      background: linear-gradient(180deg, rgba(255, 93, 93, 0) 0%, rgba(255, 93, 93, 0.1) 100%);
-      clip-path: polygon(0 30%, 20% 50%, 40% 35%, 60% 45%, 80% 40%, 100% 60%, 100% 100%, 0% 100%);
-    }
-    .roi-chart-placeholder.loss::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 120 80" preserveAspectRatio="none"><path d="M0,30 Q20,50 40,35 T80,45 T100,40 T120,60" fill="none" stroke="%231b2330" stroke-width="2" stroke-dasharray="2,4" /></svg>') no-repeat center center;
-      background-size: cover;
-      opacity: 0.7;
+    .community-banner .banner-subtext {
+      font-size: 0.8rem;
+      opacity: 0.8;
     }
 
     .roi-actions {
@@ -512,10 +450,10 @@
         </button>
       </div>
       
-      <div id="roi-chart" class="roi-chart-placeholder">
-        <!-- Animation container -->
-        <div class="profit-animation" id="profit-animation-container"></div>
-        <div class="loss-animation" id="loss-animation-container"></div>
+      <!-- Replaced ROI Chart with a Community Banner -->
+      <div id="community-banner" class="community-banner">
+          <div class="banner-text">Join the SIGNET Community</div>
+          <div class="banner-subtext">Trade smarter with our team.</div>
       </div>
       
       <div class="roi-pair" id="roi-pair-details">
@@ -725,9 +663,6 @@
       const roiPercentValue = document.getElementById('roi-percent-value');
       const roiEntryPrice = document.getElementById('roi-entry-price');
       const roiExitPrice = document.getElementById('roi-exit-price');
-      const roiChart = document.getElementById('roi-chart');
-      const profitAnimationContainer = document.getElementById('profit-animation-container');
-      const lossAnimationContainer = document.getElementById('loss-animation-container');
       const shareBtn = document.getElementById('share-roi-btn');
       const saveBtn = document.getElementById('save-roi-btn');
       
@@ -744,7 +679,6 @@
         const exit = cells[3].textContent;
         const percent = cells[4].textContent;
         
-        const type = row.dataset.type; // From the new data-attribute
         const leverage = row.dataset.leverage; // From the new data-attribute
         const isLong = row.dataset.isLong === 'true'; // From the new data-attribute
 
@@ -758,8 +692,6 @@
         // Clear existing animations
         animationIntervals.forEach(interval => clearInterval(interval));
         animationIntervals = [];
-        profitAnimationContainer.innerHTML = '';
-        lossAnimationContainer.innerHTML = '';
 
         // Apply dynamic classes for styling and badge text
         roiPairName.textContent = pair;
@@ -778,18 +710,11 @@
         }
 
         roiPercentValue.classList.remove('gain', 'loss');
-        roiChart.classList.remove('gain', 'loss');
-
+        const type = row.dataset.type;
         if (type === 'gain') {
           roiPercentValue.classList.add('gain');
-          roiChart.classList.add('gain');
-          // Start the continuous animation for gain
-          animationIntervals.push(setInterval(() => createAnimation(profitAnimationContainer, 'coin'), 100));
         } else {
           roiPercentValue.classList.add('loss');
-          roiChart.classList.add('loss');
-          // Start the continuous animation for loss
-          animationIntervals.push(setInterval(() => createAnimation(lossAnimationContainer, 'flame'), 100));
         }
         
         overlay.classList.add('active');
@@ -800,25 +725,6 @@
         // Clear all animation timers when closing
         animationIntervals.forEach(interval => clearInterval(interval));
         animationIntervals = [];
-        profitAnimationContainer.innerHTML = '';
-        lossAnimationContainer.innerHTML = '';
-      }
-
-      // Function to create animated elements
-      function createAnimation(container, className) {
-        const char = className === 'coin' ? '💰' : '🔥';
-        const element = document.createElement('span');
-        element.className = className;
-        element.textContent = char;
-        element.style.left = `${Math.random() * 100}%`;
-        element.style.animationDelay = `${Math.random() * 0.5}s`;
-        element.style.animationDuration = `${1.5 + Math.random()}s`;
-        container.appendChild(element);
-
-        // Remove the element after its animation completes to keep the DOM clean
-        element.addEventListener('animationend', () => {
-            element.remove();
-        });
       }
 
       // New function to handle sharing and saving the ROI panel
@@ -833,8 +739,6 @@
           roiPanelContent.style.maxWidth = '100vw';
           roiPanelContent.style.padding = '32px';
           roiPanelContent.style.margin = '0';
-          profitAnimationContainer.style.display = 'none';
-          lossAnimationContainer.style.display = 'none';
           const actionsDiv = document.querySelector('.roi-actions');
           actionsDiv.style.display = 'none';
 
@@ -846,8 +750,6 @@
           roiPanelContent.style.maxWidth = originalMaxWidth;
           roiPanelContent.style.padding = originalPadding;
           roiPanelContent.style.margin = originalMargin;
-          profitAnimationContainer.style.display = 'block';
-          lossAnimationContainer.style.display = 'block';
           actionsDiv.style.display = 'flex';
 
           if (action === 'share' && navigator.share) {
