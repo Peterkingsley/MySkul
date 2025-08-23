@@ -82,6 +82,45 @@
     .sticky-cta{position:fixed;bottom:10px;left:10px;right:10px;z-index:60;display:none}
     .sticky-cta .inner{display:flex;gap:10px;justify-content:space-between;align-items:center;background:#0e151e;border:1px solid var(--line);padding:10px 12px;border-radius:14px;box-shadow:var(--shadow)}
     .sticky-cta .price{font-weight:800}
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+    }
+    .pagination a, .pagination span {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 36px;
+        border-radius: 50%;
+        color: var(--muted);
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+    .pagination .page-number {
+        width: 36px;
+    }
+    .pagination .nav-btn {
+        width: auto;
+        padding: 0 12px;
+        border-radius: 999px;
+    }
+    .pagination a:hover {
+        background-color: var(--line);
+    }
+    .pagination .active {
+        background-color: var(--accent);
+        color: #04140a;
+        font-weight: 700;
+    }
+    .pagination .disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
     
     /* Responsive */
     @media (max-width: 980px){
@@ -135,7 +174,6 @@
         <a href="#performance">Performance</a>
         <a href="index.html#pricing">Pricing</a>
         <a href="index.html#faq">FAQ</a>
-        <a href="index.html#contact">Contact</a>
         <a class="btn btn-primary" href="index.html#join">Get Signals</a>
       </nav>
     </div>
@@ -157,7 +195,7 @@
                 <thead>
                   <tr><th>Date</th><th>Pair</th><th>Entry</th><th>Exit</th><th>P/L %</th></tr>
                 </thead>
-                <tbody>
+                <tbody id="signals-table">
                   <tr><td>14/08/25</td><td style="color:var(--accent)">BTC/USDT</td><td>57,240</td><td>59,880</td><td class="gain">+4.6%</td></tr>
                   <tr><td>13/08/25</td><td style="color:var(--danger)">ETH/USDT</td><td>2,420</td><td>2,360</td><td class="gain">+2.5%</td></tr>
                   <tr><td>12/08/25</td><td style="color:var(--accent)">SOL/USDT</td><td>168.5</td><td>165.2</td><td class="loss">-2.0%</td></tr>
@@ -168,13 +206,42 @@
                   <tr><td>07/08/25</td><td style="color:var(--danger)">LTC/USDT</td><td>78.5</td><td>76.0</td><td class="loss">-3.2%</td></tr>
                   <tr><td>06/08/25</td><td style="color:var(--accent)">XRP/USDT</td><td>0.52</td><td>0.54</td><td class="gain">+3.8%</td></tr>
                   <tr><td>05/08/25</td><td style="color:var(--danger)">BCH/USDT</td><td>380.1</td><td>375.5</td><td class="gain">+1.2%</td></tr>
+                  <tr><td>04/08/25</td><td style="color:var(--accent)">BTC/USDT</td><td>57,100</td><td>58,000</td><td class="gain">+1.6%</td></tr>
+                  <tr><td>03/08/25</td><td style="color:var(--accent)">ETH/USDT</td><td>2,300</td><td>2,350</td><td class="gain">+2.2%</td></tr>
+                  <tr><td>02/08/25</td><td style="color:var(--danger)">SOL/USDT</td><td>170.0</td><td>167.0</td><td class="loss">-1.8%</td></tr>
+                  <tr><td>01/08/25</td><td style="color:var(--accent)">BNB/USDT</td><td>600</td><td>625</td><td class="gain">+4.2%</td></tr>
+                  <tr><td>31/07/25</td><td style="color:var(--danger)">ADA/USDT</td><td>0.40</td><td>0.38</td><td class="gain">+5.0%</td></tr>
+                  <tr><td>30/07/25</td><td style="color:var(--accent)">BTC/USDT</td><td>56,500</td><td>57,800</td><td class="gain">+2.3%</td></tr>
+                  <tr><td>29/07/25</td><td style="color:var(--accent)">ETH/USDT</td><td>2,250</td><td>2,290</td><td class="gain">+1.8%</td></tr>
+                  <tr><td>28/07/25</td><td style="color:var(--danger)">SOL/USDT</td><td>165.0</td><td>160.0</td><td class="loss">-3.0%</td></tr>
+                  <tr><td>27/07/25</td><td style="color:var(--accent)">BNB/USDT</td><td>590</td><td>610</td><td class="gain">+3.4%</td></tr>
+                  <tr><td>26/07/25</td><td style="color:var(--danger)">ADA/USDT</td><td>0.39</td><td>0.37</td><td class="gain">+5.1%</td></tr>
                 </tbody>
               </table>
             </div>
+            <div class="pagination" id="signals-pagination"></div>
           </div>
           <div class="card reveal" style="padding:18px">
             <h3 style="margin:6px 0 10px">PNL Proof (full gallery)</h3>
-            <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px">
+            <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px" id="pnl-gallery">
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
+              <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
+                <div class="blurbar"></div>
+              </div>
               <div class="panel" style="aspect-ratio:16/10;background:#101722;border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden">
                 <div class="blurbar"></div>
               </div>
@@ -195,6 +262,7 @@
               </div>
             </div>
             <p class="muted" style="margin-top:12px">Sensitive details intentionally blurred. This is a full gallery.</p>
+            <div class="pagination" id="pnl-pagination"></div>
           </div>
         </div>
       </section>
@@ -279,6 +347,95 @@
         header.classList.remove('mobile-nav-open');
       });
     });
+
+    // Pagination Logic
+    function setupPagination(containerId, itemsPerPage, isTable = false) {
+      const container = document.getElementById(containerId);
+      const items = isTable ? Array.from(container.querySelectorAll('tr')) : Array.from(container.children);
+      const totalItems = items.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      let currentPage = 1;
+
+      const paginationContainer = document.getElementById(`${containerId}-pagination`);
+
+      function showPage(page) {
+        items.forEach((item, index) => {
+          const isVisible = index >= (page - 1) * itemsPerPage && index < page * itemsPerPage;
+          item.style.display = isVisible ? (isTable ? '' : 'block') : 'none';
+        });
+
+        // Update active class
+        const pageLinks = paginationContainer.querySelectorAll('.page-link');
+        pageLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = paginationContainer.querySelector(`[data-page='${page}']`);
+        if (activeLink) activeLink.classList.add('active');
+
+        // Update nav button state
+        const prevBtn = paginationContainer.querySelector('.prev-page');
+        const nextBtn = paginationContainer.querySelector('.next-page');
+        if (prevBtn) prevBtn.classList.toggle('disabled', page === 1);
+        if (nextBtn) nextBtn.classList.toggle('disabled', page === totalPages);
+      }
+
+      function createPagination() {
+        paginationContainer.innerHTML = ''; // Clear old pagination
+
+        // Only create pagination links if there's more than one page
+        if (totalPages > 1) {
+          // Previous button
+          const prevBtn = document.createElement('a');
+          prevBtn.href = '#';
+          prevBtn.className = 'page-link prev-page';
+          prevBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+          prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage > 1) {
+              currentPage--;
+              showPage(currentPage);
+            }
+          });
+          paginationContainer.appendChild(prevBtn);
+
+          // Page numbers
+          for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement('a');
+            pageLink.href = '#';
+            pageLink.className = 'page-link';
+            pageLink.textContent = i;
+            pageLink.setAttribute('data-page', i);
+            pageLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              currentPage = i;
+              showPage(currentPage);
+            });
+            paginationContainer.appendChild(pageLink);
+          }
+
+          // Next button
+          const nextBtn = document.createElement('a');
+          nextBtn.href = '#';
+          nextBtn.className = 'page-link next-page';
+          nextBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+          nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+              currentPage++;
+              showPage(currentPage);
+            }
+          });
+          paginationContainer.appendChild(nextBtn);
+        }
+      }
+
+      createPagination();
+      showPage(currentPage);
+    }
+
+    // Initialize pagination for both sections
+    window.onload = () => {
+        setupPagination('signals-table', 10, true);
+        setupPagination('pnl-gallery', 6);
+    };
   </script>
 </body>
 </html>
