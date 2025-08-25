@@ -205,6 +205,45 @@
       min-height: 100vh;
       padding: 1rem;
     }
+
+    /* Responsive-specific styles for mobile */
+    @media (max-width: 768px) {
+        /* General mobile padding */
+        .container {
+            padding-inline: 16px;
+        }
+        
+        /* Mobile-friendly header */
+        .admin-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Responsive tab navigation */
+        .tab-nav {
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: none;
+            gap: 8px;
+        }
+        .tab-nav .tab-btn {
+            flex: 1 1 auto;
+            border-bottom: 2px solid transparent; /* Keep for active state */
+            border-radius: 999px;
+            padding: 8px 16px;
+        }
+        .tab-nav .tab-btn.active {
+            background-color: var(--line);
+        }
+
+        /* Mobile-friendly table overflow */
+        .card table {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+    }
   </style>
 </head>
 <body class="p-4 md:p-8">
@@ -236,7 +275,7 @@
   <!-- Main Admin Panel Content -->
   <div id="admin-panel" class="container space-y-8 hidden">
     <!-- Header -->
-    <div class="card p-4 md:p-6 flex justify-between items-center">
+    <div class="card p-4 md:p-6 flex justify-between items-center admin-header">
       <div class="flex items-center gap-4">
         <!-- Replicated brand logo and name from index.html -->
         <a class="brand" href="index.html" aria-label="SIGNET home">
@@ -251,7 +290,7 @@
     </div>
 
     <!-- Tab Navigation -->
-    <div class="flex flex-wrap border-b border-line gap-2">
+    <div class="flex flex-wrap border-b border-line gap-2 tab-nav">
       <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
       <button class="tab-btn" data-tab="blogs">Manage Blogs</button>
       <button class="tab-btn" data-tab="performance">Performance</button>
