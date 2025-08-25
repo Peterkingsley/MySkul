@@ -166,6 +166,8 @@
       align-items: center;
       gap: 12px;
       font-weight: 500;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
     
     .message-box.success {
@@ -250,163 +252,16 @@
 
     <!-- Tab Navigation -->
     <div class="flex flex-wrap border-b border-line gap-2">
-      <button class="tab-btn active" data-tab="signals">Recent Signals</button>
-      <button class="tab-btn" data-tab="pnl">PNL Proof</button>
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="blogs">Manage Blogs</button>
+      <button class="tab-btn" data-tab="performance">Performance</button>
       <button class="tab-btn" data-tab="pricing">Update Pricing</button>
+      <button class="tab-btn" data-tab="roles">Delegate Roles</button>
     </div>
 
     <!-- Main Content Area -->
     <div id="content" class="space-y-8">
-      <!-- Recent Signals Tab Content -->
-      <div id="signals" class="tab-content space-y-6">
-        <div class="card p-6">
-          <h2 class="text-xl font-semibold mb-4">Add New Signal</h2>
-          <form id="add-signal-form" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="signal-date" class="block text-sm font-medium mb-1 text-muted">Date</label>
-                <input type="text" id="signal-date" placeholder="DD/MM/YY" class="input-field" required>
-              </div>
-              <div>
-                <label for="signal-pair" class="block text-sm font-medium mb-1 text-muted">Pair</label>
-                <input type="text" id="signal-pair" placeholder="e.g., BTC/USDT" class="input-field" required>
-              </div>
-              <div>
-                <label for="signal-direction" class="block text-sm font-medium mb-1 text-muted">Direction</label>
-                <select id="signal-direction" class="input-field" required>
-                  <option value="long">Long</option>
-                  <option value="short">Short</option>
-                </select>
-              </div>
-              <div>
-                <label for="signal-entry" class="block text-sm font-medium mb-1 text-muted">Entry</label>
-                <input type="text" id="signal-entry" placeholder="e.g., 57,240" class="input-field" required>
-              </div>
-              <div>
-                <label for="signal-exit" class="block text-sm font-medium mb-1 text-muted">Exit</label>
-                <input type="text" id="signal-exit" placeholder="e.g., 59,880" class="input-field" required>
-              </div>
-              <div>
-                <label for="signal-pl" class="block text-sm font-medium mb-1 text-muted">P/L %</label>
-                <input type="text" id="signal-pl" placeholder="e.g., +4.6%" class="input-field" required>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-              Add Signal
-            </button>
-          </form>
-        </div>
-        
-        <div class="card p-6">
-          <h2 class="text-xl font-semibold mb-4">Current Signals</h2>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Pair</th>
-                  <th>Entry</th>
-                  <th>Exit</th>
-                  <th>P/L %</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="signals-table-body">
-                <!-- Example data will be added here by JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- PNL Proof Tab Content -->
-      <div id="pnl" class="tab-content hidden space-y-6">
-        <div class="card p-6">
-          <h2 class="text-xl font-semibold mb-4">Upload PNL Proof Image</h2>
-          <form id="upload-pnl-form" class="space-y-4">
-            <div>
-              <label class="file-input-wrapper">
-                <input type="file" id="pnl-image-upload" accept="image/*" required>
-                <span>Choose Image...</span>
-                <span id="file-name" class="ml-2 text-muted">No file selected</span>
-              </label>
-            </div>
-            <button type="submit" class="btn btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg>
-              Upload Proof
-            </button>
-          </form>
-        </div>
-        
-        <div class="card p-6">
-          <h2 class="text-xl font-semibold mb-4">Current PNL Proofs</h2>
-          <div id="pnl-gallery" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <!-- PNL images will be displayed here -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Pricing Tab Content -->
-      <div id="pricing" class="tab-content hidden space-y-6">
-        <div class="card p-6">
-          <h2 class="text-xl font-semibold mb-4">Update Pricing Details</h2>
-          <form id="update-pricing-form" class="space-y-6">
-            <!-- Monthly Plan -->
-            <div class="space-y-2">
-              <h3 class="text-lg font-medium">Monthly Plan</h3>
-              <div>
-                <label for="monthly-price" class="block text-sm font-medium mb-1 text-muted">Price</label>
-                <input type="text" id="monthly-price" placeholder="$39" class="input-field" required>
-              </div>
-              <div>
-                <label for="monthly-term" class="block text-sm font-medium mb-1 text-muted">Term</label>
-                <input type="text" id="monthly-term" placeholder="per month" class="input-field" required>
-              </div>
-              <div>
-                <label for="monthly-features" class="block text-sm font-medium mb-1 text-muted">Features (one per line)</label>
-                <textarea id="monthly-features" rows="5" class="input-field" placeholder="Feature 1&#10;Feature 2&#10;..."></textarea>
-              </div>
-            </div>
-
-            <!-- Quarterly Plan -->
-            <div class="space-y-2">
-              <h3 class="text-lg font-medium">Quarterly Plan</h3>
-              <div>
-                <label for="quarterly-price" class="block text-sm font-medium mb-1 text-muted">Price</label>
-                <input type="text" id="quarterly-price" placeholder="$99" class="input-field" required>
-              </div>
-              <div>
-                <label for="quarterly-term" class="block text-sm font-medium mb-1 text-muted">Term</label>
-                <input type="text" id="quarterly-term" placeholder="per month" class="input-field" required>
-              </div>
-              <div>
-                <label for="quarterly-features" class="block text-sm font-medium mb-1 text-muted">Features (one per line)</label>
-                <textarea id="quarterly-features" rows="5" class="input-field" placeholder="Feature 1&#10;Feature 2&#10;..."></textarea>
-              </div>
-            </div>
-
-            <!-- Yearly Plan -->
-            <div class="space-y-2">
-              <h3 class="text-lg font-medium">Yearly Plan</h3>
-              <div>
-                <label for="yearly-price" class="block text-sm font-medium mb-1 text-muted">Price</label>
-                <input type="text" id="yearly-price" placeholder="$299" class="input-field" required>
-              </div>
-              <div>
-                <label for="yearly-term" class="block text-sm font-medium mb-1 text-muted">Term</label>
-                <input type="text" id="yearly-term" placeholder="per year" class="input-field" required>
-              </div>
-              <div>
-                <label for="yearly-features" class="block text-sm font-medium mb-1 text-muted">Features (one per line)</label>
-                <textarea id="yearly-features" rows="5" class="input-field" placeholder="Feature 1&#10;Feature 2&#10;..."></textarea>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-full">Save Pricing Changes</button>
-          </form>
-        </div>
-      </div>
+      <!-- Content from other files will be loaded here -->
     </div>
   </div>
   
@@ -420,100 +275,49 @@
       const loginMessage = document.getElementById('login-message');
       const adminPanel = document.getElementById('admin-panel');
       const logoutBtn = document.getElementById('logout-btn');
+      const mainContentArea = document.getElementById('content');
       
       const tabButtons = document.querySelectorAll('.tab-btn');
-      const tabContents = document.querySelectorAll('.tab-content');
       
-      const messageContainer = document.querySelector('.container.space-y-8');
-      
-      // Data models for the mockup
-      let signals = [
-        { date: '14/08/25', pair: 'BTC/USDT', direction: 'long', entry: '57,240', exit: '59,880', pl: '+4.6%' },
-        { date: '13/08/25', pair: 'ETH/USDT', direction: 'short', entry: '2,420', exit: '2,360', pl: '+2.5%' },
-        { date: '12/08/25', pair: 'SOL/USDT', direction: 'long', entry: '168.5', exit: '165.2', pl: '-2.0%' },
-      ];
-      
-      let pnlImages = [
-        'https://placehold.co/300x200/0f141b/a8b3c7?text=PNL+Proof+1',
-        'https://placehold.co/300x200/0f141b/a8b3c7?text=PNL+Proof+2',
-        'https://placehold.co/300x200/0f141b/a8b3c7?text=PNL+Proof+3'
-      ];
-      
-      const pricingData = {
-        monthly: { price: '$39', term: 'per month', features: 'Real-time signals\nAutomated Telegram access\nRisk framework on every call' },
-        quarterly: { price: '$99', term: 'per month', features: 'Everything in Monthly\nPriority support\nMember-only Q&As' },
-        yearly: { price: '$299', term: 'per year', features: 'Everything in Quarterly\nVIP role in community\nBonus market notes' },
-      };
-
       // --- Helper Functions ---
       
       // Function to show a temporary message
       function showMessage(type, text) {
         const messageBox = document.createElement('div');
-        messageBox.className = `message-box ${type} mt-4 mb-4`;
+        messageBox.className = `message-box ${type}`;
         const icon = type === 'success' 
           ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17L4 12"/></svg>`
           : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>`;
         messageBox.innerHTML = `${icon}<span>${text}</span>`;
-        messageContainer.prepend(messageBox);
+        mainContentArea.prepend(messageBox);
         setTimeout(() => messageBox.remove(), 3000);
       }
       
-      // Function to render the signals table
-      function renderSignalsTable() {
-        const tableBody = document.getElementById('signals-table-body');
-        tableBody.innerHTML = '';
-        signals.forEach((signal, index) => {
-          const row = document.createElement('tr');
-          const pairClass = signal.direction === 'long' ? 'text-accent' : 'text-danger';
-          const plClass = signal.pl.startsWith('+') ? 'text-accent' : 'text-danger';
-          
-          row.innerHTML = `
-            <td>${signal.date}</td>
-            <td class="${pairClass}">${signal.pair}</td>
-            <td>${signal.entry}</td>
-            <td>${signal.exit}</td>
-            <td class="${plClass} font-bold">${signal.pl}</td>
-            <td>
-              <button class="text-red-500 hover:text-red-400" data-action="delete" data-index="${index}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-              </button>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-      }
-      
-      // Function to render the PNL image gallery
-      function renderPnlGallery() {
-        const gallery = document.getElementById('pnl-gallery');
-        gallery.innerHTML = '';
-        pnlImages.forEach((src, index) => {
-          const div = document.createElement('div');
-          div.className = 'relative group cursor-pointer aspect-video rounded-lg overflow-hidden';
-          div.innerHTML = `
-            <img src="${src}" alt="PNL Proof" class="w-full h-full object-cover">
-            <button class="absolute top-2 right-2 p-1 bg-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" data-action="delete-pnl" data-index="${index}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            </button>
-          `;
-          gallery.appendChild(div);
-        });
-      }
+      // Function to load content from a file and inject it
+      async function loadContent(file) {
+        try {
+          // Show a loading indicator
+          mainContentArea.innerHTML = '<div class="text-center text-muted p-12">Loading...</div>';
+          const response = await fetch(file);
+          if (!response.ok) {
+            throw new Error(`Could not load ${file}`);
+          }
+          const content = await response.text();
+          mainContentArea.innerHTML = content;
+          // Re-create icons for the newly loaded content
+          if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+          }
+          // Custom scripts might need to be re-run, or attached after load
+          // For now, assume simple HTML that doesn't need complex scripts
+          if (typeof window.initPageScripts === 'function') {
+            window.initPageScripts();
+          }
 
-      // Function to render pricing form fields
-      function renderPricingForm() {
-        document.getElementById('monthly-price').value = pricingData.monthly.price;
-        document.getElementById('monthly-term').value = pricingData.monthly.term;
-        document.getElementById('monthly-features').value = pricingData.monthly.features;
-        
-        document.getElementById('quarterly-price').value = pricingData.quarterly.price;
-        document.getElementById('quarterly-term').value = pricingData.quarterly.term;
-        document.getElementById('quarterly-features').value = pricingData.quarterly.features;
-
-        document.getElementById('yearly-price').value = pricingData.yearly.price;
-        document.getElementById('yearly-term').value = pricingData.yearly.term;
-        document.getElementById('yearly-features').value = pricingData.yearly.features;
+        } catch (error) {
+          console.error(error);
+          mainContentArea.innerHTML = `<div class="text-center text-danger p-12">Error loading content. Please try again later.</div>`;
+        }
       }
 
       // --- Event Listeners ---
@@ -526,102 +330,9 @@
           tabButtons.forEach(btn => btn.classList.remove('active'));
           button.classList.add('active');
           
-          tabContents.forEach(content => {
-            if (content.id === tab) {
-              content.classList.remove('hidden');
-            } else {
-              content.classList.add('hidden');
-            }
-          });
+          // Load the corresponding HTML file
+          loadContent(`admin_${tab}.html`);
         });
-      });
-      
-      // Add new signal form submission
-      document.getElementById('add-signal-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const date = document.getElementById('signal-date').value;
-        const pair = document.getElementById('signal-pair').value;
-        const direction = document.getElementById('signal-direction').value;
-        const entry = document.getElementById('signal-entry').value;
-        const exit = document.getElementById('signal-exit').value;
-        const pl = document.getElementById('signal-pl').value;
-        
-        const newSignal = {
-          date: date,
-          pair: pair,
-          direction: direction,
-          entry: entry,
-          exit: exit,
-          pl: pl,
-        };
-        
-        signals.unshift(newSignal);
-        renderSignalsTable();
-        document.getElementById('add-signal-form').reset();
-        showMessage('success', 'New signal added!');
-      });
-      
-      // Handle delete signal
-      document.getElementById('signals-table-body').addEventListener('click', (e) => {
-        if (e.target.closest('[data-action="delete"]')) {
-          const index = e.target.closest('[data-action="delete"]').dataset.index;
-          signals.splice(index, 1);
-          renderSignalsTable();
-          showMessage('success', 'Signal deleted.');
-        }
-      });
-      
-      // Update filename display for image upload
-      document.getElementById('pnl-image-upload').addEventListener('change', (e) => {
-        const fileName = e.target.files.length > 0 ? e.target.files[0].name : 'No file selected';
-        document.getElementById('file-name').textContent = fileName;
-      });
-      
-      // Upload PNL proof form submission
-      document.getElementById('upload-pnl-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const file = document.getElementById('pnl-image-upload').files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            pnlImages.unshift(event.target.result); // Add the base64 URL
-            renderPnlGallery();
-            document.getElementById('upload-pnl-form').reset();
-            document.getElementById('file-name').textContent = 'No file selected';
-            showMessage('success', 'PNL proof uploaded!');
-          };
-          reader.readAsDataURL(file); // Read the file as a data URL
-        } else {
-          showMessage('error', 'Please select a file to upload.');
-        }
-      });
-      
-      // Handle delete PNL image
-      document.getElementById('pnl-gallery').addEventListener('click', (e) => {
-        if (e.target.closest('[data-action="delete-pnl"]')) {
-          const index = e.target.closest('[data-action="delete-pnl"]').dataset.index;
-          pnlImages.splice(index, 1);
-          renderPnlGallery();
-          showMessage('success', 'PNL proof deleted.');
-        }
-      });
-      
-      // Update pricing form submission
-      document.getElementById('update-pricing-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        pricingData.monthly.price = document.getElementById('monthly-price').value;
-        pricingData.monthly.term = document.getElementById('monthly-term').value;
-        pricingData.monthly.features = document.getElementById('monthly-features').value;
-
-        pricingData.quarterly.price = document.getElementById('quarterly-price').value;
-        pricingData.quarterly.term = document.getElementById('quarterly-term').value;
-        pricingData.quarterly.features = document.getElementById('quarterly-features').value;
-        
-        pricingData.yearly.price = document.getElementById('yearly-price').value;
-        pricingData.yearly.term = document.getElementById('yearly-term').value;
-        pricingData.yearly.features = document.getElementById('yearly-features').value;
-        
-        showMessage('success', 'Pricing updated successfully!');
       });
       
       // --- Login Logic ---
@@ -633,9 +344,8 @@
       function showAdminPanel() {
         loginScreen.classList.add('hidden');
         adminPanel.classList.remove('hidden');
-        renderSignalsTable();
-        renderPnlGallery();
-        renderPricingForm();
+        // Load the dashboard by default
+        loadContent('admin_dashboard.html');
       }
       
       function showLoginScreen() {
