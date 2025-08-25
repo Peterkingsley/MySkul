@@ -1,0 +1,120 @@
+<div class="space-y-8">
+    <h2 class="text-2xl font-semibold">Performance Analytics & Proof Management</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <div class="text-3xl font-bold" id="win-rate-stat">92.0%</div>
+            <p class="text-muted">Current Win Rate</p>
+        </div>
+
+        <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-2">
+                <path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/>
+            </svg>
+            <div class="text-3xl font-bold" id="avg-rr-stat">1:2.8</div>
+            <p class="text-muted">Avg. Risk:Reward</p>
+        </div>
+        
+        <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+            <div class="text-3xl font-bold" id="total-signals-stat">452</div>
+            <p class="text-muted">Total Signals Sent</p>
+        </div>
+    </div>
+    
+    <div class="card p-6 space-y-4">
+        <h3 class="text-xl font-semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m2 15 5 2 8-5 5 2"/></svg>
+            Upload New PNL Proof
+        </h3>
+        
+        <form class="space-y-4">
+            <div>
+                <label for="proof-description" class="block text-sm font-medium mb-1 text-muted">Description (e.g., BTC/USDT +4.6%)</label>
+                <input type="text" id="proof-description" placeholder="Add a short caption for the proof image" class="input-field" required>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="file-input-wrapper flex-grow">
+                    <input type="file" id="pnl-image" accept="image/*">
+                    <span id="file-label-pnl">Upload PNL Screenshot (must be blurred)</span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    Upload Proof
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="card p-6">
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/>
+            </svg>
+            Recent Signal Entries (For deletion/correction)
+        </h3>
+
+        <div class="overflow-x-auto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Pair</th>
+                        <th>Entry</th>
+                        <th>P/L %</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>14/08/25</td>
+                        <td>BTC/USDT</td>
+                        <td>57,240</td>
+                        <td><span class="text-accent font-bold">+4.6%</span></td>
+                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>13/08/25</td>
+                        <td>ETH/USDT (SHORT)</td>
+                        <td>2,420</td>
+                        <td><span class="text-accent font-bold">+2.5%</span></td>
+                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>12/08/25</td>
+                        <td>SOL/USDT</td>
+                        <td>168.5</td>
+                        <td><span class="text-danger font-bold">-2.0%</span></td>
+                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-muted text-sm mt-4">Note: A more robust system would require a database connection to add new signals.</p>
+    </div>
+</div>
+
+<script>
+    // This script handles the file input label update
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('pnl-image');
+        const fileLabel = document.getElementById('file-label-pnl');
+
+        if (fileInput && fileLabel) {
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    fileLabel.textContent = fileInput.files[0].name;
+                } else {
+                    fileLabel.textContent = 'Upload PNL Screenshot (must be blurred)';
+                }
+            });
+        }
+    });
+</script>
