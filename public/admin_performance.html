@@ -1,5 +1,5 @@
 <div class="space-y-8">
-    <h2 class="text-2xl font-semibold">Performance Analytics & Proof Management</h2>
+    <h2 class="text-2xl font-semibold">Performance Analytics & Signal Management</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
@@ -9,7 +9,6 @@
             <div class="text-3xl font-bold" id="win-rate-stat">92.0%</div>
             <p class="text-muted">Current Win Rate</p>
         </div>
-
         <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-2">
                 <path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/>
@@ -17,7 +16,6 @@
             <div class="text-3xl font-bold" id="avg-rr-stat">1:2.8</div>
             <p class="text-muted">Avg. Risk:Reward</p>
         </div>
-        
         <div class="card p-6 flex flex-col items-center justify-center text-center space-y-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
@@ -25,6 +23,61 @@
             <div class="text-3xl font-bold" id="total-signals-stat">452</div>
             <p class="text-muted">Total Signals Sent</p>
         </div>
+    </div>
+    
+    <div class="message-box success">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17L4 12"/></svg>
+        <span>Use the form below to add a new signal entry to the public performance table.</span>
+    </div>
+
+    <div class="card p-6 space-y-4">
+        <h3 class="text-xl font-semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Add New Signal Entry
+        </h3>
+        <form class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="signal-date" class="block text-sm font-medium mb-1 text-muted">Date</label>
+                    <input type="date" id="signal-date" class="input-field" required>
+                </div>
+                <div>
+                    <label for="signal-pair" class="block text-sm font-medium mb-1 text-muted">Pair (e.g., BTC/USDT)</label>
+                    <input type="text" id="signal-pair" placeholder="BTC/USDT" class="input-field" required>
+                </div>
+                <div>
+                    <label for="signal-leverage" class="block text-sm font-medium mb-1 text-muted">Leverage (e.g., 20X)</label>
+                    <input type="text" id="signal-leverage" placeholder="20X" class="input-field" required>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label for="signal-entry" class="block text-sm font-medium mb-1 text-muted">Entry Price</label>
+                    <input type="number" step="any" id="signal-entry" placeholder="57240" class="input-field" required>
+                </div>
+                <div>
+                    <label for="signal-exit" class="block text-sm font-medium mb-1 text-muted">Exit Price</label>
+                    <input type="number" step="any" id="signal-exit" placeholder="59880" class="input-field" required>
+                </div>
+                <div>
+                    <label for="signal-pnl" class="block text-sm font-medium mb-1 text-muted">P/L % (e.g., +4.6%)</label>
+                    <input type="text" id="signal-pnl" placeholder="+4.6%" class="input-field" required>
+                </div>
+                <div>
+                    <label for="signal-type" class="block text-sm font-medium mb-1 text-muted">Position Type</label>
+                    <select id="signal-type" class="input-field" required>
+                        <option value="long">LONG (Gain: Green)</option>
+                        <option value="short">SHORT (Gain: Red)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Add New Signal
+            </button>
+        </form>
     </div>
     
     <div class="card p-6 space-y-4">
@@ -38,13 +91,11 @@
                 <label for="proof-description" class="block text-sm font-medium mb-1 text-muted">Description (e.g., BTC/USDT +4.6%)</label>
                 <input type="text" id="proof-description" placeholder="Add a short caption for the proof image" class="input-field" required>
             </div>
-
             <div class="flex items-center gap-4">
                 <div class="file-input-wrapper flex-grow">
                     <input type="file" id="pnl-image" accept="image/*">
                     <span id="file-label-pnl">Upload PNL Screenshot (must be blurred)</span>
                 </div>
-                
                 <button type="submit" class="btn btn-primary flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                     Upload Proof
@@ -58,7 +109,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/>
             </svg>
-            Recent Signal Entries (For deletion/correction)
+            Signal History Management
         </h3>
 
         <div class="overflow-x-auto">
@@ -68,36 +119,53 @@
                         <th>Date</th>
                         <th>Pair</th>
                         <th>Entry</th>
+                        <th>Exit</th>
                         <th>P/L %</th>
+                        <th>Leverage</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr data-id="1">
                         <td>14/08/25</td>
                         <td>BTC/USDT</td>
                         <td>57,240</td>
+                        <td>59,880</td>
                         <td><span class="text-accent font-bold">+4.6%</span></td>
-                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                        <td>20X</td>
+                        <td>
+                            <button class="text-muted hover:text-text p-1">Edit</button>
+                            <button class="text-muted hover:text-danger p-1">Delete</button>
+                        </td>
                     </tr>
-                    <tr>
+                    <tr data-id="2">
                         <td>13/08/25</td>
-                        <td>ETH/USDT (SHORT)</td>
+                        <td>ETH/USDT</td>
                         <td>2,420</td>
+                        <td>2,360</td>
                         <td><span class="text-accent font-bold">+2.5%</span></td>
-                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                        <td>10X (SHORT)</td>
+                        <td>
+                            <button class="text-muted hover:text-text p-1">Edit</button>
+                            <button class="text-muted hover:text-danger p-1">Delete</button>
+                        </td>
                     </tr>
-                    <tr>
+                    <tr data-id="3">
                         <td>12/08/25</td>
                         <td>SOL/USDT</td>
                         <td>168.5</td>
+                        <td>165.2</td>
                         <td><span class="text-danger font-bold">-2.0%</span></td>
-                        <td><button class="text-muted hover:text-danger p-1">Delete</button></td>
+                        <td>15X (SHORT)</td>
+                        <td>
+                            <button class="text-muted hover:text-text p-1">Edit</button>
+                            <button class="text-muted hover:text-danger p-1">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <p class="text-muted text-sm mt-4">Note: A more robust system would require a database connection to add new signals.</p>
+        <p class="text-muted text-sm mt-4">Note: The data above mirrors your public data, but requires backend logic to pull, update, and manage entries.</p>
     </div>
 </div>
 
